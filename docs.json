@@ -6,7 +6,7 @@
     "default": "dark"
   },
   "background": {
-    "decoration": "windows"
+    "decoration": "grid"
   },
   "colors": {
     "primary": "#6366f1",
