@@ -19,7 +19,7 @@ description: "Connect your Twilio account for real phone calls"
   </Step>
   <Step title="Create Subaccount">
     Click **Create Subaccount**. RapidCall creates a dedicated Twilio subaccount for your workspace with:
-    - SIP trunking configured for LiveKit
+    - SIP trunking configured for audio routing
     - Webhook URLs pointing to your server
     - Proper caller ID settings
   </Step>
@@ -31,13 +31,13 @@ description: "Connect your Twilio account for real phone calls"
 ## Architecture
 
 ```
-Caller ──→ Twilio ──→ SIP Trunk ──→ LiveKit ──→ Voice Agent
+Caller ──→ Twilio ──→ SIP Trunk ──→ Voice Engine ──→ Voice Agent
                  ↑                        ↓
            Webhook to               Audio processing
            RapidCall Server         (STT → LLM → TTS)
 ```
 
-RapidCall uses **Twilio SIP Trunking** to bridge phone calls into LiveKit rooms where the voice agent processes audio in real-time.
+RapidCall uses **Twilio SIP Trunking** to bridge phone calls into voice sessions where the voice agent processes audio in real-time.
 
 ## Webhook Configuration
 
@@ -47,7 +47,7 @@ RapidCall automatically configures these Twilio webhooks:
 |---------|-----|---------|
 | Inbound Voice | `{SERVER_URL}/api/twilio/inbound` | Handles incoming calls |
 | Status Callback | `{SERVER_URL}/api/twilio/status` | Call status updates |
-| LiveKit SIP | `{LIVEKIT_URL}/sip` | Audio bridging |
+| SIP Bridge | `{SERVER_URL}/sip` | Audio bridging |
 
 ## Troubleshooting
 
@@ -60,8 +60,8 @@ RapidCall automatically configures these Twilio webhooks:
 
 ### No audio
 
-1. Check LiveKit is running and accessible
-2. Verify `LIVEKIT_URL` is set to the WebSocket URL (starts with `wss://`)
+1. Check the voice engine is running and accessible
+2. Verify the WebSocket URL is configured correctly (starts with `wss://`)
 3. Run **Outbound Diagnostics** to verify SIP trunk health
 
 ### Wrong agent answering

@@ -27,7 +27,7 @@ curl -X POST https://your-server.com/api/agents/agent_abc123/start \
 
 ### Web Call (no phone number)
 
-Omit `phone_number` to get a LiveKit room token for browser-based calling:
+Omit `phone_number` to get a WebRTC session token for browser-based calling:
 
 ```bash
 curl -X POST https://your-server.com/api/agents/agent_abc123/start \
@@ -41,11 +41,11 @@ curl -X POST https://your-server.com/api/agents/agent_abc123/start \
   "call_id": "call_def456",
   "room_name": "room_abc123",
   "token": "eyJ0eXAiOiJKV1Qi...",
-  "livekit_url": "wss://your-livekit.example.com"
+  "ws_url": "wss://rtc.your-domain.com"
 }
 ```
 
-Use the `token` and `livekit_url` to connect via the LiveKit client SDK for web calls.
+Use the `token` and `ws_url` to connect via WebRTC for browser-based calls.
 
 ## Demo Call
 

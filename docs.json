@@ -5,17 +5,23 @@
   "colors": {
     "primary": "#6366f1",
     "light": "#818cf8",
-    "dark": "#4f46e5"
+    "dark": "#4338ca",
+    "background": {
+      "dark": "#0f0d1a"
+    }
+  },
+  "modeToggle": {
+    "default": "dark"
   },
   "topbarLinks": [
     {
       "name": "Dashboard",
-      "url": "https://app.rapidcall.ai"
+      "url": "https://dashboard.rapidcall.ai"
     }
   ],
   "topbarCtaButton": {
     "name": "Get Started",
-    "url": "https://app.rapidcall.ai/register"
+    "url": "https://dashboard.rapidcall.ai/register"
   },
   "tabs": [
     {

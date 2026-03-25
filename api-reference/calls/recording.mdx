@@ -43,11 +43,11 @@ curl -X POST https://your-server.com/api/calls/call_abc123/recording \
 ```
 
 <Info>
-Recordings are automatically captured via LiveKit egress for all phone calls and web calls. Manual upload is only needed for special cases.
+Recordings are automatically captured via the recording engine for all phone calls and web calls. Manual upload is only needed for special cases.
 </Info>
 
 ## Recording Availability
 
-After a call ends, the recording takes **30-40 seconds** to become available. This is normal — LiveKit needs to finalize the egress and upload to S3.
+After a call ends, the recording takes **30-40 seconds** to become available. This is normal — the recording engine needs to finalize and upload to S3.
 
 The `call.recording_ready` webhook event fires when the recording is available.

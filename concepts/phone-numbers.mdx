@@ -28,7 +28,7 @@ Each workspace gets its own Twilio subaccount for billing isolation and security
 
 The number is provisioned automatically with:
 - Inbound webhook pointing to your RapidCall server
-- SIP trunk connection for LiveKit audio routing
+- SIP trunk connection for audio routing
 - Status callback for call events
 
 ## Assigning to an Agent
@@ -53,7 +53,7 @@ After buying a number:
 
 If calls aren't connecting, use the built-in diagnostics:
 
-- **Inbound Diagnostics** — Checks webhook URL, SIP trunk, and LiveKit connectivity
+- **Inbound Diagnostics** — Checks webhook URL, SIP trunk, and voice engine connectivity
 - **Outbound Diagnostics** — Verifies outbound trunk and caller ID settings
 
 Access via **Settings → Workspace → Diagnostics**.

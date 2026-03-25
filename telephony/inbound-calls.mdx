@@ -18,7 +18,7 @@ Inbound calls are phone calls initiated by a customer to your Twilio number. Rap
 1. Customer dials your Twilio number
 2. Twilio hits the RapidCall webhook
 3. Server looks up the assigned agent and loads its config
-4. A LiveKit room is created and the call is bridged in
+4. A voice session is created and the call is bridged in
 5. The voice agent joins and speaks the greeting
 6. Real-time conversation begins
 7. When the call ends, transcript and recording are saved
@@ -38,10 +38,10 @@ RapidCall tracks these events for each call:
 
 ## Handling Multiple Calls
 
-Each inbound call gets its own LiveKit room and agent instance. Multiple calls can be handled simultaneously — there's no queue by default.
+Each inbound call gets its own voice session and agent instance. Multiple calls can be handled simultaneously — there's no queue by default.
 
 The number of concurrent calls depends on:
-- Your LiveKit server capacity
+- Your voice engine server capacity
 - Python agent process resources
 - LLM API rate limits
 

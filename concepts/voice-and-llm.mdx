@@ -11,9 +11,9 @@ RapidCall AI supports multiple LLM providers. Configure per-agent or set workspa
 
 | Provider | Models | Best For |
 |----------|--------|----------|
-| **OpenAI** | GPT-4o, GPT-4o-mini, GPT-4-turbo | General purpose, best tool calling |
-| **Anthropic** | Claude 3.5 Sonnet, Claude 3 Haiku | Long conversations, nuanced responses |
-| **Google** | Gemini 1.5 Pro, Gemini 1.5 Flash | Multilingual, fast responses |
+| **OpenAI** | GPT-4.1, GPT-4o, GPT-5, GPT-5-mini | General purpose, best tool calling |
+| **Anthropic** | Claude 4.6 Sonnet, Claude 3.5 Sonnet | Long conversations, nuanced responses |
+| **Google** | Gemini 2.5 Pro, Gemini 2.0 Flash | Multilingual, fast responses |
 | **Groq** | Llama 3, Mixtral | Ultra-low latency (~200ms TTFB) |
 | **Custom** | Any OpenAI-compatible endpoint | Self-hosted models, fine-tunes |
 
@@ -40,7 +40,6 @@ This works with vLLM, Ollama, Together AI, Fireworks, and any OpenAI-compatible 
 |----------|--------|---------|---------|
 | **ElevenLabs** | 100+ voices, custom clones | ~300ms | Excellent — most natural |
 | **OpenAI TTS** | 6 voices (alloy, echo, fable, onyx, nova, shimmer) | ~200ms | Very good |
-| **Deepgram** | Multiple voices | ~150ms | Good, fastest latency |
 | **Cartesia** | Sonic voices | ~200ms | Very good |
 
 ### Voice Preview
@@ -85,5 +84,5 @@ For the lowest latency, use **Groq** (Llama 3) for LLM and **Deepgram** for TTS.
 1. **Use streaming** — All providers stream responses by default
 2. **Shorter prompts** — Fewer system prompt tokens = faster first response
 3. **Choose fast models** — GPT-4o-mini and Groq are significantly faster than GPT-4-turbo
-4. **Regional deployment** — Deploy LiveKit close to your Twilio region
+4. **Regional deployment** — Deploy the voice engine close to your Twilio region
 5. **Enable interruption** — Let callers interrupt the agent mid-sentence for natural conversation

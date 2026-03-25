@@ -6,7 +6,7 @@ description: "How calls are processed from start to finish"
 ## Inbound Call Flow
 
 ```
-Caller → Twilio → RapidCall Server → LiveKit Room → Python Agent
+Caller → Twilio → RapidCall Server → Voice Session → Python Agent
                                                          ↓
                                                     STT → LLM → TTS
                                                          ↓
@@ -20,11 +20,11 @@ Caller → Twilio → RapidCall Server → LiveKit Room → Python Agent
   <Step title="Server identifies the agent">
     The server looks up which agent is assigned to the phone number, loads the agent config (prompt, voice, LLM, tools, knowledge base).
   </Step>
-  <Step title="LiveKit room is created">
-    A new LiveKit room is created for this call. The Twilio call is bridged into the room via SIP trunk.
+  <Step title="Voice session is created">
+    A new voice session is created for this call. The Twilio call is bridged into the session via SIP trunk.
   </Step>
   <Step title="Voice agent joins">
-    The Python voice agent process joins the LiveKit room with the agent's configuration.
+    The Python voice agent process joins the voice session with the agent's configuration.
   </Step>
   <Step title="Greeting">
     The agent speaks its configured greeting message (e.g., "Thank you for calling Acme Dental, how can I help you?").
@@ -39,7 +39,7 @@ Caller → Twilio → RapidCall Server → LiveKit Room → Python Agent
   <Step title="Call ends">
     When either party hangs up:
     - Transcript is saved to the database
-    - Recording is uploaded to S3 via LiveKit egress
+    - Recording is uploaded to S3 via the recording engine
     - Call metrics (duration, latency, cost) are recorded
     - Webhook fires if configured
   </Step>
@@ -50,7 +50,7 @@ Caller → Twilio → RapidCall Server → LiveKit Room → Python Agent
 Outbound calls follow a similar flow, but RapidCall initiates the call:
 
 1. **API or Dashboard** triggers the call with a phone number to dial
-2. Server creates a LiveKit room and starts the Twilio outbound call
+2. Server creates a voice session and starts the Twilio outbound call
 3. When the callee answers, the voice agent joins and begins the conversation
 4. Same conversation loop as inbound
 
@@ -59,7 +59,7 @@ Outbound calls follow a similar flow, but RapidCall initiates the call:
 Web calls use WebRTC directly through the browser — no Twilio involved:
 
 1. User clicks **Test** in the dashboard
-2. Client connects to a LiveKit room via WebRTC
+2. Client connects to a voice session via WebRTC
 3. Voice agent joins the same room
 4. Audio flows directly between browser and agent
 
@@ -69,11 +69,11 @@ Web calls are free — they don't use Twilio minutes. Use them for testing and d
 
 ## Call Recording
 
-Recordings are captured via LiveKit egress:
+Recordings are captured via the recording engine:
 
-- Audio is recorded in the LiveKit room
+- Audio is recorded during the voice session
 - When the call ends, the recording is uploaded to S3
-- Upload takes ~30-40 seconds after call end (this is expected LiveKit behavior)
+- Upload takes ~30-40 seconds after call end (this is expected behavior)
 - Recordings are accessible via the dashboard or API
 
 ## Call Transfer

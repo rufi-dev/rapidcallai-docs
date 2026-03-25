@@ -16,8 +16,8 @@ RapidCall AI is a multi-service platform where each component handles a specific
                     ┌──────┴───────┐
                     │              │
               ┌─────▼─────┐ ┌─────▼──────┐
-              │  LiveKit   │ │   Twilio   │
-              │  (WebRTC)  │ │ (Telephony)│
+              │  Voice    │ │   Twilio   │
+              │  Engine   │ │ (Telephony)│
               └─────┬──────┘ └────────────┘
                     │
               ┌─────▼──────┐
@@ -34,7 +34,7 @@ The central API server handling all business logic:
 
 - **Authentication** — Email/password and Google OAuth with JWT tokens
 - **Agent Management** — CRUD for agents with variants (A/B testing)
-- **Call Orchestration** — Initiates calls via Twilio, manages LiveKit rooms
+- **Call Orchestration** — Initiates calls via Twilio, manages voice sessions
 - **Billing** — Usage tracking with Lago, payments via Stripe
 - **Knowledge Base** — Document upload, PDF parsing, vector search
 - **Workspace Isolation** — Multi-tenant with per-workspace data separation
@@ -86,17 +86,17 @@ Here's what happens when a phone call comes in:
   <Step title="Twilio receives the call">
     An incoming call hits your Twilio number. Twilio sends a webhook to the RapidCall server.
   </Step>
-  <Step title="Server creates a LiveKit room">
-    The server identifies the assigned agent, creates a LiveKit room, and connects the Twilio call to it via SIP trunk.
+  <Step title="Server creates a voice session">
+    The server identifies the assigned agent, creates a voice session, and connects the Twilio call to it via SIP trunk.
   </Step>
   <Step title="Python agent joins the room">
-    The voice agent process joins the LiveKit room and begins the conversation with the configured greeting.
+    The voice agent process joins the voice session and begins the conversation with the configured greeting.
   </Step>
   <Step title="Real-time conversation">
-    Audio flows through LiveKit. The agent uses STT to transcribe speech, LLM to generate responses, and TTS to speak back — all in real-time with ~800-1200ms latency.
+    Audio flows through the voice engine. The agent uses STT to transcribe speech, LLM to generate responses, and TTS to speak back — all in real-time with ~800-1200ms latency.
   </Step>
   <Step title="Call ends">
-    When the call ends, the agent pushes the final transcript, the server stores the recording (via LiveKit egress to S3), and any configured webhooks fire.
+    When the call ends, the agent pushes the final transcript, the server stores the recording (via the recording engine to S3), and any configured webhooks fire.
   </Step>
 </Steps>
 
@@ -107,4 +107,4 @@ Here's what happens when a phone call comes in:
 | Client | 3000 | Dashboard UI |
 | Server | 4000 | REST API |
 | PostgreSQL | 5432 | Database |
-| LiveKit | 7880 | WebRTC signaling |
+| Voice Engine | — | WebRTC signaling |
