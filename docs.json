@@ -23,106 +23,108 @@
       "url": "api-reference"
     }
   ],
-  "navigation": [
-    {
-      "group": "Getting Started",
-      "pages": [
-        "introduction",
-        "quickstart",
-        "architecture"
-      ]
-    },
-    {
-      "group": "Core Concepts",
-      "pages": [
-        "concepts/agents",
-        "concepts/voice-and-llm",
-        "concepts/phone-numbers",
-        "concepts/call-flow",
-        "concepts/knowledge-base"
-      ]
-    },
-    {
-      "group": "Workflow Builder",
-      "pages": [
-        "workflow/overview",
-        "workflow/nodes",
-        "workflow/edges-and-conditions",
-        "workflow/templates"
-      ]
-    },
-    {
-      "group": "Telephony",
-      "pages": [
-        "telephony/twilio-setup",
-        "telephony/inbound-calls",
-        "telephony/outbound-campaigns",
-        "telephony/call-transfer"
-      ]
-    },
-    {
-      "group": "Platform",
-      "pages": [
-        "platform/workspaces",
-        "platform/billing",
-        "platform/analytics",
-        "platform/crm",
-        "platform/webhooks"
-      ]
-    },
-    {
-      "group": "Deployment",
-      "pages": [
-        "deployment/docker",
-        "deployment/environment-variables",
-        "deployment/production"
-      ]
-    },
-    {
-      "group": "API Reference",
-      "pages": [
-        "api-reference/overview",
-        "api-reference/authentication"
-      ]
-    },
-    {
-      "group": "Agents",
-      "pages": [
-        "api-reference/agents/list",
-        "api-reference/agents/create",
-        "api-reference/agents/get",
-        "api-reference/agents/update",
-        "api-reference/agents/delete",
-        "api-reference/agents/start-call"
-      ]
-    },
-    {
-      "group": "Calls",
-      "pages": [
-        "api-reference/calls/list",
-        "api-reference/calls/get",
-        "api-reference/calls/delete",
-        "api-reference/calls/recording"
-      ]
-    },
-    {
-      "group": "Phone Numbers",
-      "pages": [
-        "api-reference/phone-numbers/list",
-        "api-reference/phone-numbers/create",
-        "api-reference/phone-numbers/update",
-        "api-reference/phone-numbers/delete"
-      ]
-    },
-    {
-      "group": "Knowledge Base",
-      "pages": [
-        "api-reference/knowledge-base/folders",
-        "api-reference/knowledge-base/documents",
-        "api-reference/knowledge-base/search"
-      ]
-    }
-  ],
+  "navigation": {
+    "groups": [
+      {
+        "group": "Getting Started",
+        "pages": [
+          "introduction",
+          "quickstart",
+          "architecture"
+        ]
+      },
+      {
+        "group": "Core Concepts",
+        "pages": [
+          "concepts/agents",
+          "concepts/voice-and-llm",
+          "concepts/phone-numbers",
+          "concepts/call-flow",
+          "concepts/knowledge-base"
+        ]
+      },
+      {
+        "group": "Workflow Builder",
+        "pages": [
+          "workflow/overview",
+          "workflow/nodes",
+          "workflow/edges-and-conditions",
+          "workflow/templates"
+        ]
+      },
+      {
+        "group": "Telephony",
+        "pages": [
+          "telephony/twilio-setup",
+          "telephony/inbound-calls",
+          "telephony/outbound-campaigns",
+          "telephony/call-transfer"
+        ]
+      },
+      {
+        "group": "Platform",
+        "pages": [
+          "platform/workspaces",
+          "platform/billing",
+          "platform/analytics",
+          "platform/crm",
+          "platform/webhooks"
+        ]
+      },
+      {
+        "group": "Deployment",
+        "pages": [
+          "deployment/docker",
+          "deployment/environment-variables",
+          "deployment/production"
+        ]
+      },
+      {
+        "group": "API Reference",
+        "pages": [
+          "api-reference/overview",
+          "api-reference/authentication"
+        ]
+      },
+      {
+        "group": "Agents",
+        "pages": [
+          "api-reference/agents/list",
+          "api-reference/agents/create",
+          "api-reference/agents/get",
+          "api-reference/agents/update",
+          "api-reference/agents/delete",
+          "api-reference/agents/start-call"
+        ]
+      },
+      {
+        "group": "Calls",
+        "pages": [
+          "api-reference/calls/list",
+          "api-reference/calls/get",
+          "api-reference/calls/delete",
+          "api-reference/calls/recording"
+        ]
+      },
+      {
+        "group": "Phone Numbers",
+        "pages": [
+          "api-reference/phone-numbers/list",
+          "api-reference/phone-numbers/create",
+          "api-reference/phone-numbers/update",
+          "api-reference/phone-numbers/delete"
+        ]
+      },
+      {
+        "group": "Knowledge Base",
+        "pages": [
+          "api-reference/knowledge-base/folders",
+          "api-reference/knowledge-base/documents",
+          "api-reference/knowledge-base/search"
+        ]
+      }
+    ]
+  },
   "footerSocials": {
     "github": "https://github.com/rufi-dev/rapidcallai",
     "discord": "https://discord.gg/rapidcallai"
