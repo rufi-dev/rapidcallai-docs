@@ -2,14 +2,13 @@
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
   "name": "RapidCall AI",
-  "appearance": "dark",
+  "appearance": {
+    "default": "dark"
+  },
   "colors": {
     "primary": "#6366f1",
     "light": "#818cf8",
     "dark": "#4338ca"
-  },
-  "background": {
-    "decoration": "windows"
   },
   "topbarLinks": [
     {
