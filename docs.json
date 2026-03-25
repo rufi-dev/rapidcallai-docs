@@ -9,9 +9,9 @@
     "decoration": "grid"
   },
   "colors": {
-    "primary": "#1c2f8e",
-    "light": "#2d4ab8",
-    "dark": "#162470"
+    "primary": "#3b82f6",
+    "light": "#60a5fa",
+    "dark": "#2563eb"
   },
   "topbarLinks": [
     {
