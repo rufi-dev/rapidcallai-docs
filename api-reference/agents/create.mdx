@@ -1,0 +1,52 @@
+---
+title: Create Agent
+api: POST /api/agents
+description: "Create a new voice agent"
+---
+
+## Request
+
+```bash
+curl -X POST https://your-server.com/api/agents \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Sales Bot",
+    "system_prompt": "You are a sales qualification agent...",
+    "voice": "onyx",
+    "tts_provider": "openai",
+    "llm_provider": "openai",
+    "llm_model": "gpt-4o",
+    "language": "en",
+    "greeting": "Hi! Thanks for calling. How can I help you today?",
+    "temperature": 0.7,
+    "max_tokens": 500
+  }'
+```
+
+## Parameters
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `name` | string | ✅ | Agent display name |
+| `system_prompt` | string | ✅ | Instructions for the agent |
+| `voice` | string | — | TTS voice ID |
+| `tts_provider` | string | — | `openai`, `elevenlabs`, `deepgram`, `cartesia` |
+| `llm_provider` | string | — | `openai`, `anthropic`, `google`, `groq`, `custom` |
+| `llm_model` | string | — | Model name (e.g., `gpt-4o`, `claude-3-sonnet`) |
+| `language` | string | — | Language code (default: `en`) |
+| `greeting` | string | — | First message when call connects |
+| `temperature` | number | — | LLM temperature (0.0-1.0) |
+| `max_tokens` | number | — | Max response tokens |
+| `webhook_url` | string | — | Post-call webhook URL |
+
+## Response
+
+```json
+{
+  "id": "agent_xyz789",
+  "name": "Sales Bot",
+  "system_prompt": "You are a sales qualification agent...",
+  "created_at": "2025-01-15T14:00:00Z"
+}
+```

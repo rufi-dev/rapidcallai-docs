@@ -1,0 +1,43 @@
+---
+title: Get Call
+api: GET /api/calls/{id}
+description: "Get detailed information about a specific call"
+---
+
+## Request
+
+```bash
+curl -H "Authorization: Bearer YOUR_TOKEN" \
+  https://your-server.com/api/calls/call_abc123
+```
+
+## Response
+
+```json
+{
+  "id": "call_abc123",
+  "agent_id": "agent_xyz",
+  "agent_name": "Reception Bot",
+  "direction": "inbound",
+  "caller_number": "+15551234567",
+  "phone_number": "+15559876543",
+  "status": "completed",
+  "duration_seconds": 145,
+  "cost": 0.23,
+  "started_at": "2025-01-15T10:30:00Z",
+  "ended_at": "2025-01-15T10:32:25Z",
+  "has_recording": true,
+  "transcript": [
+    { "role": "agent", "text": "Thank you for calling Acme Dental, how can I help?", "timestamp": 0.0 },
+    { "role": "user", "text": "I'd like to book an appointment", "timestamp": 3.2 },
+    { "role": "agent", "text": "Of course! Let me check our availability...", "timestamp": 5.1 }
+  ],
+  "outcome": "completed",
+  "labels": ["appointment", "new-patient"],
+  "metrics": {
+    "avg_ttfb_ms": 420,
+    "avg_processing_ms": 850,
+    "total_tokens": 2340
+  }
+}
+```

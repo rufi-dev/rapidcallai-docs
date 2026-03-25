@@ -1,0 +1,70 @@
+---
+title: Buy Phone Number
+api: POST /api/phone-numbers
+description: "Purchase a new phone number via Twilio"
+---
+
+## Search Available Numbers
+
+First, search for available numbers:
+
+```bash
+curl -H "Authorization: Bearer YOUR_TOKEN" \
+  "https://your-server.com/api/workspaces/ws_123/twilio/available-numbers?country=US&area_code=415"
+```
+
+### Response
+
+```json
+[
+  {
+    "number": "+14151234567",
+    "friendly_name": "(415) 123-4567",
+    "country": "US",
+    "capabilities": ["voice", "sms"],
+    "monthly_cost": 1.15
+  }
+]
+```
+
+## Buy a Number
+
+```bash
+curl -X POST https://your-server.com/api/workspaces/ws_123/twilio/buy-number \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "phone_number": "+14151234567"
+  }'
+```
+
+### Response
+
+```json
+{
+  "id": "pn_new123",
+  "number": "+14151234567",
+  "friendly_name": "(415) 123-4567",
+  "agent_id": null,
+  "created_at": "2025-01-15T14:00:00Z"
+}
+```
+
+The number is automatically provisioned with:
+- Inbound webhook configured
+- SIP trunk for LiveKit audio
+- Status callbacks enabled
+
+## Import Existing Number
+
+Add a number you already own in Twilio:
+
+```bash
+curl -X POST https://your-server.com/api/phone-numbers \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "number": "+14151234567",
+    "agent_id": "agent_xyz"
+  }'
+```

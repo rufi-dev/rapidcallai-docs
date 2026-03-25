@@ -1,0 +1,24 @@
+---
+title: Delete Phone Number
+api: DELETE /api/phone-numbers/{id}
+description: "Release a phone number back to Twilio"
+---
+
+## Request
+
+```bash
+curl -X DELETE https://your-server.com/api/phone-numbers/pn_abc123 \
+  -H "Authorization: Bearer YOUR_TOKEN"
+```
+
+## Response
+
+```json
+{
+  "ok": true
+}
+```
+
+<Warning>
+This releases the number back to Twilio. The number may be purchased by someone else and cannot be recovered. Any active calls on this number will not be affected, but no new inbound calls will be routed.
+</Warning>

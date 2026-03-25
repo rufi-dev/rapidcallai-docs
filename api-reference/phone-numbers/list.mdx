@@ -1,0 +1,29 @@
+---
+title: List Phone Numbers
+api: GET /api/phone-numbers
+description: "Get all phone numbers in the current workspace"
+---
+
+## Request
+
+```bash
+curl -H "Authorization: Bearer YOUR_TOKEN" \
+  https://your-server.com/api/phone-numbers
+```
+
+## Response
+
+```json
+[
+  {
+    "id": "pn_abc123",
+    "number": "+15551234567",
+    "friendly_name": "Main Office",
+    "agent_id": "agent_xyz",
+    "agent_name": "Reception Bot",
+    "capabilities": ["voice", "sms"],
+    "country": "US",
+    "created_at": "2025-01-10T09:00:00Z"
+  }
+]
+```

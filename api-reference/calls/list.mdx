@@ -1,0 +1,47 @@
+---
+title: List Calls
+api: GET /api/calls
+description: "Get call history for the current workspace"
+---
+
+## Request
+
+```bash
+curl -H "Authorization: Bearer YOUR_TOKEN" \
+  "https://your-server.com/api/calls?limit=20&offset=0"
+```
+
+### Query Parameters
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `limit` | number | 20 | Items per page (max 100) |
+| `offset` | number | 0 | Skip N items |
+| `agent_id` | string | — | Filter by agent |
+| `from` | string | — | Start date (ISO 8601) |
+| `to` | string | — | End date (ISO 8601) |
+
+## Response
+
+```json
+{
+  "calls": [
+    {
+      "id": "call_abc123",
+      "agent_id": "agent_xyz",
+      "agent_name": "Reception Bot",
+      "direction": "inbound",
+      "caller_number": "+15551234567",
+      "phone_number": "+15559876543",
+      "status": "completed",
+      "duration_seconds": 145,
+      "cost": 0.23,
+      "started_at": "2025-01-15T10:30:00Z",
+      "ended_at": "2025-01-15T10:32:25Z",
+      "has_recording": true,
+      "has_transcript": true
+    }
+  ],
+  "total": 156
+}
+```

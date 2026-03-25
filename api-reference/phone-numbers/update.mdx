@@ -1,0 +1,38 @@
+---
+title: Update Phone Number
+api: PUT /api/phone-numbers/{id}
+description: "Update a phone number's agent assignment"
+---
+
+## Request
+
+```bash
+curl -X PUT https://your-server.com/api/phone-numbers/pn_abc123 \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "agent_id": "agent_xyz",
+    "friendly_name": "Sales Line"
+  }'
+```
+
+## Parameters
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `agent_id` | string | Agent to handle calls on this number (null to unassign) |
+| `friendly_name` | string | Display name |
+
+## Response
+
+Returns the updated phone number object.
+
+```json
+{
+  "id": "pn_abc123",
+  "number": "+15551234567",
+  "friendly_name": "Sales Line",
+  "agent_id": "agent_xyz",
+  "agent_name": "Sales Bot"
+}
+```

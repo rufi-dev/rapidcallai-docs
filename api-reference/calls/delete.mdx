@@ -1,0 +1,24 @@
+---
+title: Delete Call
+api: DELETE /api/calls/{id}
+description: "Delete a call record"
+---
+
+## Request
+
+```bash
+curl -X DELETE https://your-server.com/api/calls/call_abc123 \
+  -H "Authorization: Bearer YOUR_TOKEN"
+```
+
+## Response
+
+```json
+{
+  "ok": true
+}
+```
+
+<Warning>
+This permanently deletes the call record, transcript, and associated evaluations. The recording file in S3 is not automatically deleted.
+</Warning>

@@ -1,0 +1,56 @@
+---
+title: Workspaces
+description: "Multi-tenant workspace management"
+---
+
+## Overview
+
+Workspaces provide tenant isolation in RapidCall. Each workspace has its own agents, phone numbers, call history, billing, and team members.
+
+## Creating a Workspace
+
+1. Click the workspace switcher in the sidebar
+2. Click **Create Workspace**
+3. Enter a name
+
+You can create multiple workspaces for different businesses, clients, or environments (dev/staging/production).
+
+## Team Members
+
+Invite team members to collaborate in a workspace:
+
+1. Go to **Settings → Workspace**
+2. Under **Members**, click **Invite**
+3. Enter their email — they'll receive an invitation
+
+### Roles
+
+| Role | Permissions |
+|------|-------------|
+| **Owner** | Full access, billing, member management, delete workspace |
+| **Admin** | Full access except billing and workspace deletion |
+| **Member** | Create/edit agents, view calls, manage phone numbers |
+
+## Workspace Isolation
+
+Each workspace is fully isolated:
+
+- **Agents** — Only visible within the workspace
+- **Phone Numbers** — Owned per workspace via Twilio subaccounts
+- **Call History** — Scoped to workspace
+- **Knowledge Base** — Documents isolated per workspace
+- **API Keys** — Scoped to workspace
+- **Billing** — Per-workspace usage tracking
+
+## Switching Workspaces
+
+Click the workspace name in the sidebar to switch between workspaces. Your most recent workspace is remembered.
+
+## Workspace Settings
+
+| Setting | Description |
+|---------|-------------|
+| **Name** | Workspace display name |
+| **Twilio Credentials** | Account SID + Auth Token for telephony |
+| **Webhook URL** | Default webhook for all agents in this workspace |
+| **LLM Defaults** | Default provider and model for new agents |

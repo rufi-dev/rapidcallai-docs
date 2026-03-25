@@ -1,0 +1,54 @@
+---
+title: Billing
+description: "Usage-based billing with Lago and Stripe"
+---
+
+## Overview
+
+RapidCall uses usage-based billing powered by **Lago** for metering and **Stripe** for payments.
+
+## How Billing Works
+
+1. **Usage events** are recorded for each call (duration, LLM tokens, TTS characters, STT minutes)
+2. **Lago** aggregates usage into billable units
+3. **Invoices** are generated at the end of each billing period
+4. **Stripe** processes the payment
+
+## Cost Components
+
+| Component | Unit | Typical Cost |
+|-----------|------|-------------|
+| **Call minutes** | Per minute | ~$0.05-0.15/min |
+| **LLM tokens** | Per 1K tokens | Varies by model |
+| **TTS characters** | Per 1K chars | ~$0.015-0.03/1K |
+| **STT minutes** | Per minute | ~$0.005/min |
+| **Twilio** | Per minute | ~$0.013-0.022/min |
+
+<Info>
+Actual costs depend on your chosen providers and models. GPT-4o costs more than GPT-4o-mini, ElevenLabs costs more than Deepgram TTS, etc.
+</Info>
+
+## Billing Dashboard
+
+Go to **Billing** in the sidebar to see:
+
+- **Current period usage** — Minutes, tokens, and costs so far
+- **Recent usage** — Daily breakdown chart
+- **Invoices** — Past invoices with PDF download
+- **Payment method** — Manage your Stripe payment method
+
+## Managing Subscription
+
+- **Checkout** — Set up payment via Stripe Checkout
+- **Customer Portal** — Manage payment methods, view invoices, cancel
+
+## API Keys & Billing
+
+API calls consume the same usage as dashboard calls. All usage is tracked per workspace regardless of whether it originated from the API or dashboard.
+
+## Self-Hosted Billing
+
+If you're self-hosting RapidCall, you can:
+- Disable billing entirely (set `BILLING_ENABLED=false`)
+- Use your own Lago instance for custom metering
+- Configure Stripe with your own keys

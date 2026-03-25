@@ -1,0 +1,104 @@
+---
+title: Docker Deployment
+description: "Deploy RapidCall AI with Docker Compose"
+---
+
+## Quick Start
+
+```bash
+git clone https://github.com/rufi-dev/rapidcallai.git
+cd rapidcallai
+cp .env.example .env
+# Edit .env with your API keys
+docker compose up -d
+```
+
+Open [http://localhost:3000](http://localhost:3000) to access the dashboard.
+
+## Services
+
+Docker Compose starts these services:
+
+| Service | Port | Description |
+|---------|------|-------------|
+| `client` | 3000 | React dashboard |
+| `server` | 4000 | Node.js API server |
+| `agent` | — | Python voice agent (connects to LiveKit) |
+| `postgres` | 5432 | PostgreSQL database |
+| `redis` | 6379 | Caching and rate limiting |
+
+## Docker Compose File
+
+```yaml
+version: "3.8"
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_DB: rapidcall
+      POSTGRES_USER: rapidcall
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  server:
+    build: ./server
+    ports:
+      - "4000:4000"
+    env_file: .env
+    depends_on:
+      - postgres
+
+  agent:
+    build: ./python-agent
+    env_file: .env
+    depends_on:
+      - server
+
+  client:
+    build: ./client
+    ports:
+      - "3000:3000"
+    depends_on:
+      - server
+
+volumes:
+  pgdata:
+```
+
+## Database Initialization
+
+On first startup, the server automatically:
+- Creates all required tables
+- Sets up pgvector extension for knowledge base embeddings
+- Runs any pending migrations
+
+## Updating
+
+```bash
+git pull
+docker compose build
+docker compose up -d
+```
+
+## Health Check
+
+Verify the server is running:
+
+```bash
+curl http://localhost:4000/health
+# {"ok": true}
+```
+
+## Logs
+
+```bash
+# All services
+docker compose logs -f
+
+# Specific service
+docker compose logs -f server
+docker compose logs -f agent
+```

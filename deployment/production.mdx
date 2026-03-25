@@ -1,0 +1,138 @@
+---
+title: Production Deployment
+description: "Best practices for deploying RapidCall AI in production"
+---
+
+## Infrastructure Requirements
+
+| Component | Minimum | Recommended |
+|-----------|---------|-------------|
+| **Server** | 1 vCPU, 1GB RAM | 2 vCPU, 4GB RAM |
+| **Agent** | 2 vCPU, 2GB RAM | 4 vCPU, 8GB RAM |
+| **PostgreSQL** | 1 vCPU, 1GB RAM | 2 vCPU, 4GB RAM |
+| **LiveKit** | 2 vCPU, 4GB RAM | 4 vCPU, 8GB RAM |
+
+## Deployment Architecture
+
+```
+                    ┌──────────────┐
+                    │  CloudFlare  │
+                    │   / Nginx    │
+                    └──────┬───────┘
+                           │
+              ┌────────────┼────────────┐
+              │            │            │
+        ┌─────▼─────┐ ┌───▼────┐ ┌────▼────┐
+        │  Client   │ │ Server │ │ LiveKit │
+        │  (Static) │ │ (API)  │ │ (WebRTC)│
+        └───────────┘ └───┬────┘ └────┬────┘
+                          │            │
+                    ┌─────▼─────┐ ┌───▼──────┐
+                    │ PostgreSQL│ │  Agent   │
+                    └───────────┘ │ (Python) │
+                                  └──────────┘
+```
+
+## Security Checklist
+
+<Warning>
+Complete this checklist before going live with real phone calls.
+</Warning>
+
+- [ ] **Set strong `JWT_SECRET`** — At least 64 random characters
+- [ ] **Set `AGENT_SECRET`** — Unique secret for agent-server communication
+- [ ] **Enable HTTPS** — Use a reverse proxy (Nginx, Caddy) with TLS certificates
+- [ ] **Restrict CORS** — Set `CORS_ORIGINS` to your domain only
+- [ ] **Use environment variables** — Never hardcode secrets in code
+- [ ] **Database backups** — Automated daily backups of PostgreSQL
+- [ ] **Rate limiting** — Enabled by default, verify limits match your traffic
+- [ ] **Firewall rules** — Only expose ports 80/443 publicly
+
+## Reverse Proxy (Nginx)
+
+```nginx
+server {
+    listen 443 ssl;
+    server_name api.yourdomain.com;
+
+    ssl_certificate /etc/ssl/certs/yourdomain.crt;
+    ssl_certificate_key /etc/ssl/private/yourdomain.key;
+
+    location / {
+        proxy_pass http://localhost:4000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+
+server {
+    listen 443 ssl;
+    server_name app.yourdomain.com;
+
+    ssl_certificate /etc/ssl/certs/yourdomain.crt;
+    ssl_certificate_key /etc/ssl/private/yourdomain.key;
+
+    location / {
+        proxy_pass http://localhost:3000;
+        proxy_set_header Host $host;
+    }
+}
+```
+
+## Scaling
+
+### Horizontal Scaling
+
+- **Server** — Stateless, can run multiple instances behind a load balancer
+- **Agent** — Each agent process handles one call at a time. Scale by adding more processes
+- **LiveKit** — Supports distributed deployment with multiple nodes
+
+### Database
+
+- Use **connection pooling** (PgBouncer) for high concurrency
+- Enable **pgvector** index for knowledge base searches
+- Regular `VACUUM ANALYZE` for performance
+
+## Monitoring
+
+### Health Endpoints
+
+```bash
+# Server health
+curl https://api.yourdomain.com/health
+
+# Metrics (Prometheus format)
+curl https://api.yourdomain.com/metrics
+```
+
+### Key Metrics to Monitor
+
+- Server response time (p50, p95, p99)
+- Active calls count
+- LLM latency per call
+- Database connection pool utilization
+- Agent process CPU/memory usage
+- Call success/failure rate
+
+## Backup Strategy
+
+```bash
+# Daily PostgreSQL backup
+pg_dump -h localhost -U rapidcall rapidcall | gzip > backup_$(date +%Y%m%d).sql.gz
+
+# Keep 30 days of backups
+find /backups -name "*.sql.gz" -mtime +30 -delete
+```
+
+## LiveKit Deployment
+
+For production, deploy LiveKit separately:
+
+1. Use [LiveKit Cloud](https://cloud.livekit.io) (managed) — simplest option
+2. Or self-host with their [deployment guide](https://docs.livekit.io/home/self-hosting/deployment/)
+
+<Tip>
+LiveKit Cloud handles scaling, TURN servers, and global distribution automatically. Recommended for production unless you have specific self-hosting requirements.
+</Tip>

@@ -1,0 +1,88 @@
+---
+title: Environment Variables
+description: "All configuration options for RapidCall AI"
+---
+
+## Required Variables
+
+These must be set for RapidCall to function:
+
+| Variable | Description | Example |
+|----------|-------------|---------|
+| `DATABASE_URL` | PostgreSQL connection string | `postgresql://user:pass@localhost:5432/rapidcall` |
+| `JWT_SECRET` | Secret for JWT token signing | Random 64+ character string |
+| `LIVEKIT_URL` | LiveKit WebSocket URL | `wss://your-livekit.example.com` |
+| `LIVEKIT_API_KEY` | LiveKit API key | `APIxxxxxxxx` |
+| `LIVEKIT_API_SECRET` | LiveKit API secret | `your-secret` |
+
+## LLM Provider Keys
+
+Set the keys for providers you want to use:
+
+| Variable | Provider |
+|----------|----------|
+| `OPENAI_API_KEY` | OpenAI (GPT-4o, GPT-4o-mini) |
+| `ANTHROPIC_API_KEY` | Anthropic (Claude) |
+| `GOOGLE_API_KEY` | Google (Gemini) |
+| `GROQ_API_KEY` | Groq (Llama, Mixtral) |
+
+## TTS Provider Keys
+
+| Variable | Provider |
+|----------|----------|
+| `ELEVENLABS_API_KEY` | ElevenLabs voices |
+| `DEEPGRAM_API_KEY` | Deepgram STT + TTS |
+| `CARTESIA_API_KEY` | Cartesia voices |
+
+## Twilio
+
+| Variable | Description |
+|----------|-------------|
+| `TWILIO_ACCOUNT_SID` | Master Twilio Account SID |
+| `TWILIO_AUTH_TOKEN` | Master Twilio Auth Token |
+
+<Info>
+Per-workspace Twilio credentials are set in the dashboard. These master credentials are only needed if you want server-level Twilio access.
+</Info>
+
+## Storage (S3)
+
+For call recordings:
+
+| Variable | Description |
+|----------|-------------|
+| `S3_BUCKET` | S3 bucket name for recordings |
+| `S3_REGION` | AWS region |
+| `S3_ACCESS_KEY` | AWS access key |
+| `S3_SECRET_KEY` | AWS secret key |
+| `S3_ENDPOINT` | Custom S3 endpoint (for MinIO, R2, etc.) |
+
+## Billing
+
+| Variable | Description |
+|----------|-------------|
+| `BILLING_ENABLED` | Enable/disable billing (`true`/`false`) |
+| `LAGO_API_KEY` | Lago API key for usage metering |
+| `LAGO_URL` | Lago API URL |
+| `STRIPE_SECRET_KEY` | Stripe secret key for payments |
+| `STRIPE_WEBHOOK_SECRET` | Stripe webhook signing secret |
+
+## Server
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `PORT` | `4000` | Server port |
+| `NODE_ENV` | `development` | Environment (`development`/`production`) |
+| `CORS_ORIGINS` | `*` | Allowed CORS origins |
+| `AGENT_SECRET` | — | Shared secret for agent ↔ server auth |
+| `GOOGLE_CLIENT_ID` | — | Google OAuth client ID |
+
+## Agent (Python)
+
+| Variable | Description |
+|----------|-------------|
+| `RAPIDCALL_SERVER_URL` | URL of the Node.js server |
+| `AGENT_SECRET` | Must match server's `AGENT_SECRET` |
+| `LIVEKIT_URL` | LiveKit WebSocket URL |
+| `LIVEKIT_API_KEY` | LiveKit API key |
+| `LIVEKIT_API_SECRET` | LiveKit API secret |

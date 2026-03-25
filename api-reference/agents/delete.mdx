@@ -1,0 +1,24 @@
+---
+title: Delete Agent
+api: DELETE /api/agents/{id}
+description: "Delete an agent"
+---
+
+## Request
+
+```bash
+curl -X DELETE https://your-server.com/api/agents/agent_abc123 \
+  -H "Authorization: Bearer YOUR_TOKEN"
+```
+
+## Response
+
+```json
+{
+  "ok": true
+}
+```
+
+<Warning>
+Deleting an agent also removes its phone number assignment. Any active calls will continue but no new calls will be routed.
+</Warning>

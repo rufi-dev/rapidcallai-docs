@@ -1,0 +1,77 @@
+---
+title: Webhooks
+description: "Receive real-time notifications for call events"
+---
+
+## Overview
+
+Webhooks notify your systems when events happen in RapidCall — like when a call ends, a transfer occurs, or a recording is ready.
+
+## Setting Up Webhooks
+
+Configure webhooks at two levels:
+
+1. **Workspace level** — Settings → Workspace → Webhook URL (fires for all agents)
+2. **Agent level** — Agent settings → Webhook URL (fires only for this agent)
+
+Agent-level webhooks take priority over workspace-level.
+
+## Webhook Payload
+
+When a call ends, RapidCall sends a `POST` request to your webhook URL:
+
+```json
+{
+  "event": "call.ended",
+  "call_id": "call_abc123",
+  "agent_id": "agent_xyz",
+  "agent_name": "Reception Bot",
+  "phone_number": "+15551234567",
+  "caller_number": "+15559876543",
+  "direction": "inbound",
+  "duration_seconds": 145,
+  "started_at": "2025-01-15T10:30:00Z",
+  "ended_at": "2025-01-15T10:32:25Z",
+  "outcome": "completed",
+  "transcript": [
+    { "role": "agent", "text": "Thank you for calling..." },
+    { "role": "user", "text": "I'd like to book..." }
+  ],
+  "recording_url": "https://your-s3-bucket/recordings/call_abc123.ogg",
+  "cost": {
+    "total": 0.23,
+    "llm": 0.08,
+    "tts": 0.05,
+    "stt": 0.02,
+    "telephony": 0.08
+  }
+}
+```
+
+## Events
+
+| Event | When |
+|-------|------|
+| `call.ended` | Call completed (includes full transcript) |
+| `call.transferred` | Call was transferred to a human |
+| `call.recording_ready` | Recording uploaded and available |
+
+## Testing Webhooks
+
+Use the **Test Webhook** button in agent settings to send a sample payload to your URL and verify it's working.
+
+## Retry Policy
+
+If your webhook endpoint returns a non-2xx status code, RapidCall will:
+- Retry up to 3 times
+- With exponential backoff (5s, 30s, 2min)
+
+## Security
+
+Verify webhook authenticity by checking:
+- The `X-RapidCall-Signature` header (HMAC-SHA256 of the payload)
+- The source IP matches RapidCall's servers
+
+<Tip>
+Use [webhook.site](https://webhook.site) or [requestbin.com](https://requestbin.com) for quick testing before setting up your production endpoint.
+</Tip>

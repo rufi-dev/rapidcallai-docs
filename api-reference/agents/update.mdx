@@ -1,0 +1,44 @@
+---
+title: Update Agent
+api: PUT /api/agents/{id}
+description: "Update an existing agent's configuration"
+---
+
+## Request
+
+```bash
+curl -X PUT https://your-server.com/api/agents/agent_abc123 \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Reception Bot v2",
+    "system_prompt": "Updated instructions...",
+    "temperature": 0.5
+  }'
+```
+
+All fields are optional — only provided fields are updated.
+
+## Parameters
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `name` | string | Agent display name |
+| `system_prompt` | string | Instructions for the agent |
+| `voice` | string | TTS voice ID |
+| `tts_provider` | string | TTS provider |
+| `llm_provider` | string | LLM provider |
+| `llm_model` | string | Model name |
+| `language` | string | Language code |
+| `greeting` | string | First message on call connect |
+| `temperature` | number | LLM temperature |
+| `max_tokens` | number | Max response tokens |
+| `webhook_url` | string | Post-call webhook URL |
+
+## Response
+
+Returns the full updated agent object.
+
+<Info>
+Changes take effect on the next call. Active calls are not affected.
+</Info>

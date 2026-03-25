@@ -1,0 +1,62 @@
+---
+title: Start Call
+api: POST /api/agents/{id}/start
+description: "Programmatically start a call with an agent"
+---
+
+## Request
+
+Start an outbound call or web call:
+
+```bash
+curl -X POST https://your-server.com/api/agents/agent_abc123/start \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "phone_number": "+15551234567",
+    "from_number": "+15559876543"
+  }'
+```
+
+## Parameters
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `phone_number` | string | — | Number to call (E.164 format). Omit for web call. |
+| `from_number` | string | — | Caller ID (must be a number you own) |
+
+### Web Call (no phone number)
+
+Omit `phone_number` to get a LiveKit room token for browser-based calling:
+
+```bash
+curl -X POST https://your-server.com/api/agents/agent_abc123/start \
+  -H "Authorization: Bearer YOUR_TOKEN"
+```
+
+## Response
+
+```json
+{
+  "call_id": "call_def456",
+  "room_name": "room_abc123",
+  "token": "eyJ0eXAiOiJKV1Qi...",
+  "livekit_url": "wss://your-livekit.example.com"
+}
+```
+
+Use the `token` and `livekit_url` to connect via the LiveKit client SDK for web calls.
+
+## Demo Call
+
+For unauthenticated demo calls (if enabled):
+
+```bash
+curl -X POST https://your-server.com/api/demo/start \
+  -H "Content-Type: application/json" \
+  -d '{"agent_id": "agent_abc123"}'
+```
+
+<Info>
+Demo calls are rate-limited and may be disabled in production.
+</Info>

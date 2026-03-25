@@ -1,0 +1,53 @@
+---
+title: Call Recording
+api: GET /api/calls/{id}/recording
+description: "Get the recording for a call"
+---
+
+## Get Recording URL
+
+```bash
+curl -H "Authorization: Bearer YOUR_TOKEN" \
+  https://your-server.com/api/calls/call_abc123/recording-url
+```
+
+### Response
+
+```json
+{
+  "url": "https://your-s3-bucket.s3.amazonaws.com/recordings/call_abc123.ogg",
+  "expires_at": "2025-01-15T11:00:00Z"
+}
+```
+
+The URL is a pre-signed S3 URL that expires after a set duration.
+
+## Playback URL
+
+For browser playback with range support:
+
+```bash
+GET /api/calls/{id}/recording-playback
+```
+
+This endpoint streams the audio directly — use it as the `src` for an HTML `<audio>` element.
+
+## Upload Recording
+
+For manually uploading a recording (e.g., from an external source):
+
+```bash
+curl -X POST https://your-server.com/api/calls/call_abc123/recording \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -F "file=@recording.ogg"
+```
+
+<Info>
+Recordings are automatically captured via LiveKit egress for all phone calls and web calls. Manual upload is only needed for special cases.
+</Info>
+
+## Recording Availability
+
+After a call ends, the recording takes **30-40 seconds** to become available. This is normal — LiveKit needs to finalize the egress and upload to S3.
+
+The `call.recording_ready` webhook event fires when the recording is available.

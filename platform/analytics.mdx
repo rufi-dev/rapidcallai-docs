@@ -1,0 +1,85 @@
+---
+title: Analytics
+description: "Call metrics, dashboards, and performance monitoring"
+---
+
+## Overview
+
+RapidCall provides built-in analytics to track agent performance, call volumes, costs, and conversation quality.
+
+## Analytics Dashboard
+
+Go to **Analytics** in the sidebar for an overview of:
+
+- **Total calls** — Count over selected time period
+- **Total minutes** — Aggregate call duration
+- **Average duration** — Mean call length
+- **Total cost** — Combined platform costs
+- **Calls per day** — Volume chart
+- **Average latency** — Response time metrics
+
+## Per-Agent Analytics
+
+Each agent has its own analytics view:
+
+1. Go to **Agents → Select Agent → Analytics tab**
+2. View agent-specific metrics:
+   - Call volume over time
+   - Average call duration
+   - Success/failure rate
+   - Token usage
+   - Cost breakdown
+
+## Custom Dashboards
+
+Create custom dashboards with drag-and-drop widgets:
+
+1. Go to **Analytics → Dashboards**
+2. Click **New Dashboard**
+3. Add widgets:
+
+| Widget Type | Description |
+|-------------|-------------|
+| **Stat Card** | Single metric with trend indicator |
+| **Line Chart** | Time series (calls, duration, cost over time) |
+| **Bar Chart** | Comparative metrics |
+| **Pie Chart** | Distribution breakdown |
+| **Table** | Tabular data with sorting |
+
+4. Configure each widget with custom queries, time ranges, and filters
+
+## Call Evaluations
+
+Rate and evaluate individual calls:
+
+1. Go to **Calls → Select a call**
+2. Click **Evaluate**
+3. Rate on criteria like:
+   - Did the agent achieve the goal?
+   - Was the conversation natural?
+   - Were there any errors?
+
+### Auto-Evaluate
+
+Use AI to automatically evaluate calls:
+- Click **Auto-Evaluate** on any call
+- The AI reviews the transcript and provides scores and feedback
+- Useful for batch quality assessment
+
+## Call Labels
+
+Tag calls for categorization:
+- Add labels like "qualified-lead", "support-issue", "complaint"
+- Filter calls by label in the call history
+- Use labels for reporting and analysis
+
+## Latency Metrics
+
+Track real-time performance:
+
+| Metric | Description | Target |
+|--------|-------------|--------|
+| **TTFB** | Time to first byte from LLM | < 500ms |
+| **STT Latency** | Speech recognition delay | < 300ms |
+| **TTS Latency** | Voice synthesis delay | < 200ms |
+| **Total Round-Trip** | Full response time | < 1200ms |
