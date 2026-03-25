@@ -5,6 +5,9 @@
   "appearance": {
     "default": "dark"
   },
+  "background": {
+    "decoration": "windows"
+  },
   "colors": {
     "primary": "#6366f1",
     "light": "#818cf8",
