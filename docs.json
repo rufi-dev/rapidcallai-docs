@@ -5,13 +5,7 @@
   "colors": {
     "primary": "#6366f1",
     "light": "#818cf8",
-    "dark": "#4338ca",
-    "background": {
-      "dark": "#0f0d1a"
-    }
-  },
-  "modeToggle": {
-    "default": "dark"
+    "dark": "#4338ca"
   },
   "topbarLinks": [
     {
