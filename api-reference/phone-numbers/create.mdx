@@ -1,70 +1,101 @@
 ---
-title: Buy Phone Number
+title: Buy / Add Phone Number
 api: POST /api/phone-numbers
-description: "Purchase a new phone number via Twilio"
+description: "Purchase a new phone number or connect an existing SIP number"
 ---
 
 ## Search Available Numbers
 
-First, search for available numbers:
+First, search for available Twilio numbers:
 
 ```bash
 curl -H "Authorization: Bearer YOUR_TOKEN" \
-  "https://your-server.com/api/workspaces/ws_123/twilio/available-numbers?country=US&area_code=415"
-```
-
-### Response
-
-```json
-[
-  {
-    "number": "+14151234567",
-    "friendly_name": "(415) 123-4567",
-    "country": "US",
-    "capabilities": ["voice", "sms"],
-    "monthly_cost": 1.15
-  }
-]
-```
-
-## Buy a Number
-
-```bash
-curl -X POST https://your-server.com/api/workspaces/ws_123/twilio/buy-number \
-  -H "Authorization: Bearer YOUR_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "phone_number": "+14151234567"
-  }'
+  "https://api.rapidcall.ai/api/workspaces/ws_123/twilio/available-numbers?country=US&area_code=415"
 ```
 
 ### Response
 
 ```json
 {
-  "id": "pn_new123",
-  "number": "+14151234567",
-  "friendly_name": "(415) 123-4567",
-  "agent_id": null,
-  "created_at": "2025-01-15T14:00:00Z"
+  "numbers": [
+    {
+      "phoneNumber": "+14151234567",
+      "friendlyName": "(415) 123-4567",
+      "locality": "San Francisco",
+      "region": "CA",
+      "isoCountry": "US",
+      "capabilities": { "voice": true, "SMS": true, "MMS": true }
+    }
+  ]
 }
 ```
 
-The number is automatically provisioned with:
-- Inbound webhook configured
-- SIP trunk for audio routing
-- Status callbacks enabled
+## Buy a Number (Twilio)
 
-## Import Existing Number
-
-Add a number you already own in Twilio:
+Numbers are purchased through the workspace Twilio endpoint:
 
 ```bash
-curl -X POST https://your-server.com/api/phone-numbers \
+curl -X POST https://api.rapidcall.ai/api/workspaces/ws_123/twilio/buy-number \
   -H "Authorization: Bearer YOUR_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
-    "number": "+14151234567",
-    "agent_id": "agent_xyz"
+    "phoneNumber": "+14151234567"
   }'
 ```
+
+The number is automatically provisioned with inbound webhooks, SIP trunk, and status callbacks.
+
+## Connect Existing SIP Number
+
+Add a number you already own via SIP:
+
+```bash
+curl -X POST https://api.rapidcall.ai/api/phone-numbers \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "e164": "+14151234567",
+    "label": "Office Line",
+    "provider": "sip",
+    "sipTerminationUri": "sip:trunk.your-provider.com",
+    "livekitSipUsername": "user123",
+    "livekitSipPassword": "pass456",
+    "sipOutboundTransport": "tls"
+  }'
+```
+
+### Parameters
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `e164` | string | Yes | Phone number in E.164 format |
+| `label` | string | — | Display name |
+| `provider` | string | — | `"twilio"` or `"sip"` (auto-detected from fields) |
+| `sipTerminationUri` | string | For SIP | SIP trunk termination URI |
+| `livekitSipUsername` | string | — | SIP auth username |
+| `livekitSipPassword` | string | — | SIP auth password |
+| `sipOutboundTransport` | string | — | `"tcp"`, `"udp"`, or `"tls"` (default: `"tls"`) |
+
+### Response
+
+```json
+{
+  "phoneNumber": {
+    "id": "pn_new123",
+    "workspaceId": "ws_xyz",
+    "e164": "+14151234567",
+    "label": "Office Line",
+    "provider": "sip",
+    "status": "unconfigured",
+    "inboundAgentId": null,
+    "outboundAgentId": null,
+    "source": "connected",
+    "createdAt": "2025-01-15T14:00:00Z",
+    "updatedAt": "2025-01-15T14:00:00Z"
+  }
+}
+```
+
+<Warning>
+A payment method is required before purchasing or connecting phone numbers.
+</Warning>

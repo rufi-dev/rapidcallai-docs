@@ -1,20 +1,20 @@
 ---
 title: Start Call
 api: POST /api/agents/{id}/start
-description: "Programmatically start a call with an agent"
+description: "Start a web test call with an agent via WebRTC"
 ---
 
 ## Request
 
-Start an outbound call or web call:
+Start a browser-based web call with an agent:
 
 ```bash
-curl -X POST https://your-server.com/api/agents/agent_abc123/start \
+curl -X POST https://api.rapidcall.ai/api/agents/agent_abc123/start \
   -H "Authorization: Bearer YOUR_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
-    "phone_number": "+15551234567",
-    "from_number": "+15559876543"
+    "language": "en",
+    "preferredRegion": "us"
   }'
 ```
 
@@ -22,41 +22,61 @@ curl -X POST https://your-server.com/api/agents/agent_abc123/start \
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `phone_number` | string | — | Number to call (E.164 format). Omit for web call. |
-| `from_number` | string | — | Caller ID (must be a number you own) |
-
-### Web Call (no phone number)
-
-Omit `phone_number` to get a WebRTC session token for browser-based calling:
-
-```bash
-curl -X POST https://your-server.com/api/agents/agent_abc123/start \
-  -H "Authorization: Bearer YOUR_TOKEN"
-```
+| `welcome` | object | — | Override welcome config for this session |
+| `voice` | object | — | Override voice config for this session |
+| `enabledTools` | string[] | — | Override enabled tools for this session |
+| `language` | string | — | Language code for TTS/STT |
+| `preferredRegion` | string | — | Preferred agent region: `"eu"`, `"ap"`, or `"us"` |
 
 ## Response
 
 ```json
 {
-  "call_id": "call_def456",
-  "room_name": "room_abc123",
+  "callId": "call_def456",
+  "roomName": "call-agent_abc123-x7k9m2",
   "token": "eyJ0eXAiOiJKV1Qi...",
-  "ws_url": "wss://rtc.your-domain.com"
+  "livekitUrl": "wss://rtc.rapidcall.ai",
+  "agent": {
+    "id": "agent_abc123",
+    "name": "Reception Bot"
+  },
+  "expectedAgentName": "rapidcall-agent",
+  "backchannelEnabled": false,
+  "callOptions": {
+    "maxCallDurationMinutes": 0,
+    "responsiveness": 0.95,
+    "interruptionSensitivity": 0.95
+  }
 }
 ```
 
-Use the `token` and `ws_url` to connect via WebRTC for browser-based calls.
+Use the `token` and `livekitUrl` to connect via the LiveKit WebRTC SDK for browser-based calls.
 
 ## Demo Call
 
-For unauthenticated demo calls (if enabled):
+For unauthenticated demo calls (rate-limited, no auth required). The demo agent is configured server-side via `DEMO_AGENT_ID` and `DEMO_WORKSPACE_ID` environment variables:
 
 ```bash
-curl -X POST https://your-server.com/api/demo/start \
+curl -X POST https://api.rapidcall.ai/api/demo/start \
   -H "Content-Type: application/json" \
-  -d '{"agent_id": "agent_abc123"}'
+  -d '{"voice": "friendly-female"}'
+```
+
+Available demo voices: `"default"`, `"british-male"`, `"friendly-female"`, `"confident-male"`.
+
+Response:
+
+```json
+{
+  "livekitUrl": "wss://rtc.rapidcall.ai",
+  "roomName": "call-demo-x7k9m2",
+  "token": "eyJ0eXAiOiJKV1Qi..."
+}
 ```
 
 <Info>
-Demo calls are rate-limited and may be disabled in production.
+- A payment method is required to start web test calls (demo calls are exempt).
+- Suspended workspaces cannot start calls.
+- The agent must have a non-empty prompt.
+- Demo calls are limited to a maximum duration and concurrent call limit.
 </Info>

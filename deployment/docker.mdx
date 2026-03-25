@@ -13,7 +13,7 @@ cp .env.example .env
 docker compose up -d
 ```
 
-Open [http://localhost:3000](http://localhost:3000) to access the dashboard.
+Open the dashboard via your configured domain or Caddy reverse proxy.
 
 ## Services
 
@@ -21,17 +21,48 @@ Docker Compose starts these services:
 
 | Service | Port | Description |
 |---------|------|-------------|
-| `client` | 3000 | React dashboard |
-| `server` | 4000 | Node.js API server |
-| `agent` | — | Python voice agent |
-| `postgres` | 5432 | PostgreSQL database |
-| `redis` | 6379 | Caching and rate limiting |
+| `api` | 8787 | Node.js API server |
+| `dashboard` | 8080 (→ 80 internal) | React dashboard (Nginx) |
+| `crm` | 8788 | CRM admin panel |
+| `caddy` | 80, 443 | Reverse proxy with automatic TLS |
+| `postgres` | 5432 | PostgreSQL database (with pgvector) |
 
 ## Docker Compose File
 
 ```yaml
-version: "3.8"
 services:
+  api:
+    build: ./server
+    ports:
+      - "8787:8787"
+    env_file: .env
+    depends_on:
+      - postgres
+
+  dashboard:
+    build:
+      context: ./client
+      args:
+        VITE_API_BASE: https://api.rapidcall.ai
+    ports:
+      - "8080:80"
+
+  crm:
+    build: ./crm-service
+    ports:
+      - "8788:8788"
+    env_file: .env
+    depends_on:
+      - api
+
+  caddy:
+    image: caddy:2-alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+
   postgres:
     image: pgvector/pgvector:pg16
     environment:
@@ -42,27 +73,6 @@ services:
       - pgdata:/var/lib/postgresql/data
     ports:
       - "5432:5432"
-
-  server:
-    build: ./server
-    ports:
-      - "4000:4000"
-    env_file: .env
-    depends_on:
-      - postgres
-
-  agent:
-    build: ./python-agent
-    env_file: .env
-    depends_on:
-      - server
-
-  client:
-    build: ./client
-    ports:
-      - "3000:3000"
-    depends_on:
-      - server
 
 volumes:
   pgdata:
@@ -88,7 +98,7 @@ docker compose up -d
 Verify the server is running:
 
 ```bash
-curl http://localhost:4000/health
+curl http://localhost:8787/health
 # {"ok": true}
 ```
 
@@ -99,6 +109,6 @@ curl http://localhost:4000/health
 docker compose logs -f
 
 # Specific service
-docker compose logs -f server
-docker compose logs -f agent
+docker compose logs -f api
+docker compose logs -f dashboard
 ```

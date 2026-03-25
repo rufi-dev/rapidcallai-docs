@@ -48,7 +48,27 @@ Complete this checklist before going live with real phone calls.
 - [ ] **Rate limiting** — Enabled by default, verify limits match your traffic
 - [ ] **Firewall rules** — Only expose ports 80/443 publicly
 
-## Reverse Proxy (Nginx)
+## Reverse Proxy (Caddy)
+
+RapidCall AI uses Caddy for automatic TLS and reverse proxying:
+
+```
+api.yourdomain.com {
+    reverse_proxy localhost:8787
+}
+
+dashboard.yourdomain.com {
+    reverse_proxy localhost:8080
+}
+
+crm.yourdomain.com {
+    reverse_proxy localhost:8788
+}
+```
+
+Caddy automatically provisions and renews TLS certificates via Let's Encrypt.
+
+### Alternative: Nginx
 
 ```nginx
 server {
@@ -59,24 +79,11 @@ server {
     ssl_certificate_key /etc/ssl/private/yourdomain.key;
 
     location / {
-        proxy_pass http://localhost:4000;
+        proxy_pass http://localhost:8787;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $scheme;
-    }
-}
-
-server {
-    listen 443 ssl;
-    server_name app.yourdomain.com;
-
-    ssl_certificate /etc/ssl/certs/yourdomain.crt;
-    ssl_certificate_key /etc/ssl/private/yourdomain.key;
-
-    location / {
-        proxy_pass http://localhost:3000;
-        proxy_set_header Host $host;
     }
 }
 ```

@@ -23,12 +23,11 @@ Use any OpenAI-compatible API by setting:
 
 ```json
 {
-  "llm_provider": "custom",
-  "llm_base_url": "https://your-api.com/v1",
-  "llm_api_key": "your-key",
-  "llm_model": "your-model-name"
+  "llmModel": "your-model-name"
 }
 ```
+
+Custom endpoints are configured via environment variables on the server (e.g., `CUSTOM_LLM_BASE_URL`, `CUSTOM_LLM_API_KEY`). The `llmModel` field on the agent selects which model to use.
 
 This works with vLLM, Ollama, Together AI, Fireworks, and any OpenAI-compatible server.
 

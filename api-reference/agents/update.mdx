@@ -7,13 +7,13 @@ description: "Update an existing agent's configuration"
 ## Request
 
 ```bash
-curl -X PUT https://your-server.com/api/agents/agent_abc123 \
+curl -X PUT https://api.rapidcall.ai/api/agents/agent_abc123 \
   -H "Authorization: Bearer YOUR_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
     "name": "Reception Bot v2",
-    "system_prompt": "Updated instructions...",
-    "temperature": 0.5
+    "promptDraft": "Updated instructions...",
+    "llmModel": "gpt-4.1"
   }'
 ```
 
@@ -21,23 +21,26 @@ All fields are optional — only provided fields are updated.
 
 ## Parameters
 
+Same fields as [Create Agent](/api-reference/agents/create). All fields are optional.
+
 | Field | Type | Description |
 |-------|------|-------------|
 | `name` | string | Agent display name |
-| `system_prompt` | string | Instructions for the agent |
-| `voice` | string | TTS voice ID |
-| `tts_provider` | string | TTS provider |
-| `llm_provider` | string | LLM provider |
-| `llm_model` | string | Model name |
+| `promptDraft` | string | Draft system prompt |
+| `promptPublished` | string | Published (live) system prompt |
+| `welcome` | object | Welcome message configuration |
+| `voice` | object | TTS voice configuration |
+| `llmModel` | string | LLM model name |
 | `language` | string | Language code |
-| `greeting` | string | First message on call connect |
-| `temperature` | number | LLM temperature |
-| `max_tokens` | number | Max response tokens |
-| `webhook_url` | string | Post-call webhook URL |
+| `enabledTools` | string[] | Enabled tool list |
+| `toolConfigs` | object | Per-tool configuration |
+| `webhookUrl` | string | Post-call webhook URL |
+| `agentType` | string | `"inbound"` or `"outbound"` |
+| `role` | string | `"reception"`, `"booking"`, `"sales"`, or `"followup"` |
 
 ## Response
 
-Returns the full updated agent object.
+Returns the full updated agent object wrapped in `{ "agent": { ... } }`.
 
 <Info>
 Changes take effect on the next call. Active calls are not affected.

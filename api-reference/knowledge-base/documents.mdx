@@ -7,67 +7,97 @@ description: "Upload and manage knowledge base documents"
 
 ```bash
 curl -H "Authorization: Bearer YOUR_TOKEN" \
-  https://your-server.com/api/kb/folders/folder_abc123/docs
+  https://api.rapidcall.ai/api/kb/folders/folder_abc123/docs
 ```
 
 ### Response
 
 ```json
-[
-  {
-    "id": "doc_abc123",
-    "title": "Business Hours",
-    "type": "text",
-    "char_count": 450,
-    "created_at": "2025-01-10T09:00:00Z"
-  },
-  {
-    "id": "doc_def456",
-    "title": "Services Catalog.pdf",
-    "type": "pdf",
-    "char_count": 12500,
-    "created_at": "2025-01-12T11:00:00Z"
-  }
-]
+{
+  "docs": [
+    {
+      "id": "doc_abc123",
+      "workspaceId": "ws_xyz",
+      "folderId": "folder_abc123",
+      "kind": "text",
+      "title": "Business Hours",
+      "contentText": "We are open Monday through Friday...",
+      "sourceFilename": null,
+      "mime": null,
+      "sizeBytes": null,
+      "label": null,
+      "createdAt": "2025-01-10T09:00:00Z",
+      "updatedAt": "2025-01-10T09:00:00Z"
+    },
+    {
+      "id": "doc_def456",
+      "workspaceId": "ws_xyz",
+      "folderId": "folder_abc123",
+      "kind": "pdf",
+      "title": "Services Catalog.pdf",
+      "contentText": "Extracted text from the PDF...",
+      "sourceFilename": "services-catalog.pdf",
+      "mime": "application/pdf",
+      "sizeBytes": 125000,
+      "label": null,
+      "createdAt": "2025-01-12T11:00:00Z",
+      "updatedAt": "2025-01-12T11:00:00Z"
+    }
+  ]
+}
 ```
 
 ## Add Text Document
 
 ```bash
-curl -X POST https://your-server.com/api/kb/folders/folder_abc123/text \
+curl -X POST https://api.rapidcall.ai/api/kb/folders/folder_abc123/text \
   -H "Authorization: Bearer YOUR_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
     "title": "Business Hours",
-    "content": "We are open Monday through Friday, 9 AM to 5 PM EST. Saturday 10 AM to 2 PM. Closed Sundays and holidays."
+    "contentText": "We are open Monday through Friday, 9 AM to 5 PM EST. Saturday 10 AM to 2 PM. Closed Sundays and holidays."
   }'
 ```
+
+### Parameters
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `title` | string | — | Document title (max 200 chars) |
+| `contentText` | string | Yes | Document content (max 2M chars) |
+| `label` | string | — | Optional label/tag (max 100 chars) |
 
 ## Upload PDF
 
 ```bash
-curl -X POST https://your-server.com/api/kb/folders/folder_abc123/pdf \
+curl -X POST https://api.rapidcall.ai/api/kb/folders/folder_abc123/pdf \
   -H "Authorization: Bearer YOUR_TOKEN" \
   -F "file=@services-catalog.pdf"
 ```
 
-The PDF is automatically parsed, chunked, and embedded for semantic search.
+The PDF is automatically parsed and the text is extracted. Max file size: 10MB.
 
 ## Update Document
 
 ```bash
-curl -X PUT https://your-server.com/api/kb/docs/doc_abc123 \
+curl -X PUT https://api.rapidcall.ai/api/kb/docs/doc_abc123 \
   -H "Authorization: Bearer YOUR_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
     "title": "Updated Business Hours",
-    "content": "New hours: Monday-Saturday 8 AM to 6 PM."
+    "contentText": "New hours: Monday-Saturday 8 AM to 6 PM."
   }'
 ```
+
+<Info>
+Only text documents (`kind: "text"`) can be updated. To update a PDF, delete and re-upload.
+</Info>
 
 ## Delete Document
 
 ```bash
-curl -X DELETE https://your-server.com/api/kb/docs/doc_abc123 \
+curl -X DELETE https://api.rapidcall.ai/api/kb/docs/doc_abc123 \
   -H "Authorization: Bearer YOUR_TOKEN"
 ```
+
+Returns `{ "ok": true }`.

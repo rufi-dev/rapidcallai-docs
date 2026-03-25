@@ -38,13 +38,16 @@ Before transferring, say: "Let me connect you with one of our team members."
 
 The agent can use the built-in `transfer_call` tool:
 
+Enable the `transfer_call` tool in the agent's `enabledTools` array, and configure the transfer destination in `toolConfigs`:
+
 ```json
 {
-  "name": "transfer_call",
-  "description": "Transfer the call to a human agent",
-  "parameters": {
-    "phone_number": "+15551234567",
-    "message": "Connecting you now..."
+  "enabledTools": ["end_call", "transfer_call"],
+  "toolConfigs": {
+    "transfer_call": {
+      "transferTo": "+15551234567",
+      "transferCallerIdMode": "caller"
+    }
   }
 }
 ```
@@ -56,16 +59,19 @@ The agent can use the built-in `transfer_call` tool:
 | Phone number | E.164 | `+15551234567` |
 | SIP endpoint | SIP URI | `sip:user@domain.com` |
 
+## Transfer Modes
+
+RapidCall supports three transfer modes depending on call origin:
+
+1. **Web/Demo calls** -- Creates a SIP outbound participant in the same room. The agent stays and monitors the transfer status.
+2. **SIP provider calls** -- Creates a SIP outbound participant, then removes the agent from the room. Caller bridges directly to the transfer target.
+3. **Twilio SIP REFER** -- Native SIP transfer protocol for Twilio-originated calls.
+
 ## Limitations
 
-<Warning>
-Call transfer is not supported in **Web Calls** (browser-based testing). It only works for actual phone calls via Twilio.
-</Warning>
-
-- Transfer requires an active Twilio connection
 - The destination number must be reachable
 - Transfer may take 2-5 seconds to complete
-- Once transferred, the AI agent cannot rejoin the call
+- If the transfer fails (no answer, busy), the agent resumes the conversation automatically
 
 ## Call Recording During Transfer
 

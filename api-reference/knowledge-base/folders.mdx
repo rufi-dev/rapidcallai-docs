@@ -7,58 +7,77 @@ description: "Manage knowledge base folders"
 
 ```bash
 curl -H "Authorization: Bearer YOUR_TOKEN" \
-  https://your-server.com/api/kb/folders
-```
-
-### Response
-
-```json
-[
-  {
-    "id": "folder_abc123",
-    "name": "Product FAQ",
-    "doc_count": 12,
-    "created_at": "2025-01-10T09:00:00Z"
-  }
-]
-```
-
-## Create Folder
-
-```bash
-curl -X POST https://your-server.com/api/kb/folders \
-  -H "Authorization: Bearer YOUR_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{"name": "Product FAQ"}'
+  https://api.rapidcall.ai/api/kb/folders
 ```
 
 ### Response
 
 ```json
 {
-  "id": "folder_new456",
-  "name": "Product FAQ",
-  "doc_count": 0,
-  "created_at": "2025-01-15T14:00:00Z"
+  "folders": [
+    {
+      "id": "folder_abc123",
+      "workspaceId": "ws_xyz",
+      "name": "Product FAQ",
+      "parentId": null,
+      "createdAt": "2025-01-10T09:00:00Z",
+      "updatedAt": "2025-01-10T09:00:00Z"
+    }
+  ]
+}
+```
+
+## Create Folder
+
+```bash
+curl -X POST https://api.rapidcall.ai/api/kb/folders \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"name": "Product FAQ"}'
+```
+
+### Parameters
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `name` | string | Yes | Folder name (max 120 chars) |
+| `parentId` | string | — | Parent folder ID for nesting |
+
+### Response
+
+```json
+{
+  "folder": {
+    "id": "folder_new456",
+    "workspaceId": "ws_xyz",
+    "name": "Product FAQ",
+    "parentId": null,
+    "createdAt": "2025-01-15T14:00:00Z",
+    "updatedAt": "2025-01-15T14:00:00Z"
+  }
 }
 ```
 
 ## Update Folder
 
 ```bash
-curl -X PUT https://your-server.com/api/kb/folders/folder_abc123 \
+curl -X PUT https://api.rapidcall.ai/api/kb/folders/folder_abc123 \
   -H "Authorization: Bearer YOUR_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{"name": "Updated FAQ"}'
 ```
 
+Returns `{ "folder": { ... } }` with the updated folder.
+
 ## Delete Folder
 
 ```bash
-curl -X DELETE https://your-server.com/api/kb/folders/folder_abc123 \
+curl -X DELETE https://api.rapidcall.ai/api/kb/folders/folder_abc123 \
   -H "Authorization: Bearer YOUR_TOKEN"
 ```
 
+Returns `{ "ok": true }`.
+
 <Warning>
-Deleting a folder removes all documents and embeddings inside it. Agents that reference this folder will no longer have access to its content.
+Deleting a folder removes all documents inside it. Agents that reference this folder will no longer have access to its content.
 </Warning>

@@ -1,18 +1,18 @@
 ---
 title: Update Phone Number
 api: PUT /api/phone-numbers/{id}
-description: "Update a phone number's agent assignment"
+description: "Update a phone number's agent assignment and settings"
 ---
 
 ## Request
 
 ```bash
-curl -X PUT https://your-server.com/api/phone-numbers/pn_abc123 \
+curl -X PUT https://api.rapidcall.ai/api/phone-numbers/pn_abc123 \
   -H "Authorization: Bearer YOUR_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
-    "agent_id": "agent_xyz",
-    "friendly_name": "Sales Line"
+    "inboundAgentId": "agent_xyz",
+    "label": "Sales Line"
   }'
 ```
 
@@ -20,19 +20,34 @@ curl -X PUT https://your-server.com/api/phone-numbers/pn_abc123 \
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `agent_id` | string | Agent to handle calls on this number (null to unassign) |
-| `friendly_name` | string | Display name |
+| `label` | string | Display name |
+| `inboundAgentId` | string/null | Agent to handle inbound calls (null to unassign) |
+| `outboundAgentId` | string/null | Agent to handle outbound calls (null to unassign) |
+| `sipTerminationUri` | string/null | SIP trunk termination URI |
+| `livekitSipUsername` | string/null | SIP auth username |
+| `livekitSipPassword` | string/null | SIP auth password |
+| `sipOutboundTransport` | string/null | `"tcp"`, `"udp"`, or `"tls"` |
+| `allowedInboundCountries` | string[] | Countries allowed for inbound calls |
+| `allowedOutboundCountries` | string[] | Countries allowed for outbound calls |
+
+All fields are optional — only provided fields are updated.
 
 ## Response
 
-Returns the updated phone number object.
-
 ```json
 {
-  "id": "pn_abc123",
-  "number": "+15551234567",
-  "friendly_name": "Sales Line",
-  "agent_id": "agent_xyz",
-  "agent_name": "Sales Bot"
+  "phoneNumber": {
+    "id": "pn_abc123",
+    "workspaceId": "ws_xyz",
+    "e164": "+15551234567",
+    "label": "Sales Line",
+    "provider": "twilio",
+    "status": "active",
+    "inboundAgentId": "agent_xyz",
+    "outboundAgentId": null,
+    "source": "purchased",
+    "createdAt": "2025-01-10T09:00:00Z",
+    "updatedAt": "2025-01-15T15:00:00Z"
+  }
 }
 ```

@@ -6,10 +6,10 @@ description: "REST API reference for RapidCall AI"
 ## Base URL
 
 ```
-https://your-server.com/api
+https://api.rapidcall.ai/api
 ```
 
-For local development: `http://localhost:4000/api`
+For local development: `http://localhost:8787/api`
 
 ## Authentication
 
@@ -17,28 +17,35 @@ All API endpoints (except auth) require a Bearer token:
 
 ```bash
 curl -H "Authorization: Bearer YOUR_TOKEN" \
-  https://your-server.com/api/agents
+  https://api.rapidcall.ai/api/agents
 ```
 
 Get a token by logging in via `/api/auth/login` or use an **API Key** from the dashboard.
 
 ## Response Format
 
-All responses are JSON:
+All responses are JSON. Each endpoint uses a specific wrapper key:
 
 ```json
-{
-  "data": { ... },
-  "error": null
-}
+// List endpoints
+{ "agents": [...] }
+{ "calls": [...] }
+{ "phoneNumbers": [...] }
+{ "folders": [...] }
+{ "docs": [...] }
+
+// Single-item endpoints
+{ "agent": { ... } }
+{ "call": { ... } }
+{ "phoneNumber": { ... } }
+{ "folder": { ... } }
 ```
 
 Error responses:
 
 ```json
 {
-  "error": "Unauthorized",
-  "message": "Invalid or expired token"
+  "error": "Unauthorized"
 }
 ```
 

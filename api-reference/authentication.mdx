@@ -12,7 +12,7 @@ RapidCall supports two authentication methods:
 Login to get a JWT token:
 
 ```bash
-curl -X POST https://your-server.com/api/auth/login \
+curl -X POST https://api.rapidcall.ai/api/auth/login \
   -H "Content-Type: application/json" \
   -d '{"email": "you@example.com", "password": "your-password"}'
 ```
@@ -28,7 +28,7 @@ Response:
 Use the token in subsequent requests:
 ```bash
 curl -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIs..." \
-  https://your-server.com/api/agents
+  https://api.rapidcall.ai/api/agents
 ```
 
 ### 2. API Key
@@ -36,8 +36,8 @@ curl -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIs..." \
 Create an API key from the dashboard (**Settings → API Keys**) and use it as a Bearer token:
 
 ```bash
-curl -H "Authorization: Bearer rca_your_api_key_here" \
-  https://your-server.com/api/agents
+curl -H "Authorization: Bearer rck_your_api_key_here" \
+  https://api.rapidcall.ai/api/agents
 ```
 
 API keys are scoped to a workspace and never expire until revoked.
@@ -45,7 +45,7 @@ API keys are scoped to a workspace and never expire until revoked.
 ## Google OAuth
 
 ```bash
-curl -X POST https://your-server.com/api/auth/google \
+curl -X POST https://api.rapidcall.ai/api/auth/google \
   -H "Content-Type: application/json" \
   -d '{"credential": "google-id-token"}'
 ```
@@ -53,7 +53,7 @@ curl -X POST https://your-server.com/api/auth/google \
 ## Register
 
 ```bash
-curl -X POST https://your-server.com/api/auth/register \
+curl -X POST https://api.rapidcall.ai/api/auth/register \
   -H "Content-Type: application/json" \
   -d '{"email": "you@example.com", "password": "your-password", "name": "Your Name"}'
 ```
@@ -61,6 +61,6 @@ curl -X POST https://your-server.com/api/auth/register \
 ## Logout
 
 ```bash
-curl -X POST https://your-server.com/api/auth/logout \
+curl -X POST https://api.rapidcall.ai/api/auth/logout \
   -H "Authorization: Bearer YOUR_TOKEN"
 ```

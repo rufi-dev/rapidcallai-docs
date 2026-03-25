@@ -1,18 +1,18 @@
 ---
 title: Search Knowledge Base
 api: POST /api/kb/search
-description: "Semantic search across knowledge base documents"
+description: "Search across knowledge base documents"
 ---
 
 ## Request
 
 ```bash
-curl -X POST https://your-server.com/api/kb/search \
+curl -X POST https://api.rapidcall.ai/api/kb/search \
   -H "Authorization: Bearer YOUR_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
     "query": "What are your business hours?",
-    "folder_id": "folder_abc123",
+    "folderIds": ["folder_abc123"],
     "limit": 5
   }'
 ```
@@ -21,9 +21,9 @@ curl -X POST https://your-server.com/api/kb/search \
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `query` | string | ✅ | Search query (natural language) |
-| `folder_id` | string | — | Limit to specific folder |
-| `limit` | number | — | Max results (default: 5, max: 20) |
+| `query` | string | Yes | Search query (max 500 chars) |
+| `folderIds` | string[] | Yes | Folder IDs to search in (1-50 folders) |
+| `limit` | number | — | Max results (default: 5, max: 10) |
 
 ## Response
 
@@ -31,16 +31,10 @@ curl -X POST https://your-server.com/api/kb/search \
 {
   "results": [
     {
-      "doc_id": "doc_abc123",
+      "id": "doc_abc123",
       "title": "Business Hours",
-      "chunk": "We are open Monday through Friday, 9 AM to 5 PM EST. Saturday 10 AM to 2 PM. Closed Sundays and holidays.",
+      "contentText": "We are open Monday through Friday, 9 AM to 5 PM EST...",
       "score": 0.92
-    },
-    {
-      "doc_id": "doc_def456",
-      "title": "Contact Information",
-      "chunk": "Our office hours are 9-5 weekdays. For after-hours emergencies, call our on-call line at...",
-      "score": 0.78
     }
   ]
 }
@@ -48,13 +42,13 @@ curl -X POST https://your-server.com/api/kb/search \
 
 ## How It Works
 
-1. Your query is converted to a vector embedding
-2. The embedding is compared against all document chunks using cosine similarity (pgvector)
-3. The most relevant chunks are returned, ranked by score
+1. Your query is matched against document content using keyword/semantic search
+2. The most relevant documents are returned, ranked by score
+3. Results are scoped to the specified folders
 
 ## During Calls
 
-The voice agent automatically searches the knowledge base when it needs information. You don't need to call this endpoint manually for agent conversations — it happens automatically based on the agent's attached folders.
+The voice agent automatically searches the knowledge base when it needs information. You do not need to call this endpoint manually for agent conversations -- it happens automatically based on the agent's attached `knowledgeFolderIds`.
 
 This endpoint is useful for:
 - Testing what results your agent would see

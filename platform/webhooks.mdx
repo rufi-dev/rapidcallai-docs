@@ -23,28 +23,21 @@ When a call ends, RapidCall sends a `POST` request to your webhook URL:
 ```json
 {
   "event": "call.ended",
-  "call_id": "call_abc123",
-  "agent_id": "agent_xyz",
-  "agent_name": "Reception Bot",
-  "phone_number": "+15551234567",
-  "caller_number": "+15559876543",
+  "callId": "call_abc123",
+  "agentId": "agent_xyz",
+  "agentName": "Reception Bot",
+  "to": "+15551234567",
+  "fromNumber": "+15559876543",
   "direction": "inbound",
-  "duration_seconds": 145,
-  "started_at": "2025-01-15T10:30:00Z",
-  "ended_at": "2025-01-15T10:32:25Z",
+  "durationSec": 145,
+  "startedAt": 1705312200000,
+  "endedAt": 1705312345000,
   "outcome": "completed",
   "transcript": [
     { "role": "agent", "text": "Thank you for calling..." },
     { "role": "user", "text": "I'd like to book..." }
   ],
-  "recording_url": "https://your-s3-bucket/recordings/call_abc123.ogg",
-  "cost": {
-    "total": 0.23,
-    "llm": 0.08,
-    "tts": 0.05,
-    "stt": 0.02,
-    "telephony": 0.08
-  }
+  "costUsd": 0.23
 }
 ```
 

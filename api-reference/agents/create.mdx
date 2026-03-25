@@ -7,20 +7,27 @@ description: "Create a new voice agent"
 ## Request
 
 ```bash
-curl -X POST https://your-server.com/api/agents \
+curl -X POST https://api.rapidcall.ai/api/agents \
   -H "Authorization: Bearer YOUR_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
     "name": "Sales Bot",
-    "system_prompt": "You are a sales qualification agent...",
-    "voice": "onyx",
-    "tts_provider": "openai",
-    "llm_provider": "openai",
-    "llm_model": "gpt-4o",
+    "promptDraft": "You are a sales qualification agent...",
+    "welcome": {
+      "mode": "agent",
+      "aiMessageMode": "static",
+      "aiMessageText": "Hi! Thanks for calling. How can I help you today?"
+    },
+    "voice": {
+      "provider": "cartesia",
+      "model": "sonic-2",
+      "voiceId": "a0e99841-438c-4a64-b679-ae501e7d6091"
+    },
+    "llmModel": "gpt-4o",
     "language": "en",
-    "greeting": "Hi! Thanks for calling. How can I help you today?",
-    "temperature": 0.7,
-    "max_tokens": 500
+    "enabledTools": ["end_call", "transfer_call"],
+    "agentType": "inbound",
+    "role": "reception"
   }'
 ```
 
@@ -28,25 +35,73 @@ curl -X POST https://your-server.com/api/agents \
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `name` | string | ✅ | Agent display name |
-| `system_prompt` | string | ✅ | Instructions for the agent |
-| `voice` | string | — | TTS voice ID |
-| `tts_provider` | string | — | `openai`, `elevenlabs`, `deepgram`, `cartesia` |
-| `llm_provider` | string | — | `openai`, `anthropic`, `google`, `groq`, `custom` |
-| `llm_model` | string | — | Model name (e.g., `gpt-4o`, `claude-3-sonnet`) |
+| `name` | string | Yes | Agent display name (max 60 chars) |
+| `promptDraft` | string | — | Draft system prompt |
+| `promptPublished` | string | — | Published (live) system prompt |
+| `welcome` | object | — | Welcome message configuration |
+| `welcome.mode` | string | — | `"user"` (wait for user) or `"agent"` (agent speaks first) |
+| `welcome.aiMessageMode` | string | — | `"static"` (fixed text) or `"dynamic"` (LLM-generated) |
+| `welcome.aiMessageText` | string | — | Static welcome text (when mode is static) |
+| `welcome.aiDelaySeconds` | number | — | Delay before agent speaks |
+| `voice` | object | — | TTS voice configuration |
+| `voice.provider` | string | — | `"cartesia"`, `"elevenlabs"`, `"nvidia"` |
+| `voice.model` | string | — | Provider model ID |
+| `voice.voiceId` | string | — | Voice ID from the provider |
+| `llmModel` | string | — | LLM model (e.g., `gpt-4o`, `claude-sonnet-4-20250514`, `gemini-2.0-flash`) |
 | `language` | string | — | Language code (default: `en`) |
-| `greeting` | string | — | First message when call connects |
-| `temperature` | number | — | LLM temperature (0.0-1.0) |
-| `max_tokens` | number | — | Max response tokens |
-| `webhook_url` | string | — | Post-call webhook URL |
+| `enabledTools` | string[] | — | Tools the agent can use (e.g., `["end_call", "transfer_call"]`) |
+| `toolConfigs` | object | — | Per-tool configuration (transfer numbers, Cal.com keys, etc.) |
+| `backgroundAudio` | object | — | Background audio preset |
+| `backchannelEnabled` | boolean | — | Enable agent backchannel responses |
+| `knowledgeFolderIds` | string[] | — | Knowledge base folder IDs to attach |
+| `maxCallSeconds` | number | — | Max call duration (0 = unlimited) |
+| `defaultDynamicVariables` | object | — | Default values for `{{variable}}` placeholders in prompt |
+| `callSettings` | object | — | Call-level settings (voice speed, volume, etc.) |
+| `fallbackVoice` | object | — | Fallback voice config if primary fails |
+| `fallbackLlmModel` | string | — | Fallback LLM model |
+| `postCallDataExtraction` | array | — | Fields to extract from calls via AI |
+| `postCallExtractionModel` | string | — | Model to use for post-call extraction |
+| `webhookUrl` | string | — | Post-call webhook URL |
+| `agentType` | string | — | `"inbound"` or `"outbound"` |
+| `role` | string | — | `"reception"`, `"booking"`, `"sales"`, or `"followup"` |
+| `mode` | string | — | `"pipeline"`, `"native_audio"`, or `"openai_realtime"` |
 
 ## Response
 
 ```json
 {
-  "id": "agent_xyz789",
-  "name": "Sales Bot",
-  "system_prompt": "You are a sales qualification agent...",
-  "created_at": "2025-01-15T14:00:00Z"
+  "agent": {
+    "id": "agent_xyz789",
+    "workspaceId": "ws_abc",
+    "name": "Sales Bot",
+    "promptDraft": "You are a sales qualification agent...",
+    "promptPublished": "",
+    "publishedAt": null,
+    "welcome": {
+      "mode": "agent",
+      "aiMessageMode": "static",
+      "aiMessageText": "Hi! Thanks for calling. How can I help you today?"
+    },
+    "voice": {
+      "provider": "cartesia",
+      "model": "sonic-2",
+      "voiceId": "a0e99841-438c-4a64-b679-ae501e7d6091"
+    },
+    "language": "en",
+    "llmModel": "gpt-4o",
+    "enabledTools": ["end_call", "transfer_call"],
+    "toolConfigs": {},
+    "backgroundAudio": {},
+    "backchannelEnabled": false,
+    "agentType": "inbound",
+    "role": "reception",
+    "mode": "pipeline",
+    "createdAt": "2025-01-15T14:00:00Z",
+    "updatedAt": "2025-01-15T14:00:00Z"
+  }
 }
 ```
+
+<Info>
+The response wraps the agent in an `agent` key.
+</Info>

@@ -8,7 +8,7 @@ description: "Get call history for the current workspace"
 
 ```bash
 curl -H "Authorization: Bearer YOUR_TOKEN" \
-  "https://your-server.com/api/calls?limit=20&offset=0"
+  "https://api.rapidcall.ai/api/calls?limit=20&offset=0"
 ```
 
 ### Query Parameters
@@ -28,20 +28,33 @@ curl -H "Authorization: Bearer YOUR_TOKEN" \
   "calls": [
     {
       "id": "call_abc123",
-      "agent_id": "agent_xyz",
-      "agent_name": "Reception Bot",
+      "workspaceId": "ws_xyz",
+      "agentId": "agent_xyz",
+      "agentName": "Reception Bot",
+      "to": "+15559876543",
+      "fromNumber": "+15551234567",
       "direction": "inbound",
-      "caller_number": "+15551234567",
-      "phone_number": "+15559876543",
-      "status": "completed",
-      "duration_seconds": 145,
-      "cost": 0.23,
-      "started_at": "2025-01-15T10:30:00Z",
-      "ended_at": "2025-01-15T10:32:25Z",
-      "has_recording": true,
-      "has_transcript": true
+      "roomName": "room_abc123",
+      "startedAt": 1705312200000,
+      "endedAt": 1705312345000,
+      "durationSec": 145,
+      "outcome": "completed",
+      "costUsd": 0.23,
+      "transcript": [],
+      "recording": null,
+      "metrics": null,
+      "analysisStatus": null,
+      "postCallExtractionResults": [],
+      "createdAt": "2025-01-15T10:30:00Z",
+      "updatedAt": "2025-01-15T10:32:25Z"
     }
-  ],
-  "total": 156
+  ]
 }
 ```
+
+<Info>
+- The `to` field contains the dialed number, `"webtest"` for web calls, or `"demo"` for demo calls.
+- The `direction` field is derived: `"inbound"`, `"outbound"`, or `"web"`.
+- `durationSec` is computed from `startedAt`/`endedAt` if not stored directly.
+- `costUsd` is the total cost charged to the workspace for this call.
+</Info>
