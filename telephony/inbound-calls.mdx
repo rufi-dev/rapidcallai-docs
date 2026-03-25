@@ -1,0 +1,60 @@
+---
+title: Inbound Calls
+description: "Receive and handle incoming phone calls"
+---
+
+## Overview
+
+Inbound calls are phone calls initiated by a customer to your Twilio number. RapidCall automatically routes the call to the assigned agent.
+
+## Setup
+
+1. **Buy a phone number** — Go to Phone Numbers → Buy Number
+2. **Assign an agent** — Select which agent should answer calls on this number
+3. **Done** — Inbound calls are automatically handled
+
+## What Happens on an Inbound Call
+
+1. Customer dials your Twilio number
+2. Twilio hits the RapidCall webhook
+3. Server looks up the assigned agent and loads its config
+4. A LiveKit room is created and the call is bridged in
+5. The voice agent joins and speaks the greeting
+6. Real-time conversation begins
+7. When the call ends, transcript and recording are saved
+
+## Call Events
+
+RapidCall tracks these events for each call:
+
+| Event | Description |
+|-------|-------------|
+| `call.started` | Call connected, agent greeting played |
+| `call.transcript` | Real-time transcript update |
+| `call.tool_called` | Agent used a function tool |
+| `call.transferred` | Call transferred to human |
+| `call.ended` | Call completed |
+| `call.recording_ready` | Recording uploaded and available |
+
+## Handling Multiple Calls
+
+Each inbound call gets its own LiveKit room and agent instance. Multiple calls can be handled simultaneously — there's no queue by default.
+
+The number of concurrent calls depends on:
+- Your LiveKit server capacity
+- Python agent process resources
+- LLM API rate limits
+
+## No Agent Assigned
+
+If a call comes in on a number with no agent assigned, the call will ring but no one will answer. Always ensure numbers have an agent assigned.
+
+## Custom Greeting
+
+Configure the greeting in the agent settings:
+
+```text
+Thank you for calling Acme Dental. My name is Sarah, how can I help you today?
+```
+
+The greeting is spoken immediately when the call connects, before waiting for the caller to speak.

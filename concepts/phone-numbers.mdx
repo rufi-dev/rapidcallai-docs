@@ -1,0 +1,63 @@
+---
+title: Phone Numbers
+description: "Buy, manage, and assign phone numbers to agents"
+---
+
+## Overview
+
+Phone numbers connect your agents to the real phone network via Twilio. Each number can be assigned to one agent for inbound calls.
+
+## Setting Up Twilio
+
+Before buying numbers, connect your Twilio account:
+
+1. Go to **Settings → Workspace**
+2. Enter your Twilio **Account SID** and **Auth Token**
+3. RapidCall will create a Twilio subaccount for your workspace automatically
+
+<Info>
+Each workspace gets its own Twilio subaccount for billing isolation and security.
+</Info>
+
+## Buying a Number
+
+1. Go to **Phone Numbers** in the sidebar
+2. Click **Buy Number**
+3. Search by country, area code, or capabilities (voice, SMS)
+4. Select a number and confirm purchase
+
+The number is provisioned automatically with:
+- Inbound webhook pointing to your RapidCall server
+- SIP trunk connection for LiveKit audio routing
+- Status callback for call events
+
+## Assigning to an Agent
+
+After buying a number:
+
+1. Click on the number in the list
+2. Select an **Agent** from the dropdown
+3. Save — all inbound calls to this number now go to that agent
+
+## Number Management
+
+| Action | Description |
+|--------|-------------|
+| **Assign agent** | Route calls to a specific agent |
+| **Unassign** | Number rings but no agent answers |
+| **Ensure inbound** | Re-provision webhook if broken |
+| **Reprovision outbound** | Fix outbound SIP trunk |
+| **Delete** | Release the number back to Twilio |
+
+## Diagnostics
+
+If calls aren't connecting, use the built-in diagnostics:
+
+- **Inbound Diagnostics** — Checks webhook URL, SIP trunk, and LiveKit connectivity
+- **Outbound Diagnostics** — Verifies outbound trunk and caller ID settings
+
+Access via **Settings → Workspace → Diagnostics**.
+
+## Supported Countries
+
+Any country supported by Twilio — US, UK, Canada, Australia, and 100+ others. Local, toll-free, and mobile numbers available depending on the country.

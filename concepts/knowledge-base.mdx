@@ -1,0 +1,85 @@
+---
+title: Knowledge Base
+description: "Give your agents knowledge with document upload and RAG"
+---
+
+## Overview
+
+The Knowledge Base lets you upload documents that agents can reference during conversations. When a caller asks a question, the agent searches your documents and uses relevant information to answer — this is called **Retrieval-Augmented Generation (RAG)**.
+
+## How It Works
+
+1. **Upload** documents (PDF or text) to a folder
+2. Documents are **chunked** and **embedded** into vectors
+3. During a call, the agent **searches** the knowledge base for relevant chunks
+4. Matching content is injected into the LLM context as reference material
+5. The agent answers using both its training and your documents
+
+## Document Types
+
+| Format | Support |
+|--------|---------|
+| **PDF** | Full support — text extracted automatically |
+| **Plain Text** | Full support — pasted directly |
+
+## Folders
+
+Documents are organized into folders. Each agent can have one or more folders attached.
+
+### Creating a Folder
+
+1. Go to **Knowledge Base** in the sidebar
+2. Click **New Folder**
+3. Name it (e.g., "Product Catalog", "FAQ", "Policies")
+
+### Adding Documents
+
+- **Upload PDF** — Drag and drop or click to upload
+- **Add Text** — Paste text content directly with a title
+
+## Attaching to Agents
+
+1. Open an agent's configuration
+2. Under **Knowledge Base**, select one or more folders
+3. Save — the agent now has access to those documents during calls
+
+## Search
+
+The knowledge base supports semantic search:
+
+```
+POST /api/kb/search
+{
+  "query": "What are your business hours?",
+  "folder_id": "folder-uuid",
+  "limit": 5
+}
+```
+
+Returns the most relevant document chunks ranked by similarity.
+
+## Best Practices
+
+<CardGroup cols={2}>
+  <Card title="Keep documents focused" icon="file-lines">
+    Smaller, topic-specific documents work better than one massive file. Split by category.
+  </Card>
+  <Card title="Use clear language" icon="pen">
+    Write documents as if explaining to a new employee. Clear, factual content retrieves better.
+  </Card>
+  <Card title="Update regularly" icon="arrows-rotate">
+    Keep documents current. Outdated info leads to wrong answers.
+  </Card>
+  <Card title="Test with real questions" icon="comments">
+    After uploading, test with the kinds of questions callers actually ask.
+  </Card>
+</CardGroup>
+
+## Limits
+
+| Resource | Limit |
+|----------|-------|
+| Max file size (PDF) | 10 MB |
+| Max documents per folder | 100 |
+| Max folders per workspace | 50 |
+| Chunk size | ~500 tokens |

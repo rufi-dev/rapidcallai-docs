@@ -1,0 +1,89 @@
+---
+title: Voice & LLM Configuration
+description: "Configure text-to-speech voices and language models"
+---
+
+## LLM Providers
+
+RapidCall AI supports multiple LLM providers. Configure per-agent or set workspace defaults.
+
+### Supported Providers
+
+| Provider | Models | Best For |
+|----------|--------|----------|
+| **OpenAI** | GPT-4o, GPT-4o-mini, GPT-4-turbo | General purpose, best tool calling |
+| **Anthropic** | Claude 3.5 Sonnet, Claude 3 Haiku | Long conversations, nuanced responses |
+| **Google** | Gemini 1.5 Pro, Gemini 1.5 Flash | Multilingual, fast responses |
+| **Groq** | Llama 3, Mixtral | Ultra-low latency (~200ms TTFB) |
+| **Custom** | Any OpenAI-compatible endpoint | Self-hosted models, fine-tunes |
+
+### Custom Endpoints
+
+Use any OpenAI-compatible API by setting:
+
+```json
+{
+  "llm_provider": "custom",
+  "llm_base_url": "https://your-api.com/v1",
+  "llm_api_key": "your-key",
+  "llm_model": "your-model-name"
+}
+```
+
+This works with vLLM, Ollama, Together AI, Fireworks, and any OpenAI-compatible server.
+
+## Text-to-Speech (TTS)
+
+### Supported TTS Providers
+
+| Provider | Voices | Latency | Quality |
+|----------|--------|---------|---------|
+| **ElevenLabs** | 100+ voices, custom clones | ~300ms | Excellent — most natural |
+| **OpenAI TTS** | 6 voices (alloy, echo, fable, onyx, nova, shimmer) | ~200ms | Very good |
+| **Deepgram** | Multiple voices | ~150ms | Good, fastest latency |
+| **Cartesia** | Sonic voices | ~200ms | Very good |
+
+### Voice Preview
+
+Test any voice before assigning it to an agent using the **TTS Preview** feature in the dashboard. Type text, select a voice, and hear how it sounds.
+
+### Voice Settings
+
+| Setting | Description |
+|---------|-------------|
+| **Voice ID** | Specific voice identifier from the TTS provider |
+| **Speed** | Speaking rate (0.5x to 2.0x) |
+| **Stability** | Voice consistency (ElevenLabs) |
+| **Similarity Boost** | How closely to match the original voice (ElevenLabs) |
+
+## Speech-to-Text (STT)
+
+RapidCall uses **Deepgram** for real-time speech recognition:
+
+- **Streaming transcription** — Words appear as the caller speaks
+- **Language detection** — Automatic language identification
+- **Punctuation** — Automatic punctuation and formatting
+- **Endpointing** — Smart silence detection for natural turn-taking
+
+## Latency Optimization
+
+Typical end-to-end latency breakdown:
+
+| Stage | Time |
+|-------|------|
+| STT (speech to text) | ~200-400ms |
+| LLM (thinking) | ~300-800ms |
+| TTS (text to speech) | ~150-300ms |
+| **Total** | **~800-1500ms** |
+
+<Tip>
+For the lowest latency, use **Groq** (Llama 3) for LLM and **Deepgram** for TTS. This can bring total latency under 600ms.
+</Tip>
+
+### Tips for Reducing Latency
+
+1. **Use streaming** — All providers stream responses by default
+2. **Shorter prompts** — Fewer system prompt tokens = faster first response
+3. **Choose fast models** — GPT-4o-mini and Groq are significantly faster than GPT-4-turbo
+4. **Regional deployment** — Deploy LiveKit close to your Twilio region
+5. **Enable interruption** — Let callers interrupt the agent mid-sentence for natural conversation

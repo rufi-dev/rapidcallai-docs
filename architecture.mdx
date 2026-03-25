@@ -1,0 +1,110 @@
+---
+title: Architecture
+description: "How RapidCall AI components work together"
+---
+
+## System Overview
+
+RapidCall AI is a multi-service platform where each component handles a specific responsibility.
+
+```
+┌─────────────┐     ┌──────────────┐     ┌────────────────┐
+│   Client    │────▶│   Server     │────▶│  PostgreSQL    │
+│  (React)    │     │  (Node.js)   │     │  (Database)    │
+└─────────────┘     └──────┬───────┘     └────────────────┘
+                           │
+                    ┌──────┴───────┐
+                    │              │
+              ┌─────▼─────┐ ┌─────▼──────┐
+              │  LiveKit   │ │   Twilio   │
+              │  (WebRTC)  │ │ (Telephony)│
+              └─────┬──────┘ └────────────┘
+                    │
+              ┌─────▼──────┐
+              │   Python   │
+              │ Voice Agent│
+              └────────────┘
+```
+
+## Components
+
+### Server (Node.js)
+
+The central API server handling all business logic:
+
+- **Authentication** — Email/password and Google OAuth with JWT tokens
+- **Agent Management** — CRUD for agents with variants (A/B testing)
+- **Call Orchestration** — Initiates calls via Twilio, manages LiveKit rooms
+- **Billing** — Usage tracking with Lago, payments via Stripe
+- **Knowledge Base** — Document upload, PDF parsing, vector search
+- **Workspace Isolation** — Multi-tenant with per-workspace data separation
+- **Webhooks** — Post-call notifications to external systems
+- **Analytics** — Aggregated metrics, custom dashboards
+
+### Voice Agent (Python)
+
+The real-time voice processing engine:
+
+- **Speech-to-Text** — Deepgram for real-time transcription
+- **Text-to-Speech** — ElevenLabs, OpenAI TTS, Deepgram, Cartesia
+- **LLM Processing** — OpenAI, Anthropic, Google Gemini, Groq, custom endpoints
+- **Tool Calling** — Function execution during conversations
+- **Call Transfer** — SIP-based transfer to human agents
+- **Knowledge Base** — RAG queries during live calls
+- **Transcript Logging** — Real-time transcript push to server
+- **Metrics** — Latency tracking (TTFB, processing time)
+
+### Client (React)
+
+The dashboard UI built with React, Vite, and Tailwind CSS:
+
+- **Agent Management** — Create, configure, and test agents
+- **Workflow Builder** — Visual drag-and-drop conversation flow editor
+- **Call History** — Browse calls with recordings, transcripts, and evaluations
+- **Analytics** — Charts, metrics, and custom dashboards
+- **CRM** — Contact management with call history
+- **Phone Numbers** — Buy and manage Twilio numbers
+- **Outbound Campaigns** — Batch calling management
+
+### Database (PostgreSQL)
+
+Single PostgreSQL instance with workspace-scoped tables:
+
+- `workspaces` — Tenant isolation
+- `agents` / `agent_variants` — Agent configs with A/B testing
+- `calls` / `call_transcripts` — Call records and conversations
+- `phone_numbers` — Twilio number assignments
+- `kb_folders` / `kb_documents` / `kb_embeddings` — Knowledge base with vectors
+- `api_keys` — Programmatic access tokens
+- `outbound_jobs` / `outbound_logs` — Campaign management
+
+## Call Flow
+
+Here's what happens when a phone call comes in:
+
+<Steps>
+  <Step title="Twilio receives the call">
+    An incoming call hits your Twilio number. Twilio sends a webhook to the RapidCall server.
+  </Step>
+  <Step title="Server creates a LiveKit room">
+    The server identifies the assigned agent, creates a LiveKit room, and connects the Twilio call to it via SIP trunk.
+  </Step>
+  <Step title="Python agent joins the room">
+    The voice agent process joins the LiveKit room and begins the conversation with the configured greeting.
+  </Step>
+  <Step title="Real-time conversation">
+    Audio flows through LiveKit. The agent uses STT to transcribe speech, LLM to generate responses, and TTS to speak back — all in real-time with ~800-1200ms latency.
+  </Step>
+  <Step title="Call ends">
+    When the call ends, the agent pushes the final transcript, the server stores the recording (via LiveKit egress to S3), and any configured webhooks fire.
+  </Step>
+</Steps>
+
+## Ports
+
+| Service | Default Port | Description |
+|---------|-------------|-------------|
+| Client | 3000 | Dashboard UI |
+| Server | 4000 | REST API |
+| PostgreSQL | 5432 | Database |
+| LiveKit | 7880 | WebRTC signaling |

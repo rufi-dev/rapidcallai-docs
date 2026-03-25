@@ -1,0 +1,72 @@
+---
+title: Call Transfer
+description: "Transfer calls from AI agents to human agents"
+---
+
+## Overview
+
+During a conversation, the AI agent can transfer the call to a human agent or another phone number. This is useful when the caller's request requires human assistance.
+
+## How Transfer Works
+
+1. The agent decides a transfer is needed (based on conversation context or explicit request)
+2. The agent speaks a transition message (e.g., "Let me connect you with our billing department")
+3. The server initiates a SIP transfer to the target number
+4. The caller hears ringing and is connected to the human
+5. The AI agent disconnects from the call
+
+## Configuring Transfer
+
+### In Workflow Builder
+
+Use the **Transfer** node:
+- **Transfer to** — Destination phone number (E.164 format, e.g., `+15551234567`)
+- **Say before transfer** — Message the agent speaks before initiating the transfer
+
+### In Agent Prompt
+
+Include transfer instructions in the system prompt:
+
+```text
+If the caller asks to speak to a human or you can't resolve their issue,
+transfer the call to our support team at +15551234567.
+
+Before transferring, say: "Let me connect you with one of our team members."
+```
+
+### Via Tool Calling
+
+The agent can use the built-in `transfer_call` tool:
+
+```json
+{
+  "name": "transfer_call",
+  "description": "Transfer the call to a human agent",
+  "parameters": {
+    "phone_number": "+15551234567",
+    "message": "Connecting you now..."
+  }
+}
+```
+
+## Transfer Destinations
+
+| Type | Format | Example |
+|------|--------|---------|
+| Phone number | E.164 | `+15551234567` |
+| SIP endpoint | SIP URI | `sip:user@domain.com` |
+
+## Limitations
+
+<Warning>
+Call transfer is not supported in **Web Calls** (browser-based testing). It only works for actual phone calls via Twilio.
+</Warning>
+
+- Transfer requires an active Twilio connection
+- The destination number must be reachable
+- Transfer may take 2-5 seconds to complete
+- Once transferred, the AI agent cannot rejoin the call
+
+## Call Recording During Transfer
+
+The recording captures the conversation up until the transfer point. The human portion of the call after transfer is not recorded by RapidCall.

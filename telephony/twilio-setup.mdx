@@ -1,0 +1,79 @@
+---
+title: Twilio Setup
+description: "Connect your Twilio account for real phone calls"
+---
+
+## Prerequisites
+
+- A [Twilio account](https://www.twilio.com/try-twilio) (free trial works for testing)
+- Your Twilio **Account SID** and **Auth Token** (found in the Twilio Console dashboard)
+
+## Connecting Twilio
+
+<Steps>
+  <Step title="Open Workspace Settings">
+    Go to **Settings → Workspace** in the RapidCall dashboard.
+  </Step>
+  <Step title="Enter Twilio Credentials">
+    Enter your **Account SID** and **Auth Token** from the Twilio Console.
+  </Step>
+  <Step title="Create Subaccount">
+    Click **Create Subaccount**. RapidCall creates a dedicated Twilio subaccount for your workspace with:
+    - SIP trunking configured for LiveKit
+    - Webhook URLs pointing to your server
+    - Proper caller ID settings
+  </Step>
+  <Step title="Buy a Number">
+    Go to **Phone Numbers → Buy Number**. Search by country and area code, then purchase.
+  </Step>
+</Steps>
+
+## Architecture
+
+```
+Caller ──→ Twilio ──→ SIP Trunk ──→ LiveKit ──→ Voice Agent
+                 ↑                        ↓
+           Webhook to               Audio processing
+           RapidCall Server         (STT → LLM → TTS)
+```
+
+RapidCall uses **Twilio SIP Trunking** to bridge phone calls into LiveKit rooms where the voice agent processes audio in real-time.
+
+## Webhook Configuration
+
+RapidCall automatically configures these Twilio webhooks:
+
+| Webhook | URL | Purpose |
+|---------|-----|---------|
+| Inbound Voice | `{SERVER_URL}/api/twilio/inbound` | Handles incoming calls |
+| Status Callback | `{SERVER_URL}/api/twilio/status` | Call status updates |
+| LiveKit SIP | `{LIVEKIT_URL}/sip` | Audio bridging |
+
+## Troubleshooting
+
+### Calls not connecting
+
+1. Run **Inbound Diagnostics** from Settings → Workspace
+2. Check that your server URL is publicly accessible (not localhost)
+3. Verify Twilio credentials are correct
+4. Ensure the SIP trunk is provisioned (`Create Subaccount` button)
+
+### No audio
+
+1. Check LiveKit is running and accessible
+2. Verify `LIVEKIT_URL` is set to the WebSocket URL (starts with `wss://`)
+3. Run **Outbound Diagnostics** to verify SIP trunk health
+
+### Wrong agent answering
+
+- Check phone number assignment in **Phone Numbers** page
+- Each number can only be assigned to one agent
+
+## Cost
+
+Twilio charges per-minute for voice calls. Typical rates:
+- US local: ~$0.013/min inbound, ~$0.014/min outbound
+- US toll-free: ~$0.022/min inbound
+- International rates vary by country
+
+These costs are separate from RapidCall platform costs (LLM, TTS, STT usage).

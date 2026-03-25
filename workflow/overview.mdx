@@ -1,0 +1,71 @@
+---
+title: Workflow Builder
+description: "Design conversation flows with a visual drag-and-drop editor"
+---
+
+## Overview
+
+The Workflow Builder is a visual editor for designing multi-step conversation flows. Instead of writing a single system prompt, you define a series of connected **nodes** that control how the agent navigates a conversation.
+
+## When to Use Workflows
+
+| Use Case | Approach |
+|----------|----------|
+| **Simple Q&A agent** | Just use a system prompt — no workflow needed |
+| **Multi-step conversations** | Use a workflow (e.g., qualification → booking → confirmation) |
+| **Conditional branching** | Use a workflow with condition nodes |
+| **Different endings** | Use a workflow with multiple end nodes |
+
+## Canvas Overview
+
+The workflow builder has four main areas:
+
+- **Left Panel** — Node palette. Drag nodes onto the canvas or click to add.
+- **Canvas** — The main workspace where you connect nodes with edges.
+- **Right Panel** — Node settings (when a node is selected) or Test Agent panel.
+- **Top Bar** — Agent name, stats, save/publish actions.
+
+## Building a Workflow
+
+<Steps>
+  <Step title="Start with a template or blank canvas">
+    Choose a pre-built template (Receptionist, Sales, Support, Appointment) or start from scratch.
+  </Step>
+  <Step title="Add nodes">
+    Drag nodes from the left panel onto the canvas. Each node represents a step in the conversation.
+  </Step>
+  <Step title="Connect nodes">
+    Drag from a node's output handle (right side) to another node's input handle (left side) to create a connection.
+  </Step>
+  <Step title="Configure each node">
+    Click a node to open its settings in the right panel. Add prompts, keywords, phone numbers, etc.
+  </Step>
+  <Step title="Add edge labels">
+    For condition nodes, label the outgoing edges (e.g., "Yes" / "No", "Hot" / "Cold").
+  </Step>
+  <Step title="Test and publish">
+    Use the Test Agent panel to try your workflow, then click Publish when ready.
+  </Step>
+</Steps>
+
+## Import / Export
+
+Workflows can be exported as JSON and imported later:
+
+- **Export** — Downloads a `.json` file with all nodes, edges, and positions
+- **Import** — Upload a `.json` file to restore a workflow
+
+This enables sharing workflows between agents or backing up your designs.
+
+## Auto-Layout
+
+Click the **Auto-layout** button (grid icon) to automatically arrange nodes in a clean left-to-right flow using the dagre layout algorithm.
+
+## Keyboard Shortcuts
+
+| Shortcut | Action |
+|----------|--------|
+| `Delete` / `Backspace` | Delete selected node |
+| `Ctrl + Z` | Undo last action |
+| Mouse wheel | Zoom in/out |
+| Click + drag on canvas | Pan the view |

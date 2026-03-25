@@ -1,0 +1,86 @@
+---
+title: Agents
+description: "Create and configure AI voice agents"
+---
+
+## What is an Agent?
+
+An agent is an AI-powered voice assistant that handles phone conversations. Each agent has its own personality, voice, knowledge base, and behavior configured through a system prompt and various settings.
+
+## Agent Configuration
+
+| Setting | Description |
+|---------|-------------|
+| **Name** | Display name for the agent |
+| **System Prompt** | Instructions that define the agent's personality, role, and behavior |
+| **Voice** | TTS voice selection (ElevenLabs, OpenAI, Deepgram, Cartesia) |
+| **LLM Provider** | AI model for conversation (OpenAI, Anthropic, Google, Groq) |
+| **Model** | Specific model variant (gpt-4o, claude-3-sonnet, gemini-pro, etc.) |
+| **Language** | Primary conversation language |
+| **Temperature** | LLM creativity (0.0 = deterministic, 1.0 = creative) |
+| **Max Tokens** | Maximum response length |
+| **Greeting** | First message the agent speaks when a call connects |
+| **Knowledge Base** | Attached document folders for RAG-powered answers |
+| **Tools** | Custom functions the agent can call during conversation |
+| **Webhook URL** | Post-call notification endpoint |
+
+## System Prompt
+
+The system prompt is the most important configuration. It tells the agent who it is and how to behave.
+
+```text
+You are Sarah, a friendly receptionist for Acme Dental Clinic.
+
+Your responsibilities:
+- Answer questions about our services (cleanings, whitening, implants)
+- Schedule appointments (available Mon-Fri 9am-5pm)
+- Transfer urgent calls to the dentist on-call
+
+Our address: 123 Main Street, Suite 200
+Phone: (555) 123-4567
+
+Be warm, professional, and concise. If you don't know something, 
+say so honestly and offer to transfer to a human team member.
+```
+
+<Tip>
+Use the **AI Prompt Generator** to create professional system prompts. Just describe your use case and the AI will generate a detailed prompt for you.
+</Tip>
+
+## Agent Variants (A/B Testing)
+
+Each agent can have multiple **variants** — different configurations that let you test which setup performs better.
+
+- Create variants with different prompts, voices, or models
+- Traffic is distributed across active variants
+- Compare performance in analytics (call duration, sentiment, conversion)
+
+## Testing
+
+You can test agents in three ways:
+
+1. **Web Call** — Browser-based voice call directly from the dashboard (no phone number needed)
+2. **Phone Call** — Assign a phone number and call it
+3. **API** — Programmatically start a call via the REST API
+
+## Tools (Function Calling)
+
+Agents can call external functions during conversation. Define tools with:
+
+- **Name** — Function identifier
+- **Description** — What the tool does (the LLM uses this to decide when to call it)
+- **Parameters** — JSON schema for function arguments
+
+Example tools:
+- `check_availability` — Look up calendar slots
+- `book_appointment` — Create a booking
+- `lookup_account` — Search customer records
+- `transfer_call` — Transfer to a human agent
+
+## Lifecycle
+
+```
+Created → Configured → Tested → Phone Number Assigned → Live
+```
+
+Agents can be updated at any time. Changes take effect on the next call — active calls are not interrupted.

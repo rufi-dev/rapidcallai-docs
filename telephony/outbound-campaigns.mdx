@@ -1,0 +1,83 @@
+---
+title: Outbound Campaigns
+description: "Run batch outbound calling campaigns"
+---
+
+## Overview
+
+Outbound campaigns let you call a list of phone numbers automatically. The agent calls each number, has a conversation, and logs the results.
+
+## Creating a Campaign
+
+1. Go to **Outbound** in the sidebar
+2. Click **New Campaign**
+3. Configure:
+   - **Agent** — Which agent makes the calls
+   - **Phone Number** — Caller ID (must be a number you own)
+   - **Contact List** — Upload a CSV with phone numbers
+   - **Schedule** — When to run (immediately or scheduled)
+   - **Concurrency** — How many simultaneous calls
+
+## CSV Format
+
+Upload a CSV with at least a phone number column:
+
+```csv
+phone,name,company
++15551234567,John Smith,Acme Corp
++15559876543,Jane Doe,Tech Inc
++15555555555,Bob Wilson,StartupCo
+```
+
+Additional columns are available as context variables in the agent's prompt.
+
+## Campaign Management
+
+| Action | Description |
+|--------|-------------|
+| **Start** | Begin dialing the contact list |
+| **Pause** | Stop making new calls (active calls continue) |
+| **Cancel** | Stop the campaign entirely |
+| **DNC** | Add numbers to Do-Not-Call list |
+
+## Call Outcomes
+
+Each call in a campaign gets an outcome:
+
+| Outcome | Description |
+|---------|-------------|
+| `completed` | Call answered and conversation finished |
+| `no_answer` | No one picked up |
+| `busy` | Line was busy |
+| `failed` | Technical error |
+| `voicemail` | Went to voicemail |
+
+## Campaign Logs
+
+View per-call logs for each campaign:
+
+- Call duration
+- Outcome
+- Transcript summary
+- Recording link
+
+Access via **Outbound → Campaign → Logs**.
+
+## Do-Not-Call (DNC)
+
+Mark numbers as DNC to prevent future calls:
+- Per-campaign DNC from the logs view
+- API endpoint for bulk DNC management
+
+Numbers on the DNC list are automatically skipped in future campaigns.
+
+## Best Practices
+
+<Warning>
+Always comply with local regulations (TCPA in the US, GDPR in the EU). Ensure you have consent before making outbound calls.
+</Warning>
+
+- **Start small** — Test with a few numbers before large campaigns
+- **Set concurrency limits** — Don't overwhelm your infrastructure
+- **Use caller ID** — Always use a number you own for better answer rates
+- **Monitor outcomes** — High failure rates may indicate number quality issues

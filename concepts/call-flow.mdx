@@ -1,0 +1,92 @@
+---
+title: Call Flow
+description: "How calls are processed from start to finish"
+---
+
+## Inbound Call Flow
+
+```
+Caller → Twilio → RapidCall Server → LiveKit Room → Python Agent
+                                                         ↓
+                                                    STT → LLM → TTS
+                                                         ↓
+                                                    Audio → Caller
+```
+
+<Steps>
+  <Step title="Call arrives at Twilio">
+    Twilio receives the call on your purchased number and sends a webhook to the RapidCall server at `/api/twilio/inbound`.
+  </Step>
+  <Step title="Server identifies the agent">
+    The server looks up which agent is assigned to the phone number, loads the agent config (prompt, voice, LLM, tools, knowledge base).
+  </Step>
+  <Step title="LiveKit room is created">
+    A new LiveKit room is created for this call. The Twilio call is bridged into the room via SIP trunk.
+  </Step>
+  <Step title="Voice agent joins">
+    The Python voice agent process joins the LiveKit room with the agent's configuration.
+  </Step>
+  <Step title="Greeting">
+    The agent speaks its configured greeting message (e.g., "Thank you for calling Acme Dental, how can I help you?").
+  </Step>
+  <Step title="Conversation loop">
+    For each turn:
+    1. **STT** — Deepgram transcribes the caller's speech in real-time
+    2. **LLM** — The model generates a response based on context + system prompt
+    3. **TTS** — The response is converted to speech and played back
+    4. **Tools** — If the LLM calls a tool, it's executed and the result fed back
+  </Step>
+  <Step title="Call ends">
+    When either party hangs up:
+    - Transcript is saved to the database
+    - Recording is uploaded to S3 via LiveKit egress
+    - Call metrics (duration, latency, cost) are recorded
+    - Webhook fires if configured
+  </Step>
+</Steps>
+
+## Outbound Call Flow
+
+Outbound calls follow a similar flow, but RapidCall initiates the call:
+
+1. **API or Dashboard** triggers the call with a phone number to dial
+2. Server creates a LiveKit room and starts the Twilio outbound call
+3. When the callee answers, the voice agent joins and begins the conversation
+4. Same conversation loop as inbound
+
+## Web Call Flow
+
+Web calls use WebRTC directly through the browser — no Twilio involved:
+
+1. User clicks **Test** in the dashboard
+2. Client connects to a LiveKit room via WebRTC
+3. Voice agent joins the same room
+4. Audio flows directly between browser and agent
+
+<Info>
+Web calls are free — they don't use Twilio minutes. Use them for testing and development.
+</Info>
+
+## Call Recording
+
+Recordings are captured via LiveKit egress:
+
+- Audio is recorded in the LiveKit room
+- When the call ends, the recording is uploaded to S3
+- Upload takes ~30-40 seconds after call end (this is expected LiveKit behavior)
+- Recordings are accessible via the dashboard or API
+
+## Call Transfer
+
+During a conversation, the agent can transfer the call to a human:
+
+1. The LLM decides to use the `transfer_call` tool
+2. The agent says a transition message (e.g., "Let me connect you to a specialist")
+3. The server initiates a SIP transfer to the target phone number
+4. The caller is connected to the human agent
+5. The AI agent disconnects from the call
+
+Transfer destinations can be:
+- External phone numbers (E.164 format)
+- SIP endpoints
+- Other agents

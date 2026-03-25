@@ -1,0 +1,68 @@
+---
+title: Introduction
+description: "Build, deploy, and manage AI voice agents that handle phone calls at scale"
+---
+
+# Welcome to RapidCall AI
+
+RapidCall AI is an open-source platform for building AI-powered voice agents. Create intelligent phone agents that can answer calls, qualify leads, book appointments, provide customer support, and transfer calls — all with natural-sounding voices and real-time conversation.
+
+## Why RapidCall AI?
+
+<CardGroup cols={2}>
+  <Card title="2-Minute Setup" icon="rocket">
+    Go from zero to a working voice agent in under 2 minutes with Docker Compose. No complex infrastructure required.
+  </Card>
+  <Card title="Visual Workflow Builder" icon="diagram-project">
+    Design conversation flows with a drag-and-drop canvas. Connect nodes, add conditions, and deploy — no coding needed.
+  </Card>
+  <Card title="Real Phone Calls" icon="phone">
+    Full Twilio integration for inbound and outbound calling. Buy numbers, set up IVR, run outbound campaigns.
+  </Card>
+  <Card title="Multi-LLM Support" icon="brain">
+    Use OpenAI, Anthropic, Google Gemini, Groq, or any OpenAI-compatible provider. Switch models per agent.
+  </Card>
+  <Card title="Multi-Tenant" icon="building">
+    Workspaces with team members, role-based access, per-workspace billing, and isolated data.
+  </Card>
+  <Card title="Full Observability" icon="chart-line">
+    Real-time analytics, call recordings with playback, transcripts, latency metrics, and custom dashboards.
+  </Card>
+</CardGroup>
+
+## Platform Overview
+
+RapidCall AI consists of four main components:
+
+| Component | Technology | Description |
+|-----------|-----------|-------------|
+| **Server** | Node.js / Express | REST API, auth, billing, telephony orchestration |
+| **Voice Agent** | Python / LiveKit | Real-time voice processing, STT/TTS, LLM integration |
+| **Client** | React / Vite | Dashboard UI with workflow builder, analytics, CRM |
+| **Database** | PostgreSQL | Multi-tenant data storage with workspace isolation |
+
+## Key Features
+
+- **Voice Agents** — Configure personality, voice, language, LLM provider, tools, and knowledge base per agent
+- **Workflow Builder** — Visual drag-and-drop canvas with 9 node types and pre-built templates
+- **Telephony** — Twilio integration for inbound/outbound calls with call transfer support
+- **Knowledge Base** — Upload PDFs and text documents for RAG-powered conversations
+- **CRM** — Contact management with call history, tags, and notes
+- **Outbound Campaigns** — Batch calling with CSV upload, scheduling, and DNC management
+- **Analytics** — Call volume, duration, cost, latency metrics with custom dashboards
+- **Billing** — Usage-based billing with Lago/Stripe integration
+- **API Keys** — Programmatic access to all platform features
+
+## Quick Links
+
+<CardGroup cols={3}>
+  <Card title="Quickstart" icon="play" href="/quickstart">
+    Get your first agent running in 2 minutes
+  </Card>
+  <Card title="API Reference" icon="code" href="/api-reference/overview">
+    Explore the REST API endpoints
+  </Card>
+  <Card title="Workflow Builder" icon="diagram-project" href="/workflow/overview">
+    Learn the visual workflow system
+  </Card>
+</CardGroup>
