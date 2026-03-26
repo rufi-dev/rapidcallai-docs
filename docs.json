@@ -14,13 +14,14 @@
     "dark": "#2563eb"
   },
   "api": {
-    "baseUrl": "https://api.rapidcall.ai",
-    "auth": {
-      "method": "bearer",
-      "name": "Authorization"
+    "mdx": {
+      "server": "https://api.rapidcall.ai",
+      "auth": {
+        "method": "bearer"
+      }
     },
     "playground": {
-      "mode": "simple"
+      "display": "interactive"
     }
   },
   "topbarLinks": [
