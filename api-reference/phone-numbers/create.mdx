@@ -4,10 +4,6 @@ api: POST https://api.rapidcall.ai/api/phone-numbers
 description: "Purchase a new phone number or connect an existing SIP number"
 ---
 
-<ParamField header="Authorization" type="string" required>
-  Bearer token or API key. Example: `Bearer rck_your_api_key`
-</ParamField>
-
 <ParamField body="e164" type="string" required>
   Phone number in E.164 format (e.g., `"+14151234567"`).
 </ParamField>

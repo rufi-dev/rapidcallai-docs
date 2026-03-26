@@ -4,10 +4,6 @@ api: DELETE https://api.rapidcall.ai/api/calls/{id}
 description: "Delete a call record"
 ---
 
-<ParamField header="Authorization" type="string" required>
-  Bearer token or API key. Example: `Bearer rck_your_api_key`
-</ParamField>
-
 <ParamField path="id" type="string" required>
   The call ID. Example: `call_abc123`
 </ParamField>

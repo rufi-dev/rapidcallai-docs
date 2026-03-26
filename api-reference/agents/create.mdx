@@ -4,10 +4,6 @@ api: POST https://api.rapidcall.ai/api/agents
 description: "Create a new voice agent"
 ---
 
-<ParamField header="Authorization" type="string" required>
-  Bearer token or API key. Example: `Bearer rck_your_api_key`
-</ParamField>
-
 <ParamField body="name" type="string" required>
   Agent display name (max 60 characters).
 </ParamField>

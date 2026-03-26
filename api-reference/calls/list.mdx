@@ -4,10 +4,6 @@ api: GET https://api.rapidcall.ai/api/calls
 description: "Get call history for the current workspace"
 ---
 
-<ParamField header="Authorization" type="string" required>
-  Bearer token or API key. Example: `Bearer rck_your_api_key`
-</ParamField>
-
 <ParamField query="limit" type="number">
   Items per page (default: 20, max: 100).
 </ParamField>

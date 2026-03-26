@@ -4,10 +4,6 @@ api: POST https://api.rapidcall.ai/api/kb/search
 description: "Search across knowledge base documents"
 ---
 
-<ParamField header="Authorization" type="string" required>
-  Bearer token or API key. Example: `Bearer rck_your_api_key`
-</ParamField>
-
 <ParamField body="query" type="string" required>
   Search query (max 500 characters).
 </ParamField>
