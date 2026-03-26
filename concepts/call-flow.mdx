@@ -1,45 +1,34 @@
 ---
-title: Call Flow
-description: "How calls are processed from start to finish"
+title: Call History & Analytics
+description: "How calls are processed and what data is captured"
 ---
 
 ## Inbound Call Flow
 
-```
-Caller → Twilio → RapidCall Server → Voice Session → Python Agent
-                                                         ↓
-                                                    STT → LLM → TTS
-                                                         ↓
-                                                    Audio → Caller
-```
-
 <Steps>
-  <Step title="Call arrives at Twilio">
-    Twilio receives the call on your purchased number and sends a webhook to the RapidCall server at `/api/twilio/inbound`.
+  <Step title="Call arrives">
+    A customer dials your phone number. The call is routed to the RapidCall platform.
   </Step>
-  <Step title="Server identifies the agent">
-    The server looks up which agent is assigned to the phone number, loads the agent config (prompt, voice, LLM, tools, knowledge base).
+  <Step title="Agent is identified">
+    RapidCall looks up which agent is assigned to the phone number and loads the agent configuration (prompt, voice, LLM, tools, knowledge base).
   </Step>
-  <Step title="Voice session is created">
-    A new voice session is created for this call. The Twilio call is bridged into the session via SIP trunk.
-  </Step>
-  <Step title="Voice agent joins">
-    The Python voice agent process joins the voice session with the agent's configuration.
+  <Step title="Voice session starts">
+    A real-time voice session is created and the phone call is bridged in.
   </Step>
   <Step title="Greeting">
     The agent speaks its configured greeting message (e.g., "Thank you for calling Acme Dental, how can I help you?").
   </Step>
   <Step title="Conversation loop">
     For each turn:
-    1. **STT** — Deepgram transcribes the caller's speech in real-time
-    2. **LLM** — The model generates a response based on context + system prompt
-    3. **TTS** — The response is converted to speech and played back
-    4. **Tools** — If the LLM calls a tool, it's executed and the result fed back
+    1. **Speech recognition** transcribes the caller's speech in real-time
+    2. **LLM** generates a response based on context and system prompt
+    3. **Text-to-speech** converts the response to voice and plays it back
+    4. **Tools** are executed if needed (booking, transfer, lookups)
   </Step>
   <Step title="Call ends">
     When either party hangs up:
-    - Transcript is saved to the database
-    - Recording is uploaded to S3 via the recording engine
+    - Transcript is saved
+    - Recording is uploaded to storage
     - Call metrics (duration, latency, cost) are recorded
     - Webhook fires if configured
   </Step>
@@ -50,30 +39,30 @@ Caller → Twilio → RapidCall Server → Voice Session → Python Agent
 Outbound calls follow a similar flow, but RapidCall initiates the call:
 
 1. **API or Dashboard** triggers the call with a phone number to dial
-2. Server creates a voice session and starts the Twilio outbound call
+2. A voice session is created and the outbound call starts
 3. When the callee answers, the voice agent joins and begins the conversation
 4. Same conversation loop as inbound
 
 ## Web Call Flow
 
-Web calls use WebRTC directly through the browser — no Twilio involved:
+Web calls use WebRTC directly through the browser -- no phone number involved:
 
 1. User clicks **Test** in the dashboard
-2. Client connects to a voice session via WebRTC
-3. Voice agent joins the same room
+2. Browser connects to a voice session via WebRTC
+3. Voice agent joins the same session
 4. Audio flows directly between browser and agent
 
 <Info>
-Web calls are free — they don't use Twilio minutes. Use them for testing and development.
+Web calls are free -- they do not use telephony minutes. Use them for testing and development.
 </Info>
 
 ## Call Recording
 
-Recordings are captured via the recording engine:
+Recordings are captured automatically:
 
 - Audio is recorded during the voice session
-- When the call ends, the recording is uploaded to S3
-- Upload takes ~30-40 seconds after call end (this is expected behavior)
+- When the call ends, the recording is uploaded to storage
+- Upload takes approximately 30-40 seconds after call end
 - Recordings are accessible via the dashboard or API
 
 ## Call Transfer
@@ -82,11 +71,10 @@ During a conversation, the agent can transfer the call to a human:
 
 1. The LLM decides to use the `transfer_call` tool
 2. The agent says a transition message (e.g., "Let me connect you to a specialist")
-3. The server initiates a SIP transfer to the target phone number
+3. A SIP transfer is initiated to the target phone number
 4. The caller is connected to the human agent
 5. The AI agent disconnects from the call
 
 Transfer destinations can be:
 - External phone numbers (E.164 format)
 - SIP endpoints
-- Other agents

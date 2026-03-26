@@ -4,22 +4,36 @@ api: GET /api/calls
 description: "Get call history for the current workspace"
 ---
 
+<ParamField header="Authorization" type="string" required>
+  Bearer token or API key. Example: `Bearer rck_your_api_key`
+</ParamField>
+
+<ParamField query="limit" type="number">
+  Items per page (default: 20, max: 100).
+</ParamField>
+
+<ParamField query="offset" type="number">
+  Number of items to skip (default: 0).
+</ParamField>
+
+<ParamField query="agent_id" type="string">
+  Filter by agent ID.
+</ParamField>
+
+<ParamField query="from" type="string">
+  Start date filter (ISO 8601 format).
+</ParamField>
+
+<ParamField query="to" type="string">
+  End date filter (ISO 8601 format).
+</ParamField>
+
 ## Request
 
 ```bash
 curl -H "Authorization: Bearer YOUR_TOKEN" \
   "https://api.rapidcall.ai/api/calls?limit=20&offset=0"
 ```
-
-### Query Parameters
-
-| Parameter | Type | Default | Description |
-|-----------|------|---------|-------------|
-| `limit` | number | 20 | Items per page (max 100) |
-| `offset` | number | 0 | Skip N items |
-| `agent_id` | string | — | Filter by agent |
-| `from` | string | — | Start date (ISO 8601) |
-| `to` | string | — | End date (ISO 8601) |
 
 ## Response
 
@@ -54,7 +68,6 @@ curl -H "Authorization: Bearer YOUR_TOKEN" \
 
 <Info>
 - The `to` field contains the dialed number, `"webtest"` for web calls, or `"demo"` for demo calls.
-- The `direction` field is derived: `"inbound"`, `"outbound"`, or `"web"`.
-- `durationSec` is computed from `startedAt`/`endedAt` if not stored directly.
+- The `direction` field is `"inbound"`, `"outbound"`, or `"web"`.
 - `costUsd` is the total cost charged to the workspace for this call.
 </Info>

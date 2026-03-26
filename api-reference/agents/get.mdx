@@ -4,6 +4,14 @@ api: GET /api/agents/{id}
 description: "Get a specific agent by ID"
 ---
 
+<ParamField header="Authorization" type="string" required>
+  Bearer token or API key. Example: `Bearer rck_your_api_key`
+</ParamField>
+
+<ParamField path="id" type="string" required>
+  The agent ID. Example: `agent_abc123`
+</ParamField>
+
 ## Request
 
 ```bash
@@ -61,5 +69,5 @@ curl -H "Authorization: Bearer YOUR_TOKEN" \
 ```
 
 <Info>
-The response wraps the agent in an `agent` key. See the [Create Agent](/api-reference/agents/create) page for field descriptions.
+See the [Create Agent](/api-reference/agents/create) page for full field descriptions.
 </Info>

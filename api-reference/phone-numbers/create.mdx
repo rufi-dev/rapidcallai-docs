@@ -4,6 +4,38 @@ api: POST /api/phone-numbers
 description: "Purchase a new phone number or connect an existing SIP number"
 ---
 
+<ParamField header="Authorization" type="string" required>
+  Bearer token or API key. Example: `Bearer rck_your_api_key`
+</ParamField>
+
+<ParamField body="e164" type="string" required>
+  Phone number in E.164 format (e.g., `"+14151234567"`).
+</ParamField>
+
+<ParamField body="label" type="string">
+  Display name for the phone number.
+</ParamField>
+
+<ParamField body="provider" type="string">
+  `"twilio"` or `"sip"` (auto-detected from fields if not specified).
+</ParamField>
+
+<ParamField body="sipTerminationUri" type="string">
+  SIP trunk termination URI. Required for SIP provider numbers.
+</ParamField>
+
+<ParamField body="sipUsername" type="string">
+  SIP authentication username.
+</ParamField>
+
+<ParamField body="sipPassword" type="string">
+  SIP authentication password.
+</ParamField>
+
+<ParamField body="sipOutboundTransport" type="string">
+  SIP transport protocol: `"tcp"`, `"udp"`, or `"tls"` (default: `"tls"`).
+</ParamField>
+
 ## Search Available Numbers
 
 First, search for available Twilio numbers:
@@ -58,23 +90,11 @@ curl -X POST https://api.rapidcall.ai/api/phone-numbers \
     "label": "Office Line",
     "provider": "sip",
     "sipTerminationUri": "sip:trunk.your-provider.com",
-    "livekitSipUsername": "user123",
-    "livekitSipPassword": "pass456",
+    "sipUsername": "user123",
+    "sipPassword": "pass456",
     "sipOutboundTransport": "tls"
   }'
 ```
-
-### Parameters
-
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| `e164` | string | Yes | Phone number in E.164 format |
-| `label` | string | — | Display name |
-| `provider` | string | — | `"twilio"` or `"sip"` (auto-detected from fields) |
-| `sipTerminationUri` | string | For SIP | SIP trunk termination URI |
-| `livekitSipUsername` | string | — | SIP auth username |
-| `livekitSipPassword` | string | — | SIP auth password |
-| `sipOutboundTransport` | string | — | `"tcp"`, `"udp"`, or `"tls"` (default: `"tls"`) |
 
 ### Response
 

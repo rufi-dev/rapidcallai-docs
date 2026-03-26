@@ -4,6 +4,10 @@ api: GET /api/phone-numbers
 description: "Get all phone numbers in the current workspace"
 ---
 
+<ParamField header="Authorization" type="string" required>
+  Bearer token or API key. Example: `Bearer rck_your_api_key`
+</ParamField>
+
 ## Request
 
 ```bash
@@ -24,10 +28,10 @@ curl -H "Authorization: Bearer YOUR_TOKEN" \
       "provider": "twilio",
       "status": "active",
       "twilioNumberSid": "PN...",
-      "livekitInboundTrunkId": "ST_...",
-      "livekitOutboundTrunkId": "ST_...",
-      "livekitSipUsername": null,
-      "livekitSipPassword": null,
+      "inboundTrunkId": "ST_...",
+      "outboundTrunkId": "ST_...",
+      "sipUsername": null,
+      "sipPassword": null,
       "sipTerminationUri": null,
       "sipOutboundTransport": null,
       "inboundAgentId": "agent_xyz",
@@ -43,7 +47,6 @@ curl -H "Authorization: Bearer YOUR_TOKEN" \
 ```
 
 <Info>
-- The response wraps numbers in a `phoneNumbers` array.
 - `provider` is `"twilio"` for purchased numbers or `"sip"` for connected SIP trunk numbers.
 - `source` is `"purchased"` (billed monthly) or `"connected"` (BYO number).
 - `inboundAgentId` and `outboundAgentId` indicate which agents handle calls on this number.

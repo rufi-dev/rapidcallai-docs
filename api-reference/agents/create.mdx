@@ -4,6 +4,129 @@ api: POST /api/agents
 description: "Create a new voice agent"
 ---
 
+<ParamField header="Authorization" type="string" required>
+  Bearer token or API key. Example: `Bearer rck_your_api_key`
+</ParamField>
+
+<ParamField body="name" type="string" required>
+  Agent display name (max 60 characters).
+</ParamField>
+
+<ParamField body="promptDraft" type="string">
+  Draft system prompt that defines the agent's personality, role, and behavior.
+</ParamField>
+
+<ParamField body="promptPublished" type="string">
+  Published (live) system prompt. This is the prompt used during actual calls.
+</ParamField>
+
+<ParamField body="welcome" type="object">
+  Welcome message configuration.
+
+  <Expandable title="welcome properties">
+    <ParamField body="welcome.mode" type="string">
+      `"user"` (wait for user to speak first) or `"agent"` (agent speaks first).
+    </ParamField>
+    <ParamField body="welcome.aiMessageMode" type="string">
+      `"static"` (fixed text) or `"dynamic"` (LLM-generated greeting).
+    </ParamField>
+    <ParamField body="welcome.aiMessageText" type="string">
+      Static welcome text used when `aiMessageMode` is `"static"`.
+    </ParamField>
+    <ParamField body="welcome.aiDelaySeconds" type="number">
+      Delay in seconds before the agent speaks.
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+<ParamField body="voice" type="object">
+  Text-to-speech voice configuration.
+
+  <Expandable title="voice properties">
+    <ParamField body="voice.provider" type="string">
+      TTS provider: `"cartesia"`, `"elevenlabs"`, or `"openai"`.
+    </ParamField>
+    <ParamField body="voice.model" type="string">
+      Provider model ID (e.g., `"sonic-2"` for Cartesia).
+    </ParamField>
+    <ParamField body="voice.voiceId" type="string">
+      Voice ID from the provider.
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+<ParamField body="llmModel" type="string">
+  LLM model identifier. Examples: `"gpt-4o"`, `"claude-sonnet-4-20250514"`, `"gemini-2.0-flash"`.
+</ParamField>
+
+<ParamField body="language" type="string">
+  Language code (default: `"en"`).
+</ParamField>
+
+<ParamField body="enabledTools" type="string[]">
+  Tools the agent can use during conversations. Examples: `["end_call", "transfer_call"]`.
+</ParamField>
+
+<ParamField body="toolConfigs" type="object">
+  Per-tool configuration (transfer numbers, Cal.com keys, etc.).
+</ParamField>
+
+<ParamField body="backgroundAudio" type="object">
+  Background audio preset (e.g., office, cafe, restaurant).
+</ParamField>
+
+<ParamField body="backchannelEnabled" type="boolean">
+  Enable agent backchannel responses (e.g., "uh-huh", "I see").
+</ParamField>
+
+<ParamField body="knowledgeFolderIds" type="string[]">
+  Knowledge base folder IDs to attach to the agent.
+</ParamField>
+
+<ParamField body="maxCallSeconds" type="number">
+  Maximum call duration in seconds. `0` means unlimited.
+</ParamField>
+
+<ParamField body="defaultDynamicVariables" type="object">
+  Default values for `{{variable}}` placeholders in the prompt.
+</ParamField>
+
+<ParamField body="callSettings" type="object">
+  Call-level settings (voice speed, volume, etc.).
+</ParamField>
+
+<ParamField body="fallbackVoice" type="object">
+  Fallback voice config if the primary TTS provider fails.
+</ParamField>
+
+<ParamField body="fallbackLlmModel" type="string">
+  Fallback LLM model if the primary model fails.
+</ParamField>
+
+<ParamField body="postCallDataExtraction" type="array">
+  Fields to extract from calls via AI after the call ends.
+</ParamField>
+
+<ParamField body="postCallExtractionModel" type="string">
+  LLM model to use for post-call data extraction.
+</ParamField>
+
+<ParamField body="webhookUrl" type="string">
+  URL to receive post-call webhook notifications.
+</ParamField>
+
+<ParamField body="agentType" type="string">
+  `"inbound"` or `"outbound"`.
+</ParamField>
+
+<ParamField body="role" type="string">
+  Agent role: `"reception"`, `"booking"`, `"sales"`, or `"followup"`.
+</ParamField>
+
+<ParamField body="mode" type="string">
+  Agent mode: `"pipeline"`, `"native_audio"`, or `"openai_realtime"`.
+</ParamField>
+
 ## Request
 
 ```bash
@@ -30,41 +153,6 @@ curl -X POST https://api.rapidcall.ai/api/agents \
     "role": "reception"
   }'
 ```
-
-## Parameters
-
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| `name` | string | Yes | Agent display name (max 60 chars) |
-| `promptDraft` | string | — | Draft system prompt |
-| `promptPublished` | string | — | Published (live) system prompt |
-| `welcome` | object | — | Welcome message configuration |
-| `welcome.mode` | string | — | `"user"` (wait for user) or `"agent"` (agent speaks first) |
-| `welcome.aiMessageMode` | string | — | `"static"` (fixed text) or `"dynamic"` (LLM-generated) |
-| `welcome.aiMessageText` | string | — | Static welcome text (when mode is static) |
-| `welcome.aiDelaySeconds` | number | — | Delay before agent speaks |
-| `voice` | object | — | TTS voice configuration |
-| `voice.provider` | string | — | `"cartesia"`, `"elevenlabs"`, `"nvidia"` |
-| `voice.model` | string | — | Provider model ID |
-| `voice.voiceId` | string | — | Voice ID from the provider |
-| `llmModel` | string | — | LLM model (e.g., `gpt-4o`, `claude-sonnet-4-20250514`, `gemini-2.0-flash`) |
-| `language` | string | — | Language code (default: `en`) |
-| `enabledTools` | string[] | — | Tools the agent can use (e.g., `["end_call", "transfer_call"]`) |
-| `toolConfigs` | object | — | Per-tool configuration (transfer numbers, Cal.com keys, etc.) |
-| `backgroundAudio` | object | — | Background audio preset |
-| `backchannelEnabled` | boolean | — | Enable agent backchannel responses |
-| `knowledgeFolderIds` | string[] | — | Knowledge base folder IDs to attach |
-| `maxCallSeconds` | number | — | Max call duration (0 = unlimited) |
-| `defaultDynamicVariables` | object | — | Default values for `{{variable}}` placeholders in prompt |
-| `callSettings` | object | — | Call-level settings (voice speed, volume, etc.) |
-| `fallbackVoice` | object | — | Fallback voice config if primary fails |
-| `fallbackLlmModel` | string | — | Fallback LLM model |
-| `postCallDataExtraction` | array | — | Fields to extract from calls via AI |
-| `postCallExtractionModel` | string | — | Model to use for post-call extraction |
-| `webhookUrl` | string | — | Post-call webhook URL |
-| `agentType` | string | — | `"inbound"` or `"outbound"` |
-| `role` | string | — | `"reception"`, `"booking"`, `"sales"`, or `"followup"` |
-| `mode` | string | — | `"pipeline"`, `"native_audio"`, or `"openai_realtime"` |
 
 ## Response
 
@@ -101,7 +189,3 @@ curl -X POST https://api.rapidcall.ai/api/agents \
   }
 }
 ```
-
-<Info>
-The response wraps the agent in an `agent` key.
-</Info>

@@ -4,6 +4,14 @@ api: DELETE /api/agents/{id}
 description: "Delete an agent"
 ---
 
+<ParamField header="Authorization" type="string" required>
+  Bearer token or API key. Example: `Bearer rck_your_api_key`
+</ParamField>
+
+<ParamField path="id" type="string" required>
+  The agent ID. Example: `agent_abc123`
+</ParamField>
+
 ## Request
 
 ```bash

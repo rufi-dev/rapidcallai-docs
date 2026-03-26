@@ -5,6 +5,14 @@ description: "Upload and manage knowledge base documents"
 
 ## List Documents in Folder
 
+<ParamField header="Authorization" type="string" required>
+  Bearer token or API key. Example: `Bearer rck_your_api_key`
+</ParamField>
+
+<ParamField path="folderId" type="string" required>
+  The folder ID. Example: `folder_abc123`
+</ParamField>
+
 ```bash
 curl -H "Authorization: Bearer YOUR_TOKEN" \
   https://api.rapidcall.ai/api/kb/folders/folder_abc123/docs
@@ -49,6 +57,22 @@ curl -H "Authorization: Bearer YOUR_TOKEN" \
 
 ## Add Text Document
 
+<ParamField path="folderId" type="string" required>
+  The folder ID to add the document to.
+</ParamField>
+
+<ParamField body="title" type="string">
+  Document title (max 200 characters).
+</ParamField>
+
+<ParamField body="contentText" type="string" required>
+  Document content (max 2M characters).
+</ParamField>
+
+<ParamField body="label" type="string">
+  Optional label or tag (max 100 characters).
+</ParamField>
+
 ```bash
 curl -X POST https://api.rapidcall.ai/api/kb/folders/folder_abc123/text \
   -H "Authorization: Bearer YOUR_TOKEN" \
@@ -59,15 +83,15 @@ curl -X POST https://api.rapidcall.ai/api/kb/folders/folder_abc123/text \
   }'
 ```
 
-### Parameters
-
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| `title` | string | — | Document title (max 200 chars) |
-| `contentText` | string | Yes | Document content (max 2M chars) |
-| `label` | string | — | Optional label/tag (max 100 chars) |
-
 ## Upload PDF
+
+<ParamField path="folderId" type="string" required>
+  The folder ID to upload the PDF to.
+</ParamField>
+
+<ParamField body="file" type="file" required>
+  PDF file to upload (max 10MB).
+</ParamField>
 
 ```bash
 curl -X POST https://api.rapidcall.ai/api/kb/folders/folder_abc123/pdf \
@@ -75,9 +99,21 @@ curl -X POST https://api.rapidcall.ai/api/kb/folders/folder_abc123/pdf \
   -F "file=@services-catalog.pdf"
 ```
 
-The PDF is automatically parsed and the text is extracted. Max file size: 10MB.
+The PDF is automatically parsed and the text is extracted.
 
 ## Update Document
+
+<ParamField path="id" type="string" required>
+  The document ID. Example: `doc_abc123`
+</ParamField>
+
+<ParamField body="title" type="string">
+  Updated document title.
+</ParamField>
+
+<ParamField body="contentText" type="string">
+  Updated document content.
+</ParamField>
 
 ```bash
 curl -X PUT https://api.rapidcall.ai/api/kb/docs/doc_abc123 \
@@ -94,6 +130,10 @@ Only text documents (`kind: "text"`) can be updated. To update a PDF, delete and
 </Info>
 
 ## Delete Document
+
+<ParamField path="id" type="string" required>
+  The document ID. Example: `doc_abc123`
+</ParamField>
 
 ```bash
 curl -X DELETE https://api.rapidcall.ai/api/kb/docs/doc_abc123 \

@@ -59,13 +59,9 @@ Enable the `transfer_call` tool in the agent's `enabledTools` array, and configu
 | Phone number | E.164 | `+15551234567` |
 | SIP endpoint | SIP URI | `sip:user@domain.com` |
 
-## Transfer Modes
+## Transfer Behavior
 
-RapidCall supports three transfer modes depending on call origin:
-
-1. **Web/Demo calls** -- Creates a SIP outbound participant in the same room. The agent stays and monitors the transfer status.
-2. **SIP provider calls** -- Creates a SIP outbound participant, then removes the agent from the room. Caller bridges directly to the transfer target.
-3. **Twilio SIP REFER** -- Native SIP transfer protocol for Twilio-originated calls.
+RapidCall automatically selects the best transfer method depending on how the call originated (web call, SIP trunk, or Twilio). You do not need to configure this -- it is handled automatically.
 
 ## Limitations
 

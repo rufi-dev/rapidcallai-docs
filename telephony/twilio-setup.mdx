@@ -28,26 +28,11 @@ description: "Connect your Twilio account for real phone calls"
   </Step>
 </Steps>
 
-## Architecture
+## How It Connects
 
-```
-Caller ──→ Twilio ──→ SIP Trunk ──→ Voice Engine ──→ Voice Agent
-                 ↑                        ↓
-           Webhook to               Audio processing
-           RapidCall Server         (STT → LLM → TTS)
-```
+When a caller dials your Twilio number, Twilio routes the call to RapidCall via SIP trunking. RapidCall identifies the assigned agent and starts a real-time voice session where the agent handles the conversation.
 
-RapidCall uses **Twilio SIP Trunking** to bridge phone calls into voice sessions where the voice agent processes audio in real-time.
-
-## Webhook Configuration
-
-RapidCall automatically configures these Twilio webhooks:
-
-| Webhook | URL | Purpose |
-|---------|-----|---------|
-| Inbound Voice | `{SERVER_URL}/api/twilio/inbound` | Handles incoming calls |
-| Status Callback | `{SERVER_URL}/api/twilio/status` | Call status updates |
-| SIP Bridge | `{SERVER_URL}/sip` | Audio bridging |
+All webhook configuration is automatic -- RapidCall sets up the necessary Twilio webhooks when you create a subaccount.
 
 ## Troubleshooting
 
@@ -60,9 +45,9 @@ RapidCall automatically configures these Twilio webhooks:
 
 ### No audio
 
-1. Check the voice engine is running and accessible
-2. Verify the WebSocket URL is configured correctly (starts with `wss://`)
-3. Run **Outbound Diagnostics** to verify SIP trunk health
+1. Verify the voice agent service is running
+2. Run **Outbound Diagnostics** to verify SIP trunk health
+3. Check that your server is accessible from the public internet
 
 ### Wrong agent answering
 

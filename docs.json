@@ -3,10 +3,10 @@
   "theme": "maple",
   "name": "RapidCall AI",
   "appearance": {
-    "default": "dark"
-  },
-  "background": {
-    "decoration": "grid"
+    "default": "dark",
+    "background": {
+      "decoration": "grid"
+    }
   },
   "colors": {
     "primary": "#3b82f6",
@@ -32,21 +32,37 @@
   "navigation": {
     "groups": [
       {
-        "group": "Getting Started",
+        "group": "Get Started",
         "pages": [
           "introduction",
           "quickstart",
-          "architecture"
+          "how-it-works"
         ]
       },
       {
-        "group": "Core Concepts",
+        "group": "Build",
         "pages": [
           "concepts/agents",
           "concepts/voice-and-llm",
+          "concepts/knowledge-base",
+          "concepts/prompt-engineering"
+        ]
+      },
+      {
+        "group": "Deploy",
+        "pages": [
           "concepts/phone-numbers",
-          "concepts/call-flow",
-          "concepts/knowledge-base"
+          "telephony/inbound-calls",
+          "telephony/outbound-campaigns",
+          "telephony/call-transfer"
+        ]
+      },
+      {
+        "group": "Monitor",
+        "pages": [
+          "platform/webhooks",
+          "platform/analytics",
+          "concepts/call-flow"
         ]
       },
       {
@@ -56,33 +72,6 @@
           "workflow/nodes",
           "workflow/edges-and-conditions",
           "workflow/templates"
-        ]
-      },
-      {
-        "group": "Telephony",
-        "pages": [
-          "telephony/twilio-setup",
-          "telephony/inbound-calls",
-          "telephony/outbound-campaigns",
-          "telephony/call-transfer"
-        ]
-      },
-      {
-        "group": "Platform",
-        "pages": [
-          "platform/workspaces",
-          "platform/billing",
-          "platform/analytics",
-          "platform/crm",
-          "platform/webhooks"
-        ]
-      },
-      {
-        "group": "Deployment",
-        "pages": [
-          "deployment/docker",
-          "deployment/environment-variables",
-          "deployment/production"
         ]
       },
       {

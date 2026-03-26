@@ -4,6 +4,22 @@ api: POST /api/kb/search
 description: "Search across knowledge base documents"
 ---
 
+<ParamField header="Authorization" type="string" required>
+  Bearer token or API key. Example: `Bearer rck_your_api_key`
+</ParamField>
+
+<ParamField body="query" type="string" required>
+  Search query (max 500 characters).
+</ParamField>
+
+<ParamField body="folderIds" type="string[]" required>
+  Folder IDs to search in (1-50 folders).
+</ParamField>
+
+<ParamField body="limit" type="number">
+  Maximum number of results (default: 5, max: 10).
+</ParamField>
+
 ## Request
 
 ```bash
@@ -16,14 +32,6 @@ curl -X POST https://api.rapidcall.ai/api/kb/search \
     "limit": 5
   }'
 ```
-
-## Parameters
-
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| `query` | string | Yes | Search query (max 500 chars) |
-| `folderIds` | string[] | Yes | Folder IDs to search in (1-50 folders) |
-| `limit` | number | — | Max results (default: 5, max: 10) |
 
 ## Response
 
@@ -42,7 +50,7 @@ curl -X POST https://api.rapidcall.ai/api/kb/search \
 
 ## How It Works
 
-1. Your query is matched against document content using keyword/semantic search
+1. Your query is matched against document content using keyword and semantic search
 2. The most relevant documents are returned, ranked by score
 3. Results are scoped to the specified folders
 

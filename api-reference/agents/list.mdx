@@ -4,6 +4,10 @@ api: GET /api/agents
 description: "Get all agents in the current workspace"
 ---
 
+<ParamField header="Authorization" type="string" required>
+  Bearer token or API key. Example: `Bearer rck_your_api_key`
+</ParamField>
+
 ## Request
 
 ```bash

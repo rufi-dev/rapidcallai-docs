@@ -5,6 +5,10 @@ description: "Manage knowledge base folders"
 
 ## List Folders
 
+<ParamField header="Authorization" type="string" required>
+  Bearer token or API key. Example: `Bearer rck_your_api_key`
+</ParamField>
+
 ```bash
 curl -H "Authorization: Bearer YOUR_TOKEN" \
   https://api.rapidcall.ai/api/kb/folders
@@ -29,19 +33,20 @@ curl -H "Authorization: Bearer YOUR_TOKEN" \
 
 ## Create Folder
 
+<ParamField body="name" type="string" required>
+  Folder name (max 120 characters).
+</ParamField>
+
+<ParamField body="parentId" type="string">
+  Parent folder ID for nesting.
+</ParamField>
+
 ```bash
 curl -X POST https://api.rapidcall.ai/api/kb/folders \
   -H "Authorization: Bearer YOUR_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{"name": "Product FAQ"}'
 ```
-
-### Parameters
-
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| `name` | string | Yes | Folder name (max 120 chars) |
-| `parentId` | string | — | Parent folder ID for nesting |
 
 ### Response
 
@@ -60,6 +65,14 @@ curl -X POST https://api.rapidcall.ai/api/kb/folders \
 
 ## Update Folder
 
+<ParamField path="id" type="string" required>
+  The folder ID. Example: `folder_abc123`
+</ParamField>
+
+<ParamField body="name" type="string">
+  Updated folder name.
+</ParamField>
+
 ```bash
 curl -X PUT https://api.rapidcall.ai/api/kb/folders/folder_abc123 \
   -H "Authorization: Bearer YOUR_TOKEN" \
@@ -70,6 +83,10 @@ curl -X PUT https://api.rapidcall.ai/api/kb/folders/folder_abc123 \
 Returns `{ "folder": { ... } }` with the updated folder.
 
 ## Delete Folder
+
+<ParamField path="id" type="string" required>
+  The folder ID. Example: `folder_abc123`
+</ParamField>
 
 ```bash
 curl -X DELETE https://api.rapidcall.ai/api/kb/folders/folder_abc123 \

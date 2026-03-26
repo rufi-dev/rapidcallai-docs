@@ -1,8 +1,16 @@
 ---
 title: Delete Phone Number
 api: DELETE /api/phone-numbers/{id}
-description: "Release a phone number back to Twilio"
+description: "Release a phone number"
 ---
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token or API key. Example: `Bearer rck_your_api_key`
+</ParamField>
+
+<ParamField path="id" type="string" required>
+  The phone number ID. Example: `pn_abc123`
+</ParamField>
 
 ## Request
 
@@ -20,5 +28,5 @@ curl -X DELETE https://api.rapidcall.ai/api/phone-numbers/pn_abc123 \
 ```
 
 <Warning>
-This releases the number back to Twilio. The number may be purchased by someone else and cannot be recovered. Any active calls on this number will not be affected, but no new inbound calls will be routed.
+This releases the number. For Twilio numbers, the number is returned to Twilio and may be purchased by someone else. Any active calls on this number will not be affected, but no new inbound calls will be routed.
 </Warning>

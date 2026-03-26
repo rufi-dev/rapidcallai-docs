@@ -15,13 +15,12 @@ Inbound calls are phone calls initiated by a customer to your Twilio number. Rap
 
 ## What Happens on an Inbound Call
 
-1. Customer dials your Twilio number
-2. Twilio hits the RapidCall webhook
-3. Server looks up the assigned agent and loads its config
-4. A voice session is created and the call is bridged in
-5. The voice agent joins and speaks the greeting
-6. Real-time conversation begins
-7. When the call ends, transcript and recording are saved
+1. Customer dials your phone number
+2. RapidCall receives the call and looks up the assigned agent
+3. A real-time voice session is created
+4. The agent joins and speaks the greeting
+5. Real-time conversation begins
+6. When the call ends, transcript and recording are saved
 
 ## Call Events
 
@@ -41,9 +40,9 @@ RapidCall tracks these events for each call:
 Each inbound call gets its own voice session and agent instance. Multiple calls can be handled simultaneously — there's no queue by default.
 
 The number of concurrent calls depends on:
-- Your voice engine server capacity
-- Python agent process resources
+- Your infrastructure capacity
 - LLM API rate limits
+- Voice agent process resources
 
 ## No Agent Assigned
 

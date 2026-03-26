@@ -4,6 +4,52 @@ api: PUT /api/phone-numbers/{id}
 description: "Update a phone number's agent assignment and settings"
 ---
 
+<ParamField header="Authorization" type="string" required>
+  Bearer token or API key. Example: `Bearer rck_your_api_key`
+</ParamField>
+
+<ParamField path="id" type="string" required>
+  The phone number ID. Example: `pn_abc123`
+</ParamField>
+
+<ParamField body="label" type="string">
+  Display name for the phone number.
+</ParamField>
+
+<ParamField body="inboundAgentId" type="string">
+  Agent ID to handle inbound calls. Set to `null` to unassign.
+</ParamField>
+
+<ParamField body="outboundAgentId" type="string">
+  Agent ID to handle outbound calls. Set to `null` to unassign.
+</ParamField>
+
+<ParamField body="sipTerminationUri" type="string">
+  SIP trunk termination URI.
+</ParamField>
+
+<ParamField body="sipUsername" type="string">
+  SIP authentication username.
+</ParamField>
+
+<ParamField body="sipPassword" type="string">
+  SIP authentication password.
+</ParamField>
+
+<ParamField body="sipOutboundTransport" type="string">
+  SIP transport protocol: `"tcp"`, `"udp"`, or `"tls"`.
+</ParamField>
+
+<ParamField body="allowedInboundCountries" type="string[]">
+  Countries allowed for inbound calls.
+</ParamField>
+
+<ParamField body="allowedOutboundCountries" type="string[]">
+  Countries allowed for outbound calls.
+</ParamField>
+
+All fields are optional -- only provided fields are updated.
+
 ## Request
 
 ```bash
@@ -15,22 +61,6 @@ curl -X PUT https://api.rapidcall.ai/api/phone-numbers/pn_abc123 \
     "label": "Sales Line"
   }'
 ```
-
-## Parameters
-
-| Field | Type | Description |
-|-------|------|-------------|
-| `label` | string | Display name |
-| `inboundAgentId` | string/null | Agent to handle inbound calls (null to unassign) |
-| `outboundAgentId` | string/null | Agent to handle outbound calls (null to unassign) |
-| `sipTerminationUri` | string/null | SIP trunk termination URI |
-| `livekitSipUsername` | string/null | SIP auth username |
-| `livekitSipPassword` | string/null | SIP auth password |
-| `sipOutboundTransport` | string/null | `"tcp"`, `"udp"`, or `"tls"` |
-| `allowedInboundCountries` | string[] | Countries allowed for inbound calls |
-| `allowedOutboundCountries` | string[] | Countries allowed for outbound calls |
-
-All fields are optional — only provided fields are updated.
 
 ## Response
 

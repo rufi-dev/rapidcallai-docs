@@ -4,6 +4,64 @@ api: PUT /api/agents/{id}
 description: "Update an existing agent's configuration"
 ---
 
+<ParamField header="Authorization" type="string" required>
+  Bearer token or API key. Example: `Bearer rck_your_api_key`
+</ParamField>
+
+<ParamField path="id" type="string" required>
+  The agent ID. Example: `agent_abc123`
+</ParamField>
+
+<ParamField body="name" type="string">
+  Agent display name.
+</ParamField>
+
+<ParamField body="promptDraft" type="string">
+  Draft system prompt.
+</ParamField>
+
+<ParamField body="promptPublished" type="string">
+  Published (live) system prompt.
+</ParamField>
+
+<ParamField body="welcome" type="object">
+  Welcome message configuration. See [Create Agent](/api-reference/agents/create) for nested fields.
+</ParamField>
+
+<ParamField body="voice" type="object">
+  TTS voice configuration. See [Create Agent](/api-reference/agents/create) for nested fields.
+</ParamField>
+
+<ParamField body="llmModel" type="string">
+  LLM model name (e.g., `"gpt-4o"`, `"gpt-4.1"`, `"claude-sonnet-4-20250514"`).
+</ParamField>
+
+<ParamField body="language" type="string">
+  Language code.
+</ParamField>
+
+<ParamField body="enabledTools" type="string[]">
+  Enabled tool list.
+</ParamField>
+
+<ParamField body="toolConfigs" type="object">
+  Per-tool configuration.
+</ParamField>
+
+<ParamField body="webhookUrl" type="string">
+  Post-call webhook URL.
+</ParamField>
+
+<ParamField body="agentType" type="string">
+  `"inbound"` or `"outbound"`.
+</ParamField>
+
+<ParamField body="role" type="string">
+  `"reception"`, `"booking"`, `"sales"`, or `"followup"`.
+</ParamField>
+
+All fields are optional -- only provided fields are updated.
+
 ## Request
 
 ```bash
@@ -16,27 +74,6 @@ curl -X PUT https://api.rapidcall.ai/api/agents/agent_abc123 \
     "llmModel": "gpt-4.1"
   }'
 ```
-
-All fields are optional — only provided fields are updated.
-
-## Parameters
-
-Same fields as [Create Agent](/api-reference/agents/create). All fields are optional.
-
-| Field | Type | Description |
-|-------|------|-------------|
-| `name` | string | Agent display name |
-| `promptDraft` | string | Draft system prompt |
-| `promptPublished` | string | Published (live) system prompt |
-| `welcome` | object | Welcome message configuration |
-| `voice` | object | TTS voice configuration |
-| `llmModel` | string | LLM model name |
-| `language` | string | Language code |
-| `enabledTools` | string[] | Enabled tool list |
-| `toolConfigs` | object | Per-tool configuration |
-| `webhookUrl` | string | Post-call webhook URL |
-| `agentType` | string | `"inbound"` or `"outbound"` |
-| `role` | string | `"reception"`, `"booking"`, `"sales"`, or `"followup"` |
 
 ## Response
 
