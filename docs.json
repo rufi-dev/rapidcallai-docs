@@ -43,12 +43,30 @@
   "navigation": {
     "tabs": [
       {
-        "tab": "GENERAL INFORMATION",
+        "tab": "0. GENERAL INFORMATION",
         "pages": [
           "start",
           "who-is-it-for",
           "general-information",
           "theteam"
+        ]
+      },
+      {
+        "tab": "1. GETTING STARTED",
+        "pages": [
+          "untitled-pagejjjj",
+          "your-dashboard"
+        ]
+      },
+      {
+        "tab": "2. CORE CONCEPTS",
+        "pages": [
+          "how-ai-agents-work",
+          "agent-anatomy",
+          "phone-numbers",
+          "call-stages",
+          "pay-as-you-go-billing",
+          "data-pivacy"
         ]
       }
     ]

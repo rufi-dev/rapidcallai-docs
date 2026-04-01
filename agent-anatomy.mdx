@@ -1,0 +1,68 @@
+---
+title: "Agent anatomy - components"
+---
+
+Every agent is assembled from the same set of components. You configure all of them inside the agent editor.
+
+### **Prompt**
+
+The prompt is the single most important part of your agent. Written in plain language, it defines the agent’s identity, objective, how it handles common responses, how it handles edge cases, and when to end the call. Time spent here pays off directly in call quality and conversion rates.
+
+A complete prompt has five sections. Role defines the agent’s persona, tone, and core objective. Context covers dynamic data the agent uses to personalise each call — contact name, callback time, product interest — passed in from your CRM or contact list. Availability sets business hours and booking rules if the agent schedules appointments. Guidelines define ongoing behaviour: staying on topic, handling objections, keeping responses tight, managing transfers. Main Script is the step-by-step conversation flow from introduction to close, with branching logic at each stage.
+
+Optionally, you can add Handlers — named fallback responses for specific situations like the contact being busy, hostile, already dealt with elsewhere, or a booking action failing. Not mandatory, but highly effective for production agents.
+
+### **Voice Stack**
+
+The voice stack controls how the agent hears speech and generates its spoken responses. Three options:
+
+**Gemini Studio **— a complete text-to-speech stack from Google. Good for English-only agents needing reliable performance at a moderate cost (\$0.15/min). Typical latency: 700–1,200 ms. Best for receptionist, appointment, and simple outreach agents.
+
+**OpenAI Realtime **— a speech-to-speech model with very low latency (150–500 ms) and strong multilingual capability. Best for FAQ agents or situations where speed matters most. Not recommended for complex multi-step logic or agents that need to execute multiple actions reliably.
+
+**Custom Stack **— pick your own LLM and voice engine. Supports 18\+ languages and a wide range of voice providers. Recommended for complex or long-form conversations. Our H1 2026 picks: Claude Sonnet \+ Cartesia for complex prompts and multi-action workflows (~\$0.20/min), or Claude Haiku \+ Cartesia for cost-efficient outreach (~15% cheaper, latency under 1,000 ms).
+
+### **Voice Selection**
+
+Every voice in the gallery includes a preview, plus metadata on gender, accent, language, age, and tone. Listen before choosing. Your industry knowledge will tell you whether a particular voice fits your contacts better than the metadata will.
+
+If your agent handles multiple languages, separate agents per language deliver better latency and accuracy than a single multilingual agent. Supported languages include English (AU, NZ, UK, US), Spanish, French, German, Portuguese, Dutch, Polish, Russian, Arabic, Chinese, Japanese, Turkish, and more.
+
+### **Functions**
+
+Functions are what turn a conversation into a business outcome. Without them, an agent can talk. With them, it can transfer calls, send SMS, update CRM records, book calendar slots, check availability, press digits for IVR systems, and fire webhooks to your backend.
+
+An agent without functions is a chatbot on the phone. An agent with functions is an employee.
+
+### **Call Settings**
+
+These govern operational call behaviour. The key controls: who speaks first, first message content (static line or drawn from the prompt), pause before first message (prevents the agent from sounding like an autodialler), end call on silence, max call duration, ring duration, and voicemail detection (hang up or leave a message).
+
+Speech settings include voice speed, voice temperature (positivity of tone), volume, voice stability, similarity boost, response eagerness, interruption sensitivity, and backchannel sounds (‘uh-huh’, ‘yeah’) that make the conversation feel more natural.
+
+Background sound options — office, call centre, bank, café, restaurant, and more — add ambient audio that significantly increases how human the call feels.
+
+### **Knowledge Base**
+
+A reference library the agent draws on during calls to answer questions accurately. Use it for product details, pricing, FAQs, policies, opening hours — anything factual that the agent might be asked about but that does not belong in the prompt itself.
+
+Upload up to 10 files (PDF, DOC, TXT, up to 100 MB each) or paste text directly. Connect the knowledge base to your agent in the editor.
+
+| ⚠️ The knowledge base is for factual reference only. All behavioural instructions, scripts, and action logic belong in the prompt. Putting instructions in both places creates conflicting signals and degrades performance. |
+| :-- |
+
+### **Webhook**
+
+An endpoint URL you provide to receive automatic data after each call. The platform sends structured payloads for three events: call\_started, call\_ended, and call\_analyzed. This is how you connect agents to CRMs, databases, and automation tools so call data flows without manual effort.
+
+### **Security & Fallback**
+
+A reliability layer that keeps agents running when things go sideways. Dynamic Variable Defaults provide fallback values when a data field arrives empty — the agent uses the fallback instead of reading a blank. Fallback LLM activates automatically if the primary AI provider goes down. Fallback Voice takes over if the primary voice service fails. Calls never drop because of a provider outage.
+
+### **Post-Call Data Extraction**
+
+After every call, the platform analyses the transcript and extracts the data fields you have defined — outcome, callback time, interest level, whether a booking was made. This structured data is available in the Call Detail Panel and can be pushed to your CRM or reporting tools via webhook.
+
+### **Version History & Publishing**
+
+The History tab lets you roll back to any previous version of your agent. Useful when a recent change did not do what you expected and you want to revert cleanly. The Publish button pushes your latest saved changes to the live version. If your agent is already handling calls, changes do not go live until you publish.
