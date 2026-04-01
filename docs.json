@@ -100,5 +100,7 @@
         "href": "https://dashboard.rapidcall.ai/"
       }
     ]
-  }
+  },
+  "logo": "/images/rapidcall.logo.png",
+  "favicon": "/images/rapidcall.logo.small.png"
 }
