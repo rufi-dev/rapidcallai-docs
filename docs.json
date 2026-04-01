@@ -75,6 +75,27 @@
             ]
           }
         ]
+      },
+      {
+        "tab": "FINAL",
+        "groups": [
+          {
+            "group": "0. GENERAL INFORMATION",
+            "pages": [
+              "what-is-rapid-call-ai",
+              "who-is-rapidcall-ai-for",
+              "why-choose-rapidcall-ai",
+              "working-with-the-team"
+            ]
+          },
+          {
+            "group": "1. GETTING STARTED",
+            "pages": [
+              "how-the-platform-works",
+              "your-dashboard-1"
+            ]
+          }
+        ]
       }
     ]
   },

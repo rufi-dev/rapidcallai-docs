@@ -1,0 +1,37 @@
+---
+title: "Your Dashboard"
+---
+
+The dashboard is your control room. Everything lives in the left sidebar, and the navigation follows a simple logic: Build, Deploy, Monitor, System.
+
+### **Build**
+
+**Agents** — where you create and manage your AI agents. Each agent card shows its connected phone numbers, total call count, and when it was last active. You can import agents from other platforms via JSON, export any agent for backup or review, and access per-agent performance reports. Clicking an agent opens the editor where you configure the prompt, voice stack, settings, knowledge base, functions, webhooks, and security layers.
+
+**Knowledge Base** — the reference library your agents draw from during calls. Upload documents (PDF, DOC, TXT) or paste text directly. Connect a knowledge base to any agent, and it gains access to that information without you having to put it all inside the prompt.
+
+### **Deploy**
+
+**Phone Numbers** — manage the numbers connected to your account. For each number you configure inbound routing (which agent answers), outbound routing (which agent calls from), country permissions, and optional trust and verification features. The Check Config tool confirms everything is wired correctly before you go live.
+
+**Outbound Calls** — trigger individual calls manually. Select the agent, choose the originating number, enter the destination in E.164 format (\+\[country code\]\[number\]), and optionally enable recording. A jobs table below the dialler logs all recent attempts with status and outcome.
+
+### **Monitor**
+
+**Call History** — a full log of every call across all agents. Filter by date, agent, or number. Each row shows time, origin, destination, status, recording, cost, direction, duration, and latency. Click any call to open the detail panel: playable recording with download, core metrics (cost, latency, sentiment, token usage), auto-generated summary, timestamped transcript, extracted data fields, and technical logs.
+
+Call statuses you will see: User Hung Up (the contact ended it), Agent Ended (the agent completed the script), No Answer (nobody picked up), and Max Duration (the call hit your configured time limit).
+
+**Performance** — analytics across two views: General (all agents combined) and By Agent (per-agent breakdown). Key metrics include total calls, answer rate, average duration, transfer rate, voicemail rate, cost per minute, and customer sentiment. Call volume is shown as a daily bar chart.
+
+### **System**
+
+**Billing** — real-time view of your usage and payment history. The Usage tab breaks down charges by component: platform minutes, voice provider (ElevenLabs, Cartesia, Gemini), and language model (Claude, GPT, Gemini). Past invoices are listed with download links.
+
+**Settings** — workspace identity, team access, API keys, webhooks, and usage limits. Add team members with Owner or Member roles — no shared logins. Generate API keys for custom integrations. Set maximum spend or call volume caps to prevent surprises.
+
+The Workspace Switcher at the top of the sidebar lets you jump between isolated workspaces. Each workspace has its own agents, phone numbers, billing, and team. This is designed for agencies — every client gets a fully separated environment with zero data overlap.
+
+### **Help & Support**
+
+The Help button at the bottom of the sidebar connects you directly to our team. Online chat is the fastest route for quick questions. Phone lines are available at \+44 330 027 1520 (UK) and \+1 (888) 380-8407 (US). You can also book a meeting for onboarding sessions, agent review, or anything that needs a longer conversation.
