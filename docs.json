@@ -43,22 +43,6 @@
   "navigation": {
     "tabs": [
       {
-        "tab": "0. GENERAL INFORMATION",
-        "pages": [
-          "start",
-          "who-is-it-for",
-          "general-information",
-          "theteam"
-        ]
-      },
-      {
-        "tab": "1. GETTING STARTED",
-        "pages": [
-          "untitled-pagejjjj",
-          "your-dashboard"
-        ]
-      },
-      {
         "tab": "2. CORE CONCEPTS",
         "pages": [
           "how-ai-agents-work",
@@ -77,7 +61,7 @@
         ]
       },
       {
-        "tab": "FINAL",
+        "tab": "DOCUMENTATION",
         "groups": [
           {
             "group": "0. GENERAL INFORMATION",
@@ -93,6 +77,26 @@
             "pages": [
               "how-the-platform-works",
               "your-dashboard-1"
+            ]
+          },
+          {
+            "group": "2. CORE CONCEPTS",
+            "pages": [
+              "how-ai-agents-work-1",
+              "agent-prompt",
+              "voice-stack",
+              "voice-selection",
+              "functions",
+              "call-settings",
+              "knowledge-base",
+              "webhook",
+              "security-and-fallback",
+              "post-call-data-extraction",
+              "version-history-and-publishing",
+              "phone-numbers-1",
+              "call-stages-1",
+              "untitled-page",
+              "data-privacy-and-security"
             ]
           }
         ]

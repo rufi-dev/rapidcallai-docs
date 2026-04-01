@@ -1,0 +1,18 @@
+---
+title: "Pay-as-you-go billing"
+---
+
+RapidCall runs on a pure pay-as-you-go model. You pay for active call time only. No seat fees, no per-agent fees, no monthly minimums beyond your base plan. If your agents are not making calls, you are not being charged.
+
+Billing starts the moment a contact answers and stops the moment the call ends. A billable minute includes AI speech generation, speech recognition, LLM inference, and telephony connection time. Voicemails count where applicable. Charges accumulate in real time and are visible in your Billing dashboard at any point. Payments go through Stripe. Every charge generates a downloadable invoice.
+
+This model works at any scale — 10 calls a month or 10,000. You scale up when you need to, scale back when you do not, and you never pay for capacity you are not using.
+
+| **Component** | **When It’s Charged** |
+| :-- | :-- |
+| Platform minutes | Per minute of active call time |
+| Voice provider (TTS) | Per minute — varies by provider |
+| Language model (LLM) | Per minute — varies by model |
+| Phone number rental | Fixed monthly fee per number |
+| Verified Caller ID | \$10/month per number (US only) |
+| Branded Caller ID | \$0.10 per call (US only) |

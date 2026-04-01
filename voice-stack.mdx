@@ -1,0 +1,11 @@
+---
+title: "Voice stack"
+---
+
+The voice stack controls how the agent hears speech and generates its spoken responses. Three options:
+
+\*\*Gemini Studio \*\*— a complete text-to-speech stack from Google. Good for English-only agents needing reliable performance at a moderate cost (\$0.15/min). Typical latency: 700–1,200 ms. Best for receptionist, appointment, and simple outreach agents.
+
+\*\*OpenAI Realtime \*\*— a speech-to-speech model with very low latency (150–500 ms) and strong multilingual capability. Best for FAQ agents or situations where speed matters most. Not recommended for complex multi-step logic or agents that need to execute multiple actions reliably.
+
+\*\*Custom Stack \*\*— pick your own LLM and voice engine. Supports 18\+ languages and a wide range of voice providers. Recommended for complex or long-form conversations. Our H1 2026 picks: Claude Sonnet \+ Cartesia for complex prompts and multi-action workflows (~\$0.20/min), or Claude Haiku \+ Cartesia for cost-efficient outreach (~15% cheaper, latency under 1,000 ms).
