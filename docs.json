@@ -1,6 +1,6 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "willow",
+  "theme": "aspen",
   "name": "RapidCall AI",
   "appearance": {
     "default": "system",
@@ -101,6 +101,5 @@
       }
     ]
   },
-  "logo": "/images/rapidcall.logo.png",
   "favicon": "/images/rapidcall.logo.small.png"
 }
