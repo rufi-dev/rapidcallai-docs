@@ -41,39 +41,44 @@
     }
   ],
   "navigation": {
-    "dropdowns": [
+    "anchors": [
       {
-        "dropdown": "Untitled Dropdown",
-        "tabs": [
+        "anchor": "testest",
+        "dropdowns": [
           {
-            "tab": "0. GENERAL INFORMATION",
-            "pages": [
-              "start",
-              "who-is-it-for",
-              "general-information",
-              "theteam",
+            "dropdown": "Untitled Dropdown",
+            "tabs": [
               {
-                "group": "testeztex",
-                "pages": []
+                "tab": "0. GENERAL INFORMATION",
+                "pages": [
+                  "start",
+                  "who-is-it-for",
+                  "general-information",
+                  "theteam",
+                  {
+                    "group": "testeztex",
+                    "pages": []
+                  }
+                ]
+              },
+              {
+                "tab": "1. GETTING STARTED",
+                "pages": [
+                  "untitled-pagejjjj",
+                  "your-dashboard"
+                ]
+              },
+              {
+                "tab": "2. CORE CONCEPTS",
+                "pages": [
+                  "how-ai-agents-work",
+                  "agent-anatomy",
+                  "phone-numbers",
+                  "call-stages",
+                  "pay-as-you-go-billing",
+                  "data-pivacy"
+                ]
               }
-            ]
-          },
-          {
-            "tab": "1. GETTING STARTED",
-            "pages": [
-              "untitled-pagejjjj",
-              "your-dashboard"
-            ]
-          },
-          {
-            "tab": "2. CORE CONCEPTS",
-            "pages": [
-              "how-ai-agents-work",
-              "agent-anatomy",
-              "phone-numbers",
-              "call-stages",
-              "pay-as-you-go-billing",
-              "data-pivacy"
             ]
           }
         ]
