@@ -41,92 +41,14 @@
     }
   ],
   "navigation": {
-    "groups": [
+    "tabs": [
       {
-        "group": "Get Started",
+        "tab": "GENERAL INFORMATION",
         "pages": [
-          "introduction",
-          "quickstart",
-          "how-it-works"
-        ]
-      },
-      {
-        "group": "Build",
-        "pages": [
-          "concepts/agents",
-          "concepts/voice-and-llm",
-          "concepts/knowledge-base",
-          "concepts/prompt-engineering"
-        ]
-      },
-      {
-        "group": "Deploy",
-        "pages": [
-          "concepts/phone-numbers",
-          "telephony/inbound-calls",
-          "telephony/outbound-campaigns",
-          "telephony/call-transfer"
-        ]
-      },
-      {
-        "group": "Monitor",
-        "pages": [
-          "platform/webhooks",
-          "platform/analytics",
-          "concepts/call-flow"
-        ]
-      },
-      {
-        "group": "Workflow Builder",
-        "pages": [
-          "workflow/overview",
-          "workflow/nodes",
-          "workflow/edges-and-conditions",
-          "workflow/templates"
-        ]
-      },
-      {
-        "group": "API Reference",
-        "pages": [
-          "api-reference/overview",
-          "api-reference/authentication"
-        ]
-      },
-      {
-        "group": "Agents",
-        "pages": [
-          "api-reference/agents/list",
-          "api-reference/agents/create",
-          "api-reference/agents/get",
-          "api-reference/agents/update",
-          "api-reference/agents/delete",
-          "api-reference/agents/start-call"
-        ]
-      },
-      {
-        "group": "Calls",
-        "pages": [
-          "api-reference/calls/list",
-          "api-reference/calls/get",
-          "api-reference/calls/delete",
-          "api-reference/calls/recording"
-        ]
-      },
-      {
-        "group": "Phone Numbers",
-        "pages": [
-          "api-reference/phone-numbers/list",
-          "api-reference/phone-numbers/create",
-          "api-reference/phone-numbers/update",
-          "api-reference/phone-numbers/delete"
-        ]
-      },
-      {
-        "group": "Knowledge Base",
-        "pages": [
-          "api-reference/knowledge-base/folders",
-          "api-reference/knowledge-base/documents",
-          "api-reference/knowledge-base/search"
+          "aaaa",
+          "who-is-it-for",
+          "general-information",
+          "theteam"
         ]
       }
     ]
