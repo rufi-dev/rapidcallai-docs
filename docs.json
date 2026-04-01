@@ -43,24 +43,6 @@
   "navigation": {
     "tabs": [
       {
-        "tab": "2. CORE CONCEPTS",
-        "pages": [
-          "how-ai-agents-work",
-          "agent-anatomy",
-          "phone-numbers",
-          "call-stages",
-          "pay-as-you-go-billing",
-          "data-pivacy",
-          {
-            "group": "2. CORE CONCEPTS",
-            "pages": [
-              "how-ai-agents-works",
-              "agent-anatomy-components"
-            ]
-          }
-        ]
-      },
-      {
         "tab": "DOCUMENTATION",
         "groups": [
           {
