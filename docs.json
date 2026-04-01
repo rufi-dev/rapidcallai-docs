@@ -3,7 +3,7 @@
   "theme": "maple",
   "name": "RapidCall AI",
   "appearance": {
-    "default": "dark",
+    "default": "system",
     "background": {
       "decoration": "grid"
     }
@@ -88,5 +88,17 @@
   "footerSocials": {
     "github": "https://github.com/rufi-dev/rapidcallai",
     "discord": "https://discord.gg/rapidcallai"
+  },
+  "navbar": {
+    "links": [
+      {
+        "label": "HOME PAGE",
+        "href": "https://rapidcall.ai/"
+      },
+      {
+        "label": "DASHBOARD",
+        "href": "https://dashboard.rapidcall.ai/"
+      }
+    ]
   }
 }
