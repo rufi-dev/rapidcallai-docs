@@ -3,7 +3,7 @@
   "theme": "aspen",
   "name": "RapidCall AI",
   "appearance": {
-    "default": "system",
+    "default": "dark",
     "background": {
       "decoration": "grid"
     },
