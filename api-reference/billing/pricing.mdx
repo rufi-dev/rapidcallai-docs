@@ -1,0 +1,86 @@
+---
+title: "Pricing Rates"
+api: GET https://api.rapidcall.ai/api/billing/pricing
+description: "Get current pricing rates for all supported models, voice providers, and telephony."
+---
+
+Returns the current pricing schedule for all billable resources. Rates are dynamically sourced and reflect the latest pricing for each LLM model, TTS/STT provider, and telephony usage. All prices are in USD.
+
+RapidCall AI uses a pay-as-you-go model. You are charged based on actual consumption with no minimum commitments.
+
+<RequestExample>
+```bash cURL
+curl -X GET https://api.rapidcall.ai/api/billing/pricing \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+</RequestExample>
+
+<ResponseExample>
+```json 200
+{
+  "pricing": {
+    "llm": [
+      {
+        "model": "gpt-4.1",
+        "provider": "openai",
+        "inputPer1MTokens": 4.00,
+        "outputPer1MTokens": 16.00
+      },
+      {
+        "model": "gpt-4o",
+        "provider": "openai",
+        "inputPer1MTokens": 5.00,
+        "outputPer1MTokens": 15.00
+      },
+      {
+        "model": "gpt-5-mini",
+        "provider": "openai",
+        "inputPer1MTokens": 2.40,
+        "outputPer1MTokens": 9.60
+      },
+      {
+        "model": "claude-3.5-sonnet",
+        "provider": "anthropic",
+        "inputPer1MTokens": 6.00,
+        "outputPer1MTokens": 30.00
+      },
+      {
+        "model": "claude-4.6-opus",
+        "provider": "anthropic",
+        "inputPer1MTokens": 30.00,
+        "outputPer1MTokens": 150.00
+      },
+      {
+        "model": "gemini-2.0-flash",
+        "provider": "google",
+        "inputPer1MTokens": 0.20,
+        "outputPer1MTokens": 0.80
+      }
+    ],
+    "tts": [
+      {
+        "provider": "cartesia",
+        "perMinute": 0.06
+      },
+      {
+        "provider": "elevenlabs",
+        "perMinute": 0.18
+      }
+    ],
+    "stt": [
+      {
+        "provider": "deepgram",
+        "perMinute": 0.01
+      }
+    ],
+    "telephony": {
+      "perMinute": 0.015
+    },
+    "phoneNumbers": {
+      "perMonth": 3.00
+    },
+    "currency": "USD"
+  }
+}
+```
+</ResponseExample>

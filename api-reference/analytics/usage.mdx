@@ -1,0 +1,60 @@
+---
+title: "Agent Usage Summary"
+api: GET https://api.rapidcall.ai/api/agents/{id}/usage-summary
+description: "Get token and voice usage summary for a specific agent."
+---
+
+Returns a breakdown of resource consumption for an agent, including LLM token usage, TTS minutes, and STT minutes. Useful for understanding cost drivers and optimizing agent configurations.
+
+<ParamField path="id" type="string" required>
+  The unique identifier of the agent.
+</ParamField>
+
+<ParamField query="startDate" type="string">
+  Start of the date range in ISO 8601 format. Defaults to current billing period start.
+</ParamField>
+
+<ParamField query="endDate" type="string">
+  End of the date range in ISO 8601 format. Defaults to now.
+</ParamField>
+
+<RequestExample>
+```bash cURL
+curl -X GET "https://api.rapidcall.ai/api/agents/agent_9k2m4n6p/usage-summary?startDate=2026-03-01T00:00:00Z" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+</RequestExample>
+
+<ResponseExample>
+```json 200
+{
+  "agentId": "agent_9k2m4n6p",
+  "agentName": "Sales Assistant",
+  "period": {
+    "startDate": "2026-03-01T00:00:00Z",
+    "endDate": "2026-03-31T23:59:59Z"
+  },
+  "tokens": {
+    "totalInput": 1842560,
+    "totalOutput": 924180,
+    "model": "gpt-4.1",
+    "estimatedCost": 12.47
+  },
+  "tts": {
+    "totalMinutes": 287.4,
+    "provider": "cartesia",
+    "estimatedCost": 8.62
+  },
+  "stt": {
+    "totalMinutes": 412.1,
+    "provider": "deepgram",
+    "estimatedCost": 2.06
+  },
+  "telephony": {
+    "totalMinutes": 412.1,
+    "estimatedCost": 3.30
+  },
+  "totalEstimatedCost": 26.45
+}
+```
+</ResponseExample>

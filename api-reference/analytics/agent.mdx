@@ -1,0 +1,58 @@
+---
+title: "Agent Analytics"
+api: GET https://api.rapidcall.ai/api/agents/{id}/analytics
+description: "Get per-agent analytics including call volume, duration, latency, and outcome breakdown."
+---
+
+Returns analytics scoped to a specific agent. Useful for comparing agent performance, identifying issues with specific configurations, or tracking A/B test variant performance.
+
+<ParamField path="id" type="string" required>
+  The unique identifier of the agent.
+</ParamField>
+
+<ParamField query="startDate" type="string">
+  Start of the date range in ISO 8601 format. Defaults to 30 days ago.
+</ParamField>
+
+<ParamField query="endDate" type="string">
+  End of the date range in ISO 8601 format. Defaults to now.
+</ParamField>
+
+<RequestExample>
+```bash cURL
+curl -X GET "https://api.rapidcall.ai/api/agents/agent_9k2m4n6p/analytics?startDate=2026-03-01T00:00:00Z&endDate=2026-03-31T23:59:59Z" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+</RequestExample>
+
+<ResponseExample>
+```json 200
+{
+  "agentId": "agent_9k2m4n6p",
+  "agentName": "Sales Assistant",
+  "period": {
+    "startDate": "2026-03-01T00:00:00Z",
+    "endDate": "2026-03-31T23:59:59Z"
+  },
+  "totalCalls": 412,
+  "totalDuration": 68340,
+  "avgDuration": 165.9,
+  "avgLatencyMs": 590,
+  "latencyP50Ms": 540,
+  "latencyP99Ms": 1280,
+  "outcomes": {
+    "completed": 348,
+    "voicemail": 28,
+    "no_answer": 15,
+    "call_transfer": 12,
+    "user_hangup": 7,
+    "error": 2
+  },
+  "sentiment": {
+    "positive": 285,
+    "neutral": 102,
+    "negative": 25
+  }
+}
+```
+</ResponseExample>

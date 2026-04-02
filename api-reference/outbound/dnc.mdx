@@ -1,0 +1,37 @@
+---
+title: "Mark Do-Not-Call"
+api: POST https://api.rapidcall.ai/api/outbound/jobs/{id}/dnc
+description: "Add a phone number to the Do-Not-Call list for this job, preventing any future call attempts."
+---
+
+Marks a phone number as Do-Not-Call within the context of an outbound job. If the contact has pending retries, they will be cancelled. The number will also be flagged to prevent inclusion in future jobs for this workspace.
+
+<ParamField path="id" type="string" required>
+  The unique identifier of the outbound job.
+</ParamField>
+
+<ParamField body="phoneNumber" type="string" required>
+  The phone number to mark as Do-Not-Call in E.164 format (e.g., `+14155551234`).
+</ParamField>
+
+<RequestExample>
+```bash cURL
+curl -X POST https://api.rapidcall.ai/api/outbound/jobs/job_4a5b6c7d/dnc \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "phoneNumber": "+14155551234"
+  }'
+```
+</RequestExample>
+
+<ResponseExample>
+```json 200
+{
+  "phoneNumber": "+14155551234",
+  "dncStatus": "added",
+  "pendingRetriesCancelled": 1,
+  "message": "Number added to Do-Not-Call list. 1 pending retry cancelled."
+}
+```
+</ResponseExample>

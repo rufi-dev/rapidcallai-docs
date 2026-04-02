@@ -1,0 +1,56 @@
+---
+title: "Get Outbound Job"
+api: GET https://api.rapidcall.ai/api/outbound/jobs/{id}
+description: "Get detailed status and progress for a specific outbound job."
+---
+
+Returns full details for an outbound job, including per-contact status breakdown and execution progress.
+
+<ParamField path="id" type="string" required>
+  The unique identifier of the outbound job.
+</ParamField>
+
+<RequestExample>
+```bash cURL
+curl -X GET https://api.rapidcall.ai/api/outbound/jobs/job_4a5b6c7d \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+</RequestExample>
+
+<ResponseExample>
+```json 200
+{
+  "job": {
+    "id": "job_4a5b6c7d",
+    "name": "Q2 Lead Follow-Up",
+    "agentId": "agent_9k2m4n6p",
+    "agentName": "Sales Outreach Agent",
+    "phoneNumberId": "pn_3x7y9z",
+    "phoneNumber": "+18005559876",
+    "status": "in_progress",
+    "totalContacts": 150,
+    "completedContacts": 87,
+    "failedContacts": 3,
+    "pendingContacts": 60,
+    "activeContacts": 5,
+    "settings": {
+      "maxConcurrent": 5,
+      "retryAttempts": 1,
+      "scheduling": {
+        "startAt": "2026-04-01T09:00:00Z",
+        "timezone": "America/New_York"
+      }
+    },
+    "progress": {
+      "answered": 82,
+      "noAnswer": 5,
+      "busy": 1,
+      "voicemail": 2,
+      "failed": 0
+    },
+    "createdAt": "2026-04-01T08:45:00Z",
+    "startedAt": "2026-04-01T09:00:12Z"
+  }
+}
+```
+</ResponseExample>

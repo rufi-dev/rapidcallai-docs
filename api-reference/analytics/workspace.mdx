@@ -1,0 +1,58 @@
+---
+title: "Workspace Analytics"
+api: GET https://api.rapidcall.ai/api/analytics
+description: "Get workspace-level analytics including total calls, duration, latency, and outcome breakdowns."
+---
+
+Returns aggregated analytics for your entire workspace over a given date range. Includes call volume, total duration, average latency, and a breakdown of call outcomes.
+
+<ParamField query="startDate" type="string">
+  Start of the date range in ISO 8601 format. Defaults to 30 days ago.
+</ParamField>
+
+<ParamField query="endDate" type="string">
+  End of the date range in ISO 8601 format. Defaults to now.
+</ParamField>
+
+<RequestExample>
+```bash cURL
+curl -X GET "https://api.rapidcall.ai/api/analytics?startDate=2026-03-01T00:00:00Z&endDate=2026-03-31T23:59:59Z" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+</RequestExample>
+
+<ResponseExample>
+```json 200
+{
+  "period": {
+    "startDate": "2026-03-01T00:00:00Z",
+    "endDate": "2026-03-31T23:59:59Z"
+  },
+  "totalCalls": 1247,
+  "totalDuration": 187420,
+  "avgDuration": 150.2,
+  "avgLatencyMs": 680,
+  "latencyP50Ms": 620,
+  "latencyP99Ms": 1450,
+  "outcomes": {
+    "completed": 984,
+    "voicemail": 112,
+    "no_answer": 67,
+    "call_transfer": 43,
+    "user_hangup": 31,
+    "error": 10
+  },
+  "callsByType": {
+    "inbound": 832,
+    "outbound": 315,
+    "web": 78,
+    "demo": 22
+  },
+  "dailyVolume": [
+    { "date": "2026-03-01", "calls": 38 },
+    { "date": "2026-03-02", "calls": 42 },
+    { "date": "2026-03-03", "calls": 51 }
+  ]
+}
+```
+</ResponseExample>

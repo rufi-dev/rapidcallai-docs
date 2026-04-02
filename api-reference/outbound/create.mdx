@@ -1,0 +1,126 @@
+---
+title: "Create Outbound Job"
+api: POST https://api.rapidcall.ai/api/outbound/jobs
+description: "Create a new outbound calling job with a list of contacts and campaign settings."
+---
+
+Creates an outbound calling campaign. The system queues calls to each contact and dispatches them according to your concurrency and scheduling settings. Each contact can include dynamic variables that get injected into the agent's prompt.
+
+<ParamField body="agentId" type="string" required>
+  The ID of the agent to use for outbound calls.
+</ParamField>
+
+<ParamField body="phoneNumberId" type="string" required>
+  The ID of the phone number to use as the caller ID. Must be a number owned by your workspace.
+</ParamField>
+
+<ParamField body="name" type="string">
+  A friendly name for this outbound job.
+</ParamField>
+
+<ParamField body="contacts" type="array" required>
+  List of contacts to call. Each contact must include a phone number and can optionally include dynamic variables.
+
+  <Expandable title="Contact object">
+    <ParamField body="contacts[].to" type="string" required>
+      The phone number to call in E.164 format (e.g., `+14155551234`).
+    </ParamField>
+
+    <ParamField body="contacts[].dynamicVariables" type="object">
+      Key-value pairs injected into the agent prompt. Keys match `{{variable}}` placeholders in your agent's system prompt.
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+<ParamField body="settings" type="object">
+  Campaign execution settings.
+
+  <Expandable title="Settings object">
+    <ParamField body="settings.maxConcurrent" type="integer">
+      Maximum number of simultaneous outbound calls. Default: `1`. Max: `10`.
+    </ParamField>
+
+    <ParamField body="settings.retryAttempts" type="integer">
+      Number of retry attempts for unanswered calls. Default: `0`. Max: `3`.
+    </ParamField>
+
+    <ParamField body="settings.scheduling" type="object">
+      Schedule the job to run at a specific time.
+
+      <Expandable title="Scheduling object">
+        <ParamField body="settings.scheduling.startAt" type="string">
+          ISO 8601 datetime to begin placing calls.
+        </ParamField>
+
+        <ParamField body="settings.scheduling.timezone" type="string">
+          IANA timezone for the schedule (e.g., `America/New_York`).
+        </ParamField>
+      </Expandable>
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+<RequestExample>
+```bash cURL
+curl -X POST https://api.rapidcall.ai/api/outbound/jobs \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "agentId": "agent_9k2m4n6p",
+    "phoneNumberId": "pn_3x7y9z",
+    "name": "Q2 Lead Follow-Up",
+    "contacts": [
+      {
+        "to": "+14155551234",
+        "dynamicVariables": {
+          "name": "John Smith",
+          "company": "Acme Corp",
+          "plan": "Enterprise"
+        }
+      },
+      {
+        "to": "+14155555678",
+        "dynamicVariables": {
+          "name": "Jane Doe",
+          "company": "Globex Inc",
+          "plan": "Growth"
+        }
+      }
+    ],
+    "settings": {
+      "maxConcurrent": 2,
+      "retryAttempts": 1,
+      "scheduling": {
+        "startAt": "2026-04-03T09:00:00Z",
+        "timezone": "America/New_York"
+      }
+    }
+  }'
+```
+</RequestExample>
+
+<ResponseExample>
+```json 200
+{
+  "job": {
+    "id": "job_4a5b6c7d",
+    "name": "Q2 Lead Follow-Up",
+    "agentId": "agent_9k2m4n6p",
+    "phoneNumberId": "pn_3x7y9z",
+    "status": "scheduled",
+    "totalContacts": 2,
+    "completedContacts": 0,
+    "failedContacts": 0,
+    "settings": {
+      "maxConcurrent": 2,
+      "retryAttempts": 1,
+      "scheduling": {
+        "startAt": "2026-04-03T09:00:00Z",
+        "timezone": "America/New_York"
+      }
+    },
+    "createdAt": "2026-04-02T18:30:00Z"
+  }
+}
+```
+</ResponseExample>

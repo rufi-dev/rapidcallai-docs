@@ -1,0 +1,69 @@
+---
+title: "Get Job Call Logs"
+api: GET https://api.rapidcall.ai/api/outbound/jobs/{id}/logs
+description: "Get individual call logs and outcomes for an outbound job."
+---
+
+Returns the per-contact call logs for an outbound job. Each entry includes the contact's phone number, call outcome, duration, and the associated call ID for further inspection.
+
+<ParamField path="id" type="string" required>
+  The unique identifier of the outbound job.
+</ParamField>
+
+<RequestExample>
+```bash cURL
+curl -X GET https://api.rapidcall.ai/api/outbound/jobs/job_4a5b6c7d/logs \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+</RequestExample>
+
+<ResponseExample>
+```json 200
+{
+  "logs": [
+    {
+      "contactTo": "+14155551234",
+      "dynamicVariables": {
+        "name": "John Smith",
+        "company": "Acme Corp"
+      },
+      "callId": "call_8f3a2b1c4d5e",
+      "status": "completed",
+      "outcome": "completed",
+      "duration": 185,
+      "attempt": 1,
+      "startedAt": "2026-04-01T09:00:15Z",
+      "endedAt": "2026-04-01T09:03:20Z"
+    },
+    {
+      "contactTo": "+14155555678",
+      "dynamicVariables": {
+        "name": "Jane Doe",
+        "company": "Globex Inc"
+      },
+      "callId": "call_1a2b3c4d5e6f",
+      "status": "completed",
+      "outcome": "voicemail",
+      "duration": 32,
+      "attempt": 1,
+      "startedAt": "2026-04-01T09:00:18Z",
+      "endedAt": "2026-04-01T09:00:50Z"
+    },
+    {
+      "contactTo": "+14155559012",
+      "dynamicVariables": {
+        "name": "Bob Williams",
+        "company": "Initech"
+      },
+      "callId": null,
+      "status": "pending",
+      "outcome": null,
+      "duration": null,
+      "attempt": 0,
+      "startedAt": null,
+      "endedAt": null
+    }
+  ]
+}
+```
+</ResponseExample>

@@ -160,9 +160,7 @@
             "group": "Getting Started",
             "pages": [
               "api-reference/overview",
-              "api-reference/authentication",
-              "api-auth",
-              "api-keys"
+              "api-reference/authentication"
             ]
           },
           {
@@ -198,8 +196,17 @@
               "api-reference/calls/list",
               "api-reference/calls/get",
               "api-reference/calls/delete",
-              "api-reference/calls/recording",
-              "api-evaluations"
+              "api-reference/calls/recording"
+            ]
+          },
+          {
+            "group": "Call Evaluations & Labels",
+            "pages": [
+              "api-reference/evaluations/list",
+              "api-reference/evaluations/create",
+              "api-reference/evaluations/auto-evaluate",
+              "api-reference/evaluations/labels",
+              "api-reference/evaluations/export"
             ]
           },
           {
@@ -222,19 +229,30 @@
           {
             "group": "Outbound Campaigns",
             "pages": [
-              "api-outbound-jobs"
+              "api-reference/outbound/create",
+              "api-reference/outbound/list",
+              "api-reference/outbound/get",
+              "api-reference/outbound/logs",
+              "api-reference/outbound/cancel",
+              "api-reference/outbound/dnc"
             ]
           },
           {
-            "group": "Analytics & Dashboards",
+            "group": "Analytics",
             "pages": [
-              "api-analytics"
+              "api-reference/analytics/workspace",
+              "api-reference/analytics/agent",
+              "api-reference/analytics/usage"
             ]
           },
           {
             "group": "Billing",
             "pages": [
-              "api-billing"
+              "api-reference/billing/summary",
+              "api-reference/billing/invoices",
+              "api-reference/billing/usage",
+              "api-reference/billing/pricing",
+              "api-reference/billing/portal"
             ]
           },
           {

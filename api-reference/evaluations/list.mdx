@@ -1,0 +1,50 @@
+---
+title: "List Evaluations"
+api: GET https://api.rapidcall.ai/api/calls/{id}/evaluations
+description: "Retrieve all evaluations (manual and AI-generated) for a specific call."
+---
+
+Returns a list of evaluations attached to a call, including both manual evaluations added by team members and AI auto-evaluations.
+
+<ParamField path="id" type="string" required>
+  The unique identifier of the call.
+</ParamField>
+
+<RequestExample>
+```bash cURL
+curl -X GET https://api.rapidcall.ai/api/calls/call_8f3a2b1c4d5e/evaluations \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+</RequestExample>
+
+<ResponseExample>
+```json 200
+{
+  "evaluations": [
+    {
+      "id": "eval_a1b2c3d4",
+      "callId": "call_8f3a2b1c4d5e",
+      "type": "manual",
+      "score": 4,
+      "notes": "Agent handled the pricing objection well but missed an upsell opportunity.",
+      "evaluatorName": "Sarah Chen",
+      "createdAt": "2026-03-28T14:22:00Z"
+    },
+    {
+      "id": "eval_e5f6g7h8",
+      "callId": "call_8f3a2b1c4d5e",
+      "type": "auto",
+      "score": 4,
+      "notes": "The agent demonstrated strong product knowledge and maintained a professional tone throughout. The caller's main question about pricing tiers was answered accurately. Minor improvement: the agent could have proactively offered to schedule a follow-up demo.",
+      "criteria": {
+        "accuracy": 5,
+        "tone": 4,
+        "completeness": 3,
+        "compliance": 5
+      },
+      "createdAt": "2026-03-28T14:05:00Z"
+    }
+  ]
+}
+```
+</ResponseExample>

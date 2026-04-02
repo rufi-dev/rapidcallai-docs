@@ -1,0 +1,52 @@
+---
+title: "Create Evaluation"
+api: POST https://api.rapidcall.ai/api/calls/{id}/evaluations
+description: "Add a manual evaluation to a call with a score, notes, and evaluator name."
+---
+
+Attach a manual quality evaluation to a completed call. Use this to track human QA reviews alongside AI auto-evaluations.
+
+<ParamField path="id" type="string" required>
+  The unique identifier of the call to evaluate.
+</ParamField>
+
+<ParamField body="score" type="integer" required>
+  Evaluation score from 1 (poor) to 5 (excellent).
+</ParamField>
+
+<ParamField body="notes" type="string" required>
+  Free-text evaluation notes describing the assessment.
+</ParamField>
+
+<ParamField body="evaluatorName" type="string" required>
+  Name of the person performing the evaluation.
+</ParamField>
+
+<RequestExample>
+```bash cURL
+curl -X POST https://api.rapidcall.ai/api/calls/call_8f3a2b1c4d5e/evaluations \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "score": 4,
+    "notes": "Agent handled the pricing objection well but missed an upsell opportunity.",
+    "evaluatorName": "Sarah Chen"
+  }'
+```
+</RequestExample>
+
+<ResponseExample>
+```json 200
+{
+  "evaluation": {
+    "id": "eval_a1b2c3d4",
+    "callId": "call_8f3a2b1c4d5e",
+    "type": "manual",
+    "score": 4,
+    "notes": "Agent handled the pricing objection well but missed an upsell opportunity.",
+    "evaluatorName": "Sarah Chen",
+    "createdAt": "2026-03-28T14:22:00Z"
+  }
+}
+```
+</ResponseExample>

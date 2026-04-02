@@ -1,0 +1,87 @@
+---
+title: "Export Call Data"
+api: GET https://api.rapidcall.ai/api/calls/{id}/export
+description: "Export complete call data including transcript, metrics, and recording URL."
+---
+
+Returns a comprehensive export of all data associated with a call. Includes the full transcript, call metrics, cost breakdown, recording URL, evaluations, and labels. Useful for compliance archiving or integration with external analytics tools.
+
+<ParamField path="id" type="string" required>
+  The unique identifier of the call to export.
+</ParamField>
+
+<RequestExample>
+```bash cURL
+curl -X GET https://api.rapidcall.ai/api/calls/call_8f3a2b1c4d5e/export \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+</RequestExample>
+
+<ResponseExample>
+```json 200
+{
+  "call": {
+    "id": "call_8f3a2b1c4d5e",
+    "agentId": "agent_9k2m4n6p",
+    "agentName": "Sales Assistant",
+    "type": "inbound",
+    "from": "+14155551234",
+    "to": "+18005559876",
+    "outcome": "completed",
+    "startedAt": "2026-03-28T13:58:12Z",
+    "endedAt": "2026-03-28T14:04:47Z",
+    "duration": 395
+  },
+  "transcript": [
+    {
+      "role": "agent",
+      "text": "Hello! Thanks for calling Acme Corp. How can I help you today?",
+      "timestamp": 0.0
+    },
+    {
+      "role": "user",
+      "text": "Hi, I'm interested in your enterprise pricing.",
+      "timestamp": 2.4
+    },
+    {
+      "role": "agent",
+      "text": "Great question! Our enterprise plan starts at $499 per month and includes unlimited agents, priority support, and custom integrations. Would you like me to walk you through the details?",
+      "timestamp": 4.1
+    }
+  ],
+  "metrics": {
+    "totalTokens": 2847,
+    "inputTokens": 1523,
+    "outputTokens": 1324,
+    "model": "gpt-4.1",
+    "ttsProvider": "cartesia",
+    "sttProvider": "deepgram",
+    "ttsDuration": 142.5,
+    "latencyP50": 620,
+    "latencyP99": 1450
+  },
+  "cost": {
+    "total": 0.0387,
+    "llm": 0.0215,
+    "tts": 0.0114,
+    "stt": 0.0028,
+    "telephony": 0.0030
+  },
+  "recordingUrl": "https://rapidcall-recordings.s3.eu-north-1.amazonaws.com/call_8f3a2b1c4d5e.mp3",
+  "analysis": {
+    "summary": "Inbound call about enterprise pricing. Caller expressed interest in custom integrations. Agent provided pricing details and scheduled a follow-up demo.",
+    "sentiment": "positive",
+    "isVoicemail": false
+  },
+  "evaluations": [
+    {
+      "id": "eval_a1b2c3d4",
+      "type": "manual",
+      "score": 4,
+      "evaluatorName": "Sarah Chen"
+    }
+  ],
+  "labels": ["high-value", "enterprise"]
+}
+```
+</ResponseExample>

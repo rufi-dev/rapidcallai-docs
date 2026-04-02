@@ -1,0 +1,58 @@
+---
+title: "List Outbound Jobs"
+api: GET https://api.rapidcall.ai/api/outbound/jobs
+description: "List all outbound calling jobs in your workspace."
+---
+
+Returns a list of all outbound jobs for the current workspace, ordered by creation date (newest first). Includes status, progress counters, and settings for each job.
+
+<RequestExample>
+```bash cURL
+curl -X GET https://api.rapidcall.ai/api/outbound/jobs \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+</RequestExample>
+
+<ResponseExample>
+```json 200
+{
+  "jobs": [
+    {
+      "id": "job_4a5b6c7d",
+      "name": "Q2 Lead Follow-Up",
+      "agentId": "agent_9k2m4n6p",
+      "agentName": "Sales Outreach Agent",
+      "phoneNumberId": "pn_3x7y9z",
+      "status": "in_progress",
+      "totalContacts": 150,
+      "completedContacts": 87,
+      "failedContacts": 3,
+      "settings": {
+        "maxConcurrent": 5,
+        "retryAttempts": 1
+      },
+      "createdAt": "2026-04-01T09:00:00Z",
+      "startedAt": "2026-04-01T09:00:12Z"
+    },
+    {
+      "id": "job_8e9f0a1b",
+      "name": "March Renewal Reminders",
+      "agentId": "agent_2j4l6n8p",
+      "agentName": "Renewals Agent",
+      "phoneNumberId": "pn_3x7y9z",
+      "status": "completed",
+      "totalContacts": 42,
+      "completedContacts": 40,
+      "failedContacts": 2,
+      "settings": {
+        "maxConcurrent": 3,
+        "retryAttempts": 2
+      },
+      "createdAt": "2026-03-25T14:00:00Z",
+      "startedAt": "2026-03-25T14:00:08Z",
+      "completedAt": "2026-03-25T16:45:33Z"
+    }
+  ]
+}
+```
+</ResponseExample>

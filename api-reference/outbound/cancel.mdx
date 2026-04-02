@@ -1,0 +1,37 @@
+---
+title: "Cancel Outbound Job"
+api: POST https://api.rapidcall.ai/api/outbound/jobs/{id}/cancel
+description: "Cancel a running or scheduled outbound job. Active calls will complete but no new calls will be placed."
+---
+
+Cancels an outbound job. Any calls currently in progress will be allowed to finish, but no new calls will be dispatched. Contacts that have not yet been called will be marked as cancelled.
+
+This action cannot be undone. To resume outreach to remaining contacts, create a new job.
+
+<ParamField path="id" type="string" required>
+  The unique identifier of the outbound job to cancel.
+</ParamField>
+
+<RequestExample>
+```bash cURL
+curl -X POST https://api.rapidcall.ai/api/outbound/jobs/job_4a5b6c7d/cancel \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+</RequestExample>
+
+<ResponseExample>
+```json 200
+{
+  "job": {
+    "id": "job_4a5b6c7d",
+    "name": "Q2 Lead Follow-Up",
+    "status": "cancelled",
+    "totalContacts": 150,
+    "completedContacts": 87,
+    "failedContacts": 3,
+    "cancelledContacts": 60,
+    "cancelledAt": "2026-04-02T11:15:00Z"
+  }
+}
+```
+</ResponseExample>

@@ -1,0 +1,42 @@
+---
+title: "Billing Summary"
+api: GET https://api.rapidcall.ai/api/billing/summary
+description: "Get current billing period summary including month-to-date total, ongoing charges, and phone number costs."
+---
+
+Returns a summary of the current billing period for your workspace. Includes the running total for the month, any in-progress call charges, amounts already paid, and phone number subscription costs.
+
+<RequestExample>
+```bash cURL
+curl -X GET https://api.rapidcall.ai/api/billing/summary \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+</RequestExample>
+
+<ResponseExample>
+```json 200
+{
+  "billing": {
+    "plan": "pay_as_you_go",
+    "periodStart": "2026-04-01T00:00:00Z",
+    "periodEnd": "2026-04-30T23:59:59Z",
+    "monthToDateTotal": 142.87,
+    "ongoingTotal": 1.24,
+    "paidThisPeriod": 0.00,
+    "phoneNumbers": {
+      "count": 3,
+      "monthlyCost": 9.00
+    },
+    "breakdown": {
+      "llm": 78.42,
+      "tts": 34.15,
+      "stt": 11.20,
+      "telephony": 10.10,
+      "phoneNumbers": 9.00
+    },
+    "hasPaymentMethod": true,
+    "currency": "USD"
+  }
+}
+```
+</ResponseExample>

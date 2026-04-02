@@ -1,0 +1,62 @@
+---
+title: "List Invoices"
+api: GET https://api.rapidcall.ai/api/billing/invoices
+description: "List all invoices for your workspace with status, amount, and payment details."
+---
+
+Returns a list of invoices for your workspace. Invoices are generated monthly by Lago and synced to Stripe for payment collection.
+
+<RequestExample>
+```bash cURL
+curl -X GET https://api.rapidcall.ai/api/billing/invoices \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+</RequestExample>
+
+<ResponseExample>
+```json 200
+{
+  "invoices": [
+    {
+      "id": "inv_2a3b4c5d",
+      "lagoId": "lago_inv_9x8y7z",
+      "number": "RC-2026-0042",
+      "status": "paid",
+      "totalAmount": 287.54,
+      "currency": "USD",
+      "issuedAt": "2026-04-01T00:00:00Z",
+      "paidAt": "2026-04-01T06:12:00Z",
+      "periodStart": "2026-03-01T00:00:00Z",
+      "periodEnd": "2026-03-31T23:59:59Z",
+      "stripeInvoiceUrl": "https://invoice.stripe.com/i/acct_1abc/inv_xyz"
+    },
+    {
+      "id": "inv_6e7f8g9h",
+      "lagoId": "lago_inv_5w4v3u",
+      "number": "RC-2026-0031",
+      "status": "paid",
+      "totalAmount": 198.22,
+      "currency": "USD",
+      "issuedAt": "2026-03-01T00:00:00Z",
+      "paidAt": "2026-03-01T08:45:00Z",
+      "periodStart": "2026-02-01T00:00:00Z",
+      "periodEnd": "2026-02-28T23:59:59Z",
+      "stripeInvoiceUrl": "https://invoice.stripe.com/i/acct_1abc/inv_abc"
+    },
+    {
+      "id": "inv_0i1j2k3l",
+      "lagoId": "lago_inv_2t1s0r",
+      "number": "RC-2026-0015",
+      "status": "draft",
+      "totalAmount": 142.87,
+      "currency": "USD",
+      "issuedAt": null,
+      "paidAt": null,
+      "periodStart": "2026-04-01T00:00:00Z",
+      "periodEnd": "2026-04-30T23:59:59Z",
+      "stripeInvoiceUrl": null
+    }
+  ]
+}
+```
+</ResponseExample>

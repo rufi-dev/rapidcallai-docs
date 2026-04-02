@@ -1,0 +1,41 @@
+---
+title: "Auto-Evaluate Call"
+api: POST https://api.rapidcall.ai/api/calls/{id}/auto-evaluate
+description: "Trigger an AI-powered evaluation of a completed call using the call transcript."
+---
+
+Runs an AI evaluation on the call transcript, scoring the agent's performance across multiple criteria. The evaluation is generated using the call's full transcript and stored alongside any manual evaluations.
+
+Auto-evaluation analyzes accuracy, tone, completeness, and compliance, producing both individual criterion scores and an overall score.
+
+<ParamField path="id" type="string" required>
+  The unique identifier of the call to auto-evaluate. The call must be completed and have a transcript available.
+</ParamField>
+
+<RequestExample>
+```bash cURL
+curl -X POST https://api.rapidcall.ai/api/calls/call_8f3a2b1c4d5e/auto-evaluate \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+</RequestExample>
+
+<ResponseExample>
+```json 200
+{
+  "evaluation": {
+    "id": "eval_e5f6g7h8",
+    "callId": "call_8f3a2b1c4d5e",
+    "type": "auto",
+    "score": 4,
+    "notes": "The agent demonstrated strong product knowledge and maintained a professional tone throughout. The caller's main question about pricing tiers was answered accurately. Minor improvement: the agent could have proactively offered to schedule a follow-up demo.",
+    "criteria": {
+      "accuracy": 5,
+      "tone": 4,
+      "completeness": 3,
+      "compliance": 5
+    },
+    "createdAt": "2026-03-28T14:05:00Z"
+  }
+}
+```
+</ResponseExample>

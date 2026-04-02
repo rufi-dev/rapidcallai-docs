@@ -1,0 +1,69 @@
+---
+title: "Recent Usage"
+api: GET https://api.rapidcall.ai/api/billing/recent-usage
+description: "Get per-call cost breakdown for recent calls in the current billing period."
+---
+
+Returns a list of recent calls with their individual cost breakdowns. Each entry shows the LLM, TTS, STT, and telephony costs for a single call. Useful for auditing charges and understanding per-call economics.
+
+<RequestExample>
+```bash cURL
+curl -X GET https://api.rapidcall.ai/api/billing/recent-usage \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+</RequestExample>
+
+<ResponseExample>
+```json 200
+{
+  "usage": [
+    {
+      "callId": "call_8f3a2b1c4d5e",
+      "agentName": "Sales Assistant",
+      "type": "inbound",
+      "duration": 185,
+      "model": "gpt-4.1",
+      "cost": {
+        "total": 0.0387,
+        "llm": 0.0215,
+        "tts": 0.0114,
+        "stt": 0.0028,
+        "telephony": 0.0030
+      },
+      "createdAt": "2026-04-02T14:22:00Z"
+    },
+    {
+      "callId": "call_1a2b3c4d5e6f",
+      "agentName": "Support Agent",
+      "type": "inbound",
+      "duration": 312,
+      "model": "claude-3.5-sonnet",
+      "cost": {
+        "total": 0.0642,
+        "llm": 0.0418,
+        "tts": 0.0152,
+        "stt": 0.0042,
+        "telephony": 0.0030
+      },
+      "createdAt": "2026-04-02T13:15:00Z"
+    },
+    {
+      "callId": "call_7g8h9i0j1k2l",
+      "agentName": "Sales Outreach Agent",
+      "type": "outbound",
+      "duration": 97,
+      "model": "gpt-4o",
+      "cost": {
+        "total": 0.0156,
+        "llm": 0.0078,
+        "tts": 0.0048,
+        "stt": 0.0015,
+        "telephony": 0.0015
+      },
+      "createdAt": "2026-04-02T11:48:00Z"
+    }
+  ],
+  "periodTotal": 142.87
+}
+```
+</ResponseExample>

@@ -1,0 +1,78 @@
+---
+title: "Manage Call Labels"
+description: "Add or remove labels from a call for organization and filtering."
+---
+
+Labels let you tag calls for easy filtering and categorization. You can add labels like "escalated", "high-value", "needs-review", or any custom string.
+
+## Add Label
+
+<br />
+
+<api>POST https://api.rapidcall.ai/api/calls/{id}/labels</api>
+
+Add a label to a call. If the label already exists on the call, the request is a no-op.
+
+<ParamField path="id" type="string" required>
+  The unique identifier of the call.
+</ParamField>
+
+<ParamField body="label" type="string" required>
+  The label text to add. Max 50 characters.
+</ParamField>
+
+<RequestExample>
+```bash cURL (Add Label)
+curl -X POST https://api.rapidcall.ai/api/calls/call_8f3a2b1c4d5e/labels \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "label": "high-value"
+  }'
+```
+</RequestExample>
+
+<ResponseExample>
+```json 200 (Add Label)
+{
+  "labels": ["high-value", "needs-review"]
+}
+```
+</ResponseExample>
+
+---
+
+## Remove Label
+
+<br />
+
+<api>DELETE https://api.rapidcall.ai/api/calls/{id}/labels</api>
+
+Remove a label from a call. If the label does not exist on the call, the request returns the current labels without error.
+
+<ParamField path="id" type="string" required>
+  The unique identifier of the call.
+</ParamField>
+
+<ParamField body="label" type="string" required>
+  The label text to remove.
+</ParamField>
+
+<RequestExample>
+```bash cURL (Remove Label)
+curl -X DELETE https://api.rapidcall.ai/api/calls/call_8f3a2b1c4d5e/labels \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "label": "needs-review"
+  }'
+```
+</RequestExample>
+
+<ResponseExample>
+```json 200 (Remove Label)
+{
+  "labels": ["high-value"]
+}
+```
+</ResponseExample>
