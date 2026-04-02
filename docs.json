@@ -170,13 +170,13 @@
               "api-reference/agents/create",
               "api-reference/agents/get",
               "api-reference/agents/update",
-              "api-reference/agents/delete",
-              "api-reference/agents/start-call"
+              "api-reference/agents/delete"
             ]
           },
           {
             "group": "Calls",
             "pages": [
+              "api-reference/agents/start-call",
               "api-reference/calls/list",
               "api-reference/calls/get",
               "api-reference/calls/delete",
