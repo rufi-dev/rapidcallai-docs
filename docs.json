@@ -178,9 +178,7 @@
               "api-reference/agents/create",
               "api-reference/agents/get",
               "api-reference/agents/update",
-              "api-reference/agents/delete",
-              "api-agent-prompts",
-              "api-variants"
+              "api-reference/agents/delete"
             ]
           },
           {
