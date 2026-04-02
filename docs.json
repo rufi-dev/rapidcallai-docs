@@ -147,13 +147,6 @@
         ]
       },
       {
-        "tab": "SUPPORT",
-        "pages": [
-          "contact-support",
-          "frequently-asked-questions"
-        ]
-      },
-      {
         "tab": "DEVELOPERS",
         "pages": [
           {
@@ -261,6 +254,12 @@
               "api-webhooks"
             ]
           }
+        ]
+      },
+      {
+        "tab": "SUPPORT",
+        "pages": [
+          "contact-support"
         ]
       }
     ]
