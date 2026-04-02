@@ -1,0 +1,22 @@
+---
+title: Logout
+api: POST https://api.rapidcall.ai/api/auth/logout
+description: "End the current session"
+---
+
+Invalidate the current JWT token and end the session.
+
+<RequestExample>
+```bash cURL
+curl -X POST https://api.rapidcall.ai/api/auth/logout \
+  -H "Authorization: Bearer YOUR_TOKEN"
+```
+</RequestExample>
+
+<ResponseExample>
+```json 200
+{
+  "message": "Logged out."
+}
+```
+</ResponseExample>

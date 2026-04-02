@@ -1,0 +1,47 @@
+---
+title: Login
+api: POST https://api.rapidcall.ai/api/auth/login
+description: "Login with email and password"
+---
+
+Authenticate with email and password. Returns a JWT token for subsequent requests.
+
+<ParamField body="email" type="string" required>
+  Email address.
+</ParamField>
+
+<ParamField body="password" type="string" required>
+  Password.
+</ParamField>
+
+<RequestExample>
+```bash cURL
+curl -X POST https://api.rapidcall.ai/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "john@example.com",
+    "password": "securepass123"
+  }'
+```
+</RequestExample>
+
+<ResponseExample>
+```json 200
+{
+  "token": "eyJhbGciOiJIUzI1NiIs...",
+  "user": {
+    "id": "usr_001",
+    "name": "John Smith",
+    "email": "john@example.com"
+  },
+  "workspace": {
+    "id": "ws_abc123",
+    "name": "My Company"
+  }
+}
+```
+</ResponseExample>
+
+<Note>
+If the account has device verification enabled, a 6-digit code will be sent to the email. Use the [Verify Device](/api-reference/auth/verify-device) endpoint to complete login.
+</Note>

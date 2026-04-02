@@ -1,0 +1,27 @@
+---
+title: Verify Email
+api: POST https://api.rapidcall.ai/api/auth/verify-email
+description: "Verify email address with a token"
+---
+
+Verify the user's email address using the token sent during registration.
+
+<ParamField body="token" type="string" required>
+  Verification token from the email.
+</ParamField>
+
+<RequestExample>
+```bash cURL
+curl -X POST https://api.rapidcall.ai/api/auth/verify-email \
+  -H "Content-Type: application/json" \
+  -d '{ "token": "verification_token_from_email" }'
+```
+</RequestExample>
+
+<ResponseExample>
+```json 200
+{
+  "message": "Email verified successfully."
+}
+```
+</ResponseExample>

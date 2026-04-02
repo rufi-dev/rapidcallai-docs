@@ -1,0 +1,35 @@
+---
+title: Get Current User
+api: GET https://api.rapidcall.ai/api/me
+description: "Get the current authenticated user and workspace"
+---
+
+Returns the currently authenticated user's profile and active workspace.
+
+<RequestExample>
+```bash cURL
+curl https://api.rapidcall.ai/api/me \
+  -H "Authorization: Bearer YOUR_TOKEN"
+```
+</RequestExample>
+
+<ResponseExample>
+```json 200
+{
+  "user": {
+    "id": "usr_001",
+    "name": "John Smith",
+    "email": "john@example.com",
+    "emailVerifiedAt": "2026-01-15T10:05:00Z",
+    "createdAt": "2026-01-15T10:00:00Z"
+  },
+  "workspace": {
+    "id": "ws_abc123",
+    "name": "My Company",
+    "billingPlan": "pay_as_you_go",
+    "hasPaymentMethod": true,
+    "isPaid": true
+  }
+}
+```
+</ResponseExample>

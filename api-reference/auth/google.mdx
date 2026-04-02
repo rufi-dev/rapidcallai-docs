@@ -1,0 +1,36 @@
+---
+title: Google OAuth
+api: POST https://api.rapidcall.ai/api/auth/google
+description: "Login or register with Google"
+---
+
+Authenticate using a Google ID token. Creates an account if one doesn't exist.
+
+<ParamField body="credential" type="string" required>
+  Google ID token from Google Sign-In.
+</ParamField>
+
+<RequestExample>
+```bash cURL
+curl -X POST https://api.rapidcall.ai/api/auth/google \
+  -H "Content-Type: application/json" \
+  -d '{ "credential": "eyJhbGciOi..." }'
+```
+</RequestExample>
+
+<ResponseExample>
+```json 200
+{
+  "token": "eyJhbGciOiJIUzI1NiIs...",
+  "user": {
+    "id": "usr_001",
+    "name": "John Smith",
+    "email": "john@gmail.com"
+  },
+  "workspace": {
+    "id": "ws_abc123",
+    "name": "My Company"
+  }
+}
+```
+</ResponseExample>

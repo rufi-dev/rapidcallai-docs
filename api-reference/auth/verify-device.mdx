@@ -1,0 +1,43 @@
+---
+title: Verify Device
+api: POST https://api.rapidcall.ai/api/auth/verify-device
+description: "Verify a new device with a 6-digit code"
+---
+
+Complete login from a new device by providing the 6-digit verification code sent to the user's email.
+
+<ParamField body="email" type="string" required>
+  Email address.
+</ParamField>
+
+<ParamField body="code" type="string" required>
+  6-digit verification code from the email.
+</ParamField>
+
+<RequestExample>
+```bash cURL
+curl -X POST https://api.rapidcall.ai/api/auth/verify-device \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "john@example.com",
+    "code": "482951"
+  }'
+```
+</RequestExample>
+
+<ResponseExample>
+```json 200
+{
+  "token": "eyJhbGciOiJIUzI1NiIs...",
+  "user": {
+    "id": "usr_001",
+    "name": "John Smith",
+    "email": "john@example.com"
+  },
+  "workspace": {
+    "id": "ws_abc123",
+    "name": "My Company"
+  }
+}
+```
+</ResponseExample>

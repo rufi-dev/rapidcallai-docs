@@ -1,0 +1,45 @@
+---
+title: Register
+api: POST https://api.rapidcall.ai/api/auth/register
+description: "Create a new account"
+---
+
+Create a new user account. A verification email will be sent.
+
+<ParamField body="name" type="string" required>
+  Full name.
+</ParamField>
+
+<ParamField body="email" type="string" required>
+  Email address.
+</ParamField>
+
+<ParamField body="password" type="string" required>
+  Password (min 8 characters).
+</ParamField>
+
+<RequestExample>
+```bash cURL
+curl -X POST https://api.rapidcall.ai/api/auth/register \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "John Smith",
+    "email": "john@example.com",
+    "password": "securepass123"
+  }'
+```
+</RequestExample>
+
+<ResponseExample>
+```json 201
+{
+  "user": {
+    "id": "usr_001",
+    "name": "John Smith",
+    "email": "john@example.com"
+  },
+  "token": "eyJhbGciOiJIUzI1NiIs...",
+  "message": "Verification email sent."
+}
+```
+</ResponseExample>

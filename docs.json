@@ -153,8 +153,21 @@
           {
             "group": "Getting Started",
             "pages": [
-              "api-reference/overview",
-              "api-reference/authentication"
+              "api-reference/overview"
+            ]
+          },
+          {
+            "group": "Authentication",
+            "pages": [
+              "api-reference/auth/register",
+              "api-reference/auth/login",
+              "api-reference/auth/google",
+              "api-reference/auth/logout",
+              "api-reference/auth/forgot-password",
+              "api-reference/auth/reset-password",
+              "api-reference/auth/verify-email",
+              "api-reference/auth/verify-device",
+              "api-reference/auth/me"
             ]
           },
           {
