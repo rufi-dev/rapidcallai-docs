@@ -1,0 +1,26 @@
+---
+title: Delete Document
+api: DELETE https://api.rapidcall.ai/api/kb/docs/{id}
+description: "Delete a knowledge base document"
+---
+
+Permanently delete a document from the knowledge base.
+
+<ParamField path="id" type="string" required>
+  Document ID.
+</ParamField>
+
+<RequestExample>
+```bash cURL
+curl -X DELETE https://api.rapidcall.ai/api/kb/docs/doc_003 \
+  -H "Authorization: Bearer YOUR_TOKEN"
+```
+</RequestExample>
+
+<ResponseExample>
+```json 200
+{
+  "message": "Document deleted."
+}
+```
+</ResponseExample>

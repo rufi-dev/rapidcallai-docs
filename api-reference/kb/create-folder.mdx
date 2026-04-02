@@ -1,0 +1,33 @@
+---
+title: Create Folder
+api: POST https://api.rapidcall.ai/api/kb/folders
+description: "Create a new knowledge base folder"
+---
+
+Create a new folder to organize knowledge base documents.
+
+<ParamField body="name" type="string" required>
+  Folder name.
+</ParamField>
+
+<RequestExample>
+```bash cURL
+curl -X POST https://api.rapidcall.ai/api/kb/folders \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{ "name": "Product FAQ" }'
+```
+</RequestExample>
+
+<ResponseExample>
+```json 201
+{
+  "folder": {
+    "id": "kb_folder_001",
+    "name": "Product FAQ",
+    "documentCount": 0,
+    "createdAt": "2026-04-02T12:00:00Z"
+  }
+}
+```
+</ResponseExample>

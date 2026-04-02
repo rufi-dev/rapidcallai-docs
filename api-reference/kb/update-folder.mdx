@@ -1,0 +1,36 @@
+---
+title: Update Folder
+api: PUT https://api.rapidcall.ai/api/kb/folders/{id}
+description: "Update a knowledge base folder"
+---
+
+Update the name of a knowledge base folder.
+
+<ParamField path="id" type="string" required>
+  Folder ID.
+</ParamField>
+
+<ParamField body="name" type="string" required>
+  New folder name.
+</ParamField>
+
+<RequestExample>
+```bash cURL
+curl -X PUT https://api.rapidcall.ai/api/kb/folders/kb_folder_001 \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{ "name": "Updated FAQ" }'
+```
+</RequestExample>
+
+<ResponseExample>
+```json 200
+{
+  "folder": {
+    "id": "kb_folder_001",
+    "name": "Updated FAQ",
+    "updatedAt": "2026-04-02T12:30:00Z"
+  }
+}
+```
+</ResponseExample>

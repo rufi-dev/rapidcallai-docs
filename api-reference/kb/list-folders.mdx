@@ -1,0 +1,29 @@
+---
+title: List Folders
+api: GET https://api.rapidcall.ai/api/kb/folders
+description: "List all knowledge base folders"
+---
+
+Returns all knowledge base folders in the workspace.
+
+<RequestExample>
+```bash cURL
+curl https://api.rapidcall.ai/api/kb/folders \
+  -H "Authorization: Bearer YOUR_TOKEN"
+```
+</RequestExample>
+
+<ResponseExample>
+```json 200
+{
+  "folders": [
+    {
+      "id": "kb_folder_001",
+      "name": "Product FAQ",
+      "documentCount": 12,
+      "createdAt": "2026-03-01T10:00:00Z"
+    }
+  ]
+}
+```
+</ResponseExample>

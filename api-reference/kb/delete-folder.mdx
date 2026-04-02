@@ -1,0 +1,28 @@
+---
+title: Delete Folder
+api: DELETE https://api.rapidcall.ai/api/kb/folders/{id}
+description: "Delete a knowledge base folder and all its documents"
+---
+
+Permanently delete a folder and all documents inside it.
+
+<Warning>This deletes all documents in the folder. This action cannot be undone.</Warning>
+
+<ParamField path="id" type="string" required>
+  Folder ID.
+</ParamField>
+
+<RequestExample>
+```bash cURL
+curl -X DELETE https://api.rapidcall.ai/api/kb/folders/kb_folder_001 \
+  -H "Authorization: Bearer YOUR_TOKEN"
+```
+</RequestExample>
+
+<ResponseExample>
+```json 200
+{
+  "message": "Folder deleted."
+}
+```
+</ResponseExample>

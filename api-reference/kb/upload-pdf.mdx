@@ -1,0 +1,38 @@
+---
+title: Upload PDF Document
+api: POST https://api.rapidcall.ai/api/kb/folders/{id}/pdf
+description: "Upload a PDF document to a knowledge base folder"
+---
+
+Upload a PDF file to a folder. The PDF is automatically extracted, chunked, and indexed for search.
+
+<ParamField path="id" type="string" required>
+  Folder ID.
+</ParamField>
+
+<ParamField body="file" type="file" required>
+  PDF file to upload (multipart/form-data).
+</ParamField>
+
+<RequestExample>
+```bash cURL
+curl -X POST https://api.rapidcall.ai/api/kb/folders/kb_folder_001/pdf \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -F "file=@/path/to/document.pdf"
+```
+</RequestExample>
+
+<ResponseExample>
+```json 201
+{
+  "document": {
+    "id": "doc_004",
+    "name": "Product Manual.pdf",
+    "type": "pdf",
+    "characterCount": 15200,
+    "pageCount": 12,
+    "createdAt": "2026-04-02T12:00:00Z"
+  }
+}
+```
+</ResponseExample>

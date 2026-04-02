@@ -1,0 +1,45 @@
+---
+title: Add Text Document
+api: POST https://api.rapidcall.ai/api/kb/folders/{id}/text
+description: "Add a text document to a knowledge base folder"
+---
+
+Add a plain text document to a folder. The text is automatically chunked and indexed for search.
+
+<ParamField path="id" type="string" required>
+  Folder ID.
+</ParamField>
+
+<ParamField body="name" type="string" required>
+  Document name.
+</ParamField>
+
+<ParamField body="content" type="string" required>
+  Text content of the document.
+</ParamField>
+
+<RequestExample>
+```bash cURL
+curl -X POST https://api.rapidcall.ai/api/kb/folders/kb_folder_001/text \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Return Policy",
+    "content": "Our return policy allows returns within 30 days of purchase. Items must be in original condition with tags attached..."
+  }'
+```
+</RequestExample>
+
+<ResponseExample>
+```json 201
+{
+  "document": {
+    "id": "doc_003",
+    "name": "Return Policy",
+    "type": "text",
+    "characterCount": 2450,
+    "createdAt": "2026-04-02T12:00:00Z"
+  }
+}
+```
+</ResponseExample>

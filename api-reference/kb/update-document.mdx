@@ -1,0 +1,45 @@
+---
+title: Update Document
+api: PUT https://api.rapidcall.ai/api/kb/docs/{id}
+description: "Update a knowledge base document"
+---
+
+Update the name or content of a text document. PDF documents can only have their name updated.
+
+<ParamField path="id" type="string" required>
+  Document ID.
+</ParamField>
+
+<ParamField body="name" type="string">
+  New document name.
+</ParamField>
+
+<ParamField body="content" type="string">
+  New text content (text documents only).
+</ParamField>
+
+<RequestExample>
+```bash cURL
+curl -X PUT https://api.rapidcall.ai/api/kb/docs/doc_003 \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Updated Return Policy",
+    "content": "Our updated return policy allows returns within 60 days..."
+  }'
+```
+</RequestExample>
+
+<ResponseExample>
+```json 200
+{
+  "document": {
+    "id": "doc_003",
+    "name": "Updated Return Policy",
+    "type": "text",
+    "characterCount": 3100,
+    "updatedAt": "2026-04-02T13:00:00Z"
+  }
+}
+```
+</ResponseExample>

@@ -1,0 +1,41 @@
+---
+title: List Documents
+api: GET https://api.rapidcall.ai/api/kb/folders/{id}/docs
+description: "List all documents in a folder"
+---
+
+Returns all documents in a knowledge base folder.
+
+<ParamField path="id" type="string" required>
+  Folder ID.
+</ParamField>
+
+<RequestExample>
+```bash cURL
+curl https://api.rapidcall.ai/api/kb/folders/kb_folder_001/docs \
+  -H "Authorization: Bearer YOUR_TOKEN"
+```
+</RequestExample>
+
+<ResponseExample>
+```json 200
+{
+  "documents": [
+    {
+      "id": "doc_001",
+      "name": "Return Policy",
+      "type": "text",
+      "characterCount": 2450,
+      "createdAt": "2026-03-10T10:00:00Z"
+    },
+    {
+      "id": "doc_002",
+      "name": "Product Manual.pdf",
+      "type": "pdf",
+      "characterCount": 15200,
+      "createdAt": "2026-03-12T14:00:00Z"
+    }
+  ]
+}
+```
+</ResponseExample>

@@ -221,9 +221,16 @@
           {
             "group": "Knowledge Base",
             "pages": [
-              "api-reference/knowledge-base/folders",
-              "api-reference/knowledge-base/documents",
-              "api-reference/knowledge-base/search"
+              "api-reference/kb/list-folders",
+              "api-reference/kb/create-folder",
+              "api-reference/kb/update-folder",
+              "api-reference/kb/delete-folder",
+              "api-reference/kb/list-documents",
+              "api-reference/kb/add-text",
+              "api-reference/kb/upload-pdf",
+              "api-reference/kb/update-document",
+              "api-reference/kb/delete-document",
+              "api-reference/kb/search"
             ]
           },
           {

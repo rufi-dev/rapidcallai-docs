@@ -1,0 +1,53 @@
+---
+title: Search Knowledge Base
+api: POST https://api.rapidcall.ai/api/kb/search
+description: "Search across knowledge base documents"
+---
+
+Search across all documents in specified folders. Uses semantic search to find the most relevant content.
+
+<ParamField body="query" type="string" required>
+  Search query (max 500 characters).
+</ParamField>
+
+<ParamField body="folderIds" type="string[]" required>
+  Folder IDs to search in (1–50 folders).
+</ParamField>
+
+<ParamField body="limit" type="number">
+  Maximum number of results (default: 5, max: 10).
+</ParamField>
+
+<RequestExample>
+```bash cURL
+curl -X POST https://api.rapidcall.ai/api/kb/search \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "query": "What is the return policy?",
+    "folderIds": ["kb_folder_001"],
+    "limit": 5
+  }'
+```
+</RequestExample>
+
+<ResponseExample>
+```json 200
+{
+  "results": [
+    {
+      "documentId": "doc_003",
+      "documentName": "Return Policy",
+      "content": "Our return policy allows returns within 30 days of purchase...",
+      "score": 0.92
+    },
+    {
+      "documentId": "doc_005",
+      "documentName": "Shipping FAQ",
+      "content": "If you need to return an item, please contact support...",
+      "score": 0.78
+    }
+  ]
+}
+```
+</ResponseExample>
