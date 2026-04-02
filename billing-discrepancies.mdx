@@ -1,0 +1,18 @@
+---
+title: "Billing Discrepancies"
+---
+
+If your bill looks higher than expected or you see charges you do not recognise, here is how to investigate:
+
+**Check the Usage tab. **The Usage tab on the Billing page breaks down every charge by component: platform minutes, each voice provider, each language model. This tells you exactly where your spend went. If one component is disproportionately high, it is usually because you are running an expensive voice or model configuration at high volume.
+
+**Multiple providers on the same invoice. **If you see charges for several voice providers or LLMs, it means you tested or ran different configurations during the billing period. Every provider and model you used will appear as a separate line item. This is normal — the platform tracks each component independently.
+
+**Phone number charges appearing when no calls were made. **Phone numbers carry a fixed monthly rental fee regardless of call volume. If you have numbers assigned to your account that you are not actively using, you are still being charged for them. Release unused numbers from the Phone Numbers page to stop the recurring charge.
+
+**Test calls adding up. **Every call — including test calls from the built-in Test Call tool and internal debugging calls — is billed at the same rate as production calls. If you ran multiple rounds of testing with an expensive voice and model stack, those minutes accumulate. During development, test on lighter configurations where possible (see Section 8 for cost management tips).
+
+**Charges do not match your call count. **Billing is per minute of active call time, not per call. A single call that lasts three minutes generates three minutes of charges across all components. If your calls are averaging longer durations than expected, your total bill will be higher than a simple call count would suggest. Check the average duration metric in the Performance dashboard.
+
+| 💳 If you have reviewed the Usage tab and still cannot explain a charge, contact support with the specific line item and date range. We can trace it to the exact calls that generated it. |
+| :-- |

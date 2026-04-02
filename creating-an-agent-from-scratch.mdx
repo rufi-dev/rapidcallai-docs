@@ -1,0 +1,30 @@
+---
+title: "Creating an Agent from Scratch"
+---
+
+Every agent starts with three things:
+
+- a system prompt (behaviour)
+- a voice (delivery)
+- call logic / workflow (flow and actions).
+
+**Follow these eight steps in order. By the end, you will have a working agent ready for test calls.**
+
+**Step 1 — Create your agent. **Go to Agents, click Create Agent, and give it a descriptive name (something like ‘Sarah — Appointment Setter’ or ‘Tom — Recruitment Outreach’). Pick your agent type: Single Prompt for most use cases, or Conversation Flow if you need precise branching control. When in doubt, start with Single Prompt — you can always migrate later.
+
+**Step 2 — Write the prompt. **This is the brain of your agent. It defines who the agent is, what it is trying to do, how it handles different responses, and when to end the call. If you are starting from scratch, gather your company overview, product info, and any existing call scripts, paste them into ChatGPT or Claude, and ask it to create a voice agent prompt using that material. To accelerate further, grab one of the prompt templates from Section 3 of this manual and use it as a structural guide. A complete prompt covers five sections: Role, Context, Availability, Guidelines, and Main Script. Section 3 has full detail.
+
+**Step 3 — Select a voice stack. **Three options, each with different trade-offs. Gemini Studio is solid for English-only agents at a moderate cost (\$0.15/min, latency 700–1,200 ms). OpenAI Realtime gives ultra-low latency (150–500 ms) and strong multilingual support, but struggles with complex multi-step logic. Custom Stack is maximum flexibility — choose your own LLM and voice engine. Our current recommendations for Custom Stack: Claude Sonnet \+ Cartesia for complex agents (~\$0.20/min), or Claude Haiku \+ Cartesia for leaner outreach and receptionist use cases (~15% cheaper).
+
+**Step 4 — Pick a voice. **Browse the Voice Gallery, listen to previews, and match the voice to your use case. A British-accented female voice for a UK recruitment firm, a warm male voice for a healthcare outreach campaign — use your judgement. If you need multiple languages, separate agents per language generally perform better than one multilingual agent.
+
+**Step 5 — Set up a knowledge base. **Upload files (PDF, DOC, TXT — up to 10 files, 100 MB each) or paste content directly. Connect it to your agent in the editor. Keep the knowledge base for factual reference only — product details, pricing, FAQs, policies. All behavioural instructions belong in the prompt. Mixing the two creates conflicting signals.
+
+**Step 6 — Configure call settings. **Set who speaks first, end-call-on-silence timing, max call duration, ring duration, voicemail detection, background sound (office, call centre, café), and the speech controls — response eagerness, interruption sensitivity, backchannel sounds. These details matter more than most people expect.
+
+**Step 7 — Test your agent. **Click the microphone icon and have a real voice conversation with it. Try to break it — ask unexpected questions, push back, test the edges. Every test call is logged with a full transcript and recording. Most agents need two to five iterations before they are production-ready. That is normal.
+
+**Step 8 — Connect a phone number. **Go to Phone Numbers and either buy a new one directly (provisioned via Twilio, available in most countries) or connect an existing business number via SIP trunk. Assign it to your agent for inbound and/or outbound calls, set country permissions, and optionally enable Verified Caller ID to reduce spam flagging.
+
+| 🙋 Need help? Telephony, CRM connections, and webhooks are the most involved parts of setup. Reach out directly — we set these up with clients regularly and can get you live faster. |
+| :-- |

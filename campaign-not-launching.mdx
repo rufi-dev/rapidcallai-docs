@@ -1,0 +1,19 @@
+---
+title: "Campaign Not Launching"
+---
+
+If you have set up a campaign or triggered outbound calls via the API and nothing is happening, work through these checks:
+
+**Is the agent published? **Same as above — the most common cause of everything not working. An unpublished agent will not process calls.
+
+**Is the originating number assigned and configured? **The outbound call needs a phone number to call from. If no originating number is assigned to the agent, or if the number’s outbound routing is not configured, calls will not initiate.
+
+**Are the destination numbers valid? **All destination numbers must be in E.164 format. If your contact list includes numbers with incorrect formatting — missing country codes, local formatting, special characters — those calls will fail silently. Validate your numbers before loading them into a campaign.
+
+**Is your payment method active? **Check the Billing page. If your billing status is not Active, calls will not go through. This can happen if a payment method expires, a card is declined, or a billing issue is pending with Stripe.
+
+**Are you hitting rate limits? **The platform enforces fair usage limits to maintain stability. If you are triggering a very high volume of calls simultaneously, some may be queued or throttled. If you suspect rate limiting, check the Outbound Calls jobs table for status codes and contact support to discuss your volume requirements.
+
+**Is the workflow triggering correctly? **If you are using an external workflow ([Make.com](http://Make.com), n8n, custom API integration) to trigger calls, verify that the workflow is executing correctly and that the API call to RapidCall is returning a success response. Check the workflow execution logs for errors. Common issues: expired API key, incorrect endpoint URL, malformed request body, or missing required fields.
+
+\

@@ -1,0 +1,40 @@
+---
+title: "Data Retention & Deletion"
+---
+
+### **What Data Is Stored**
+
+Every call processed through the platform generates data. Understanding what is stored and where it lives helps you manage your compliance obligations:
+
+| **Data Type** | **Details** |
+| :-- | :-- |
+| Call recordings | Audio files stored in AWS S3. Generated only when recording is enabled for the agent. Can be disabled entirely at the agent level. |
+| Transcripts | Text transcriptions of both sides of the conversation. Generated automatically for every call. |
+| Call metadata | Timestamps, duration, direction, phone numbers, call status, cost, latency metrics. Logged for every call. |
+| Post-call extracted data | Structured fields extracted from the transcript (outcome, sentiment, callback time, custom fields). Configurable per agent. |
+| Agent configurations | Prompts, voice settings, function definitions, knowledge base content. Stored per agent, per workspace. |
+| Account data | Registration details, email, billing information, team members. |
+
+\
+
+### **Your Controls**
+
+You have direct control over the most sensitive categories of data:
+
+**Disable recording. **Call recording can be turned off at the agent level. When recording is disabled, no audio file is generated or stored. The transcript is still generated (since it is needed for conversation processing), but no audio persists.
+
+**Delete individual call records. **Any call record in Call History can be deleted, including its recording, transcript, and extracted data. Deletion is available directly from the Call History interface.
+
+**Export your data. **Call history, recordings, transcripts, and agent configurations can all be exported. Supported formats include CSV, XLS, JSON, and ZIP archives for recordings. See Section 8 for full export details.
+
+**Close a workspace. **When a workspace is closed, all associated data — agents, call history, recordings, transcripts, and configurations — becomes inaccessible. Export anything you need before closing.
+
+### **Responding to Data Subject Requests**
+
+Under the GDPR and similar frameworks, individuals have the right to request access to, correction of, or deletion of their personal data. Since you are the data controller, these requests come to you — not to [RapidCall.ai](http://RapidCall.ai).
+
+When a contact asks you to delete their data, your practical steps on the platform are: locate the relevant call record(s) in Call History, delete the recording and transcript, and remove the contact’s information from any campaign or contact list you have uploaded. If the contact’s data was also pushed to your CRM or other systems via webhook, you will need to delete it there as well.
+
+If a contact reaches out to [RapidCall.ai](http://RapidCall.ai) directly with a data request, we will direct them to you as the data controller. We cannot fulfil data subject requests on your behalf because we do not have visibility into the context or legal basis of your processing.
+
+\

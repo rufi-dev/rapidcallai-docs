@@ -1,0 +1,22 @@
+---
+title: "Multi-Attempt Logic"
+---
+
+Most outbound calls do not connect on the first attempt. Voicemail, no answer, and busy signals are normal operational outcomes, not failures. A well-designed campaign includes multiple attempts with intelligent spacing.
+
+**How many attempts? **Two to three attempts per contact is the standard for most campaigns. More than three rarely produces meaningful incremental results and risks annoying the contact. The sweet spot depends on your use case: debt collection and payment reminders can justify three attempts across a single day; lead qualification and appointment setting typically work best with two attempts spaced across different times of day.
+
+**How to space them. **The most effective pattern is to vary the time of day between attempts. If the first attempt was in the morning, schedule the second for the afternoon. If both failed, schedule the third for the next business day at a different time again. This maximises the chance of catching the contact when they are available. Calling three times in the same hour produces three voicemails and an irritated contact.
+
+**Voicemail strategy. **Decide in advance whether your agent should leave a voicemail, and if so, on which attempt. A common pattern: leave a voicemail on the first unanswered attempt, then call silently (no voicemail) on subsequent attempts. This prevents voicemail flooding, keeps your caller ID reputation clean, and still gives the contact a touchpoint. Use the voicemailDropped dynamic variable to control this — set it to FALSE on the first attempt and TRUE on subsequent ones.
+
+**Exclusion logic. **Once a contact is reached (whether the outcome is positive or negative), exclude them from further attempts. Your workflow should check the call outcome after each attempt and remove connected contacts from the retry queue. Without this, a contact who already booked an appointment might get called again the next day.
+
+**Callback handling. **If the contact asks to be called back at a specific time, your agent can log that request and the preferred time. Your workflow picks up the callback request from the webhook data and schedules the next call accordingly, rather than following the standard retry cadence.
+
+| **Attempt** | **Recommended Approach** |
+| :-- | :-- |
+| 1st attempt | Call during primary window. Leave voicemail if unanswered. Log outcome. |
+| 2nd attempt | Call 3–4 hours later (different window). No voicemail. Log outcome. |
+| 3rd attempt (optional) | Call next business day at a different time. No voicemail. Log outcome. |
+| After all attempts | If still not reached, trigger a follow-up email or SMS as final touchpoint. |

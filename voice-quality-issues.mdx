@@ -1,0 +1,17 @@
+---
+title: "Voice Quality Issues"
+---
+
+If the agent sounds robotic, unnatural, distorted, or has audio artefacts, the issue is usually in the voice configuration rather than the infrastructure.
+
+**Agent sounds robotic or flat. **Voice temperature controls the expressiveness and warmth of the output. If it is set too low, the voice sounds monotone. Increase voice temperature slightly (1.05–1.10) and test again. Also check voice speed — a speed that is too slow makes the agent sound lethargic, while too fast sounds rushed and unnatural.
+
+**Agent talks over the contact. **Interruption sensitivity is too low. Increase it (0.80–0.90) so the agent stops speaking when the contact starts talking. If the agent consistently fails to yield during interruptions, the issue may also be the denoising mode — set it to “Remove noise \+ background speech” so the speech recognition engine can distinguish the contact’s voice from ambient noise.
+
+**Agent gets interrupted too easily. **The opposite problem: the agent stops mid-sentence on every small sound from the contact. Interruption sensitivity is too high. Lower it slightly (0.70–0.80) so the agent holds its ground through background noise and reactive sounds (“mm-hmm,” coughs, shuffling) without yielding. This is common in environments where contacts are driving, outdoors, or in noisy offices.
+
+**Audio has static, echo, or distortion. **This is almost always on the telephony side rather than the voice engine. If it happens on specific numbers or specific carriers, the issue is the call routing path. If it happens consistently across all calls, check that denoising is enabled. If the issue persists, contact support with a recording URL so we can diagnose the audio path.
+
+**The voice sounds different from the preview. **The voice preview in the gallery uses an isolated audio sample. On a live call, the voice is processed through the full pipeline: speech recognition, LLM inference, TTS generation, and telephony encoding. Each stage can subtly affect how the voice sounds. Additionally, the LLM you choose affects how the TTS engine receives and processes text — the same voice can sound noticeably different depending on which model is driving the conversation. If the live call voice does not match your expectations, test the same voice with a different LLM before switching voices entirely.
+
+\

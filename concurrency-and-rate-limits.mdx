@@ -1,0 +1,31 @@
+---
+title: "Concurrency & Rate Limits"
+---
+
+Concurrency is the number of calls your account can handle simultaneously. Rate limits control how quickly you can trigger new calls through the API. Both exist to ensure platform stability and call quality across all users.
+
+### **Concurrency**
+
+Your account has a concurrency limit that determines the maximum number of live calls that can be in progress at the same time. If you trigger a call when you are already at your concurrency limit, the call will be queued or rejected depending on the current load.
+
+For most accounts, the default concurrency limit is sufficient for standard operations. If you are running high-volume campaigns (hundreds of simultaneous calls), contact our team to discuss your requirements. We can adjust limits based on your use case, volume, and infrastructure needs.
+
+**How to manage concurrency in your workflow. **The simplest approach is to control the number of parallel calls in your workflow engine rather than relying on the platform to manage the queue. For example, if your concurrency limit is 10, configure your [Make.com](http://Make.com) or n8n scenario to trigger a maximum of 10 calls at a time, then wait for some to complete before triggering more. This gives you predictable behaviour and avoids hitting the limit unexpectedly.
+
+### **API Rate Limits**
+
+The API enforces rate limits to prevent abuse and maintain service quality. Rate limits apply to the number of API requests per unit of time, not to the number of concurrent calls (which is governed by concurrency).
+
+If you hit a rate limit, the API returns a standard HTTP 429 (Too Many Requests) response. Your workflow should handle this gracefully — wait briefly, then retry. Most workflow engines have built-in retry logic for 429 responses.
+
+### **Telephony Considerations at Scale**
+
+High-volume outbound campaigns introduce telephony-layer challenges that do not exist at low volumes:
+
+**Caller ID reputation. **If you are making hundreds of calls per day from a single phone number, carriers may flag that number as spam. This is not a platform issue — it is how the telecom ecosystem works. To mitigate: use Verified Caller ID and Branded Caller ID (US only), rotate across multiple originating numbers if volume is high, and monitor your answer rates. A sudden drop in answer rate often indicates your number has been flagged.
+
+**Number rotation. **For very high-volume campaigns, use multiple originating numbers and distribute calls across them. This reduces the per-number call density and lowers the risk of spam flagging. Your workflow engine can rotate numbers on a round-robin basis or assign specific numbers to specific segments of your contact list.
+
+**Country permissions. **Each originating number has country-level permissions. If your campaign spans multiple countries, confirm that every originating number has the relevant countries enabled before you start.
+
+\

@@ -1,0 +1,33 @@
+---
+title: "Latency Issues"
+---
+
+Latency is the time between the contact finishing speaking and the agent starting its response. The platform displays latency metrics for every call in the Call Detail Panel. If your agent feels slow or the conversation has unnatural pauses, here is how to diagnose and fix it.
+
+### **Understanding What Drives Latency**
+
+Total response latency is the sum of three stages: speech-to-text (converting the contact’s audio to text), LLM inference (generating the response), and text-to-speech (converting the response back to audio). Each stage is handled by a different provider, and each contributes to the total.
+
+| **Stage** | **Typical Range** |
+| :-- | :-- |
+| Speech-to-text (Deepgram) | 100–300 ms |
+| LLM inference | 200–1,000 ms (varies by model and prompt complexity) |
+| Text-to-speech | 100–400 ms (varies by provider) |
+| Total end-to-end | 500–1,500 ms for most configurations |
+
+\
+
+### **Common Causes and Fixes**
+
+**Heavy LLM model. **Larger, more capable models take longer to respond. If your use case does not require deep reasoning — appointment setting, scripted outreach, simple qualification — switching from a heavyweight model (e.g. GPT-5, Claude Sonnet) to a lighter one (Claude Haiku, GPT-4.1 Mini, Gemini Flash) can cut hundreds of milliseconds from each response without meaningful quality loss.
+
+**Long or unstructured prompt. **The more text the LLM has to process, the longer inference takes. Review your prompt for redundancy, remove content that belongs in the knowledge base rather than the prompt, and keep instructions tight. Section 3 covers prompt optimisation in detail.
+
+**Response eagerness set too low. **Response eagerness controls how quickly the agent jumps in after the contact finishes speaking. If this is set low (below 0.8), the agent deliberately waits before responding, which adds perceived latency even when actual inference is fast. For most outbound use cases, values between 0.90 and 0.98 produce the best results.
+
+**Voice provider latency. **Different voice engines have different speed profiles. If latency is critical, test your agent with multiple TTS providers and compare the response times in the Call Detail Panel. The same agent can feel noticeably faster or slower depending solely on the voice engine.
+
+**OpenAI Realtime vs Custom Stack. **If you need the absolute lowest latency, OpenAI Realtime delivers 150–500 ms end-to-end because it uses a speech-to-speech model rather than the three-stage pipeline. The trade-off is reduced reliability on complex multi-step logic and function calling. For simple agents, it is the fastest option available.
+
+| 💡 Tip: Check the latency metric in Call History for your most recent calls. If it is consistently above 1,500 ms, try switching to a lighter LLM first — that is the highest-impact change you can make. |
+| :-- |

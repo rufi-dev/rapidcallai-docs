@@ -1,0 +1,17 @@
+---
+title: "Prompt Structure"
+---
+
+We use a five-section format across all our production agents. It works.
+
+\*\*Role \*\*— identity, tone, and objective. Who is this agent, how does it sound, and what is it trying to accomplish on every call?
+
+\*\*Context \*\*— business details, caller information, and environment variables. Everything the agent needs to know before the call starts, including dynamic data like the contact’s name, when they enquired, and what they enquired about.
+
+\*\*Availability \*\*— business hours and booking rules. When can appointments be offered? What days and times are off-limits? This section prevents the agent from booking someone at 3am on a Sunday.
+
+\*\*Guidelines \*\*— behaviour rules, conversation style, objection handling, and edge case management. This is where you define the agent’s personality in action: keep responses under two sentences, never argue, always acknowledge the contact’s concern before redirecting.
+
+\*\*Main Script \*\*— the ordered conversation flow from introduction to close, with branching logic for different responses. This eliminates hallucination and is the single biggest driver of conversion rate.
+
+Optionally, add Handlers — named response blocks triggered by specific situations (contact is busy, contact asks if this is AI, contact is hostile, booking fails). Handlers keep your main script clean and make edge case behaviour predictable.

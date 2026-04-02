@@ -44,7 +44,7 @@
     "tabs": [
       {
         "tab": "DOCUMENTATION",
-        "groups": [
+        "pages": [
           {
             "group": "0. GENERAL INFORMATION",
             "pages": [
@@ -77,8 +77,77 @@
               "version-history-and-publishing",
               "phone-numbers-1",
               "call-stages-1",
-              "untitled-page",
-              "data-privacy-and-security"
+              "data-privacy-and-security",
+              "pay-as-you-go-billing"
+            ]
+          },
+          {
+            "group": "3. BUILDING AGENTS",
+            "pages": [
+              "creating-an-agent-from-scratch",
+              "writing-prompts-that-work",
+              "prompt-structure",
+              "handling-objections",
+              "selecting-and-customising-voice",
+              "configuring-call-logic",
+              "testing-your-agent",
+              {
+                "group": "5. ANALYTICS & REPORTING",
+                "pages": [
+                  "reading-your-performance-dashboard",
+                  "call-recordings-and-transcripts",
+                  "custom-dashboards",
+                  "the-by-agent-view"
+                ]
+              }
+            ]
+          },
+          {
+            "group": "6. CAMPAIGNS & OUTBOUND AT SCALE",
+            "pages": [
+              "how-outbound-campaigns-work",
+              "building-your-contact-list",
+              "call-scheduling-and-timing",
+              "multi-attempt-logic",
+              "concurrency-and-rate-limits",
+              "monitoring-a-live-campaign",
+              "common-campaign-patterns"
+            ]
+          },
+          {
+            "group": "7. USE CASE PLAYBOOKS",
+            "pages": [
+              "consumer-finance-company-in-the-us-automated-payment-recovery",
+              "recruitment-company-in-the-uk"
+            ]
+          },
+          {
+            "group": "8. ACCOUNT & BILLING",
+            "pages": [
+              "understanding-usage-and-invoices",
+              "cancellation-deletion-and-data-export"
+            ]
+          },
+          {
+            "group": "9. COMPLIANCE & SECURITY",
+            "pages": [
+              "gdpr-compliance",
+              "call-recording-consent-rules-by-region",
+              "data-retention-and-deletion",
+              "security-infrastructure"
+            ]
+          },
+          {
+            "group": "10. TROUBLESHOOTING & FAQ",
+            "pages": [
+              "agent-not-connecting-calls",
+              "latency-issues",
+              "logic-issues",
+              "voice-quality-issues",
+              "campaign-not-launching",
+              "billing-discrepancies",
+              "frequently-asked-questions",
+              "untitled-page"
             ]
           }
         ]

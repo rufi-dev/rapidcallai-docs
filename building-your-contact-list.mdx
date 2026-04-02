@@ -1,0 +1,16 @@
+---
+title: "Building Your Contact List"
+---
+
+The contact list is the foundation of every campaign. Getting it right before you start calling saves time, money, and compliance headaches.
+
+**Format every phone number in E.164. **This is the single most common source of failed calls in campaigns. Every destination number must be in international format: \+\[country code\]\[number\] with no spaces, dashes, brackets, or leading zeros. If your list has numbers in local format, clean them before loading. One malformed number in a batch of a thousand will fail silently — you will not get an error message, you will just get a missing call in your logs.
+
+**Include all dynamic variables your agent needs. **If your prompt references {{customerName}}, {{appointmentTime}}, or {{leadType}}, every row in the contact list must have a value for those fields. Missing variables will arrive as empty strings or undefined, which the agent will read aloud or skip awkwardly. Use the Dynamic Variable Defaults feature in the agent’s Security & Fallback settings to define fallback values for any field that might be empty — but treat this as a safety net, not a substitute for clean data.
+
+**Deduplicate. **If the same contact appears twice in your list, they will be called twice. The platform does not deduplicate automatically because it cannot know whether a duplicate is intentional (e.g. a follow-up attempt) or accidental. Clean your list before loading.
+
+**Add a status column. **Include a column in your contact list for call status (e.g. “pending,” “called,” “no answer,” “booked,” “declined”). Your workflow engine will update this column after each call. This is how you track progress, filter for retry attempts, and generate reports without leaving your spreadsheet or CRM.
+
+| ⚠️ Data quality is the most underestimated factor in campaign performance. A perfectly configured agent calling a messy contact list will produce messy results. Spend the time cleaning your data before you start calling. |
+| :-- |

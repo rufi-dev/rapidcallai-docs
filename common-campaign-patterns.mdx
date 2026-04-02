@@ -1,0 +1,15 @@
+---
+title: "Common Campaign Patterns"
+---
+
+Different use cases call for different campaign structures. Here are the patterns we see most often:
+
+**Lead follow-up (speed-to-contact). **New leads from Meta ads, website forms, or CRM triggers. The workflow fires the first call within minutes of the lead arriving. If unanswered, a second attempt follows 2–3 hours later. If still unanswered, an automated email or SMS is sent as a fallback. This pattern is covered in detail in Playbook 3 (Section 7).
+
+**Database re-engagement. **Large batch of dormant leads or past customers. The workflow processes the list in daily batches (200–500 contacts per day), with two attempts per contact spaced across morning and afternoon windows. Outcomes are logged to a reporting sheet. The goal is to identify who is still interested and route them to a human for the high-value conversation. Playbook 1 (Section 7) demonstrates this pattern.
+
+**Recurring outreach (daily pipeline). **Contacts are pushed into the list continuously by an external system (CRM, loan management system, booking platform). The workflow runs on a fixed schedule — two or three times per day — and processes whatever contacts are in the queue. Contacts that are reached are excluded from subsequent runs. This pattern suits debt collection, payment reminders, appointment reminders, and any use case with a recurring flow of contacts. Playbook 2 (Section 7) demonstrates this pattern.
+
+**A/B testing. **Two versions of the same agent with different prompts, voices, or LLMs, each assigned to a random subset of the contact list. The workflow splits contacts into two groups, triggers calls with the respective agent for each group, and logs outcomes separately. After a statistically meaningful number of calls, compare conversion rates, sentiment, and average duration to determine which version performs better. This is how you optimise agents systematically rather than guessing.
+
+\

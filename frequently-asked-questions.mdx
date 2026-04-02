@@ -1,0 +1,29 @@
+---
+title: "Frequently Asked Questions"
+---
+
+**Can I use [RapidCall.ai](http://RapidCall.ai) without any technical knowledge? **Yes. The entire platform is configured in plain language through the dashboard. You do not need to write code, use an API, or understand any technical infrastructure to build and deploy an agent. Technical integrations (webhooks, API access, CRM connections) are available but optional.
+
+**How many agents can I create? **There is no limit on the number of agents per workspace. Create as many as you need for different use cases, campaigns, or clients.
+
+**Can I run multiple agents simultaneously? **Yes. Each agent operates independently. You can have several agents making or receiving calls at the same time across different phone numbers and different campaigns.
+
+**Can I use the same agent for inbound and outbound? **Yes, though in practice most users create separate agents because inbound and outbound calls require different opening scripts and different conversation flows. A single agent can be assigned to both inbound and outbound routing on the same number.
+
+**How quickly can I get an agent into production? **A straightforward agent (appointment setting, lead qualification, follow-up outreach) can be built, tested, and live within 30 minutes. More complex agents with multiple functions, integrations, and handlers typically take a few hours of configuration and two to five rounds of testing.
+
+**What happens if a provider goes down mid-call? **The platform has a fallback system. If the primary LLM or voice provider fails during a call, the fallback LLM and fallback voice activate automatically to keep the call running. Configure your fallbacks in the Security & Fallback section of the agent editor. Calls never drop because of a provider outage.
+
+**Can I transfer calls to a human agent? **Yes. The transfer\_call function connects the caller to a human team member. The agent can be configured to transfer based on any trigger: contact request, specific objection, failed verification, or any other condition you define in the prompt.
+
+**Does the platform support multiple languages? **Yes. The platform supports 18\+ languages including English (multiple accents), Spanish, French, German, Portuguese, Dutch, Polish, Russian, Arabic, Chinese, Japanese, Turkish, and more. For multilingual deployments, separate agents per language generally perform better than a single multilingual agent.
+
+**Can I bring my own phone number? **Yes. You can connect an existing business number via SIP trunk. The setup requires E.164 format, a termination URI, and optionally authentication credentials. You can also buy new numbers directly through the platform.
+
+**Is there a limit on call duration? **You can set a maximum call duration per agent. There is no platform-imposed hard limit, but longer calls cost more (billed per minute) and most use cases work best with a reasonable cap to prevent runaway calls.
+
+**Can I listen to call recordings? **Yes. Every call with recording enabled has a playable recording in the Call Detail Panel, with a download option. You can also access recordings via the recording URL logged in your webhook data.
+
+**Can I export my data if I leave? **Yes. Call history, recordings, transcripts, agent configurations, and contact data can all be exported in CSV, XLS, JSON, and ZIP formats. See Section 8 for full details.
+
+\

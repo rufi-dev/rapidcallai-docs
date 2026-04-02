@@ -1,0 +1,124 @@
+---
+title: "Testing Your Agent"
+---
+
+Testing is where amateur agents get separated from production agents. Do not skip this.
+
+Start with the built-in Test Call tool. Simulate real calls inside the platform and validate that the prompt behaves the way you intended. Test the normal flow first (the ideal conversation path). Then test edge cases: interruptions, misunderstandings, long silences, background noise. Then test objection scenarios: every type of resistance you expect your contacts to throw at the agent.
+
+After internal testing, move to live tests. Call the agent from a real phone. Use realistic scenarios. Try to break it. Evaluate for clarity and stability of responses, natural conversation flow, and whether the agent actually reaches its goal.
+
+Most agents need two to five rounds of testing and prompt adjustment. If your agent is perfect on the first try, you probably are not testing hard enough.
+
+## **Testing & Quality Assurance**
+
+Testing is where the gap between a demo agent and a production agent becomes visible. Most agents sound impressive on the first test call. What separates a production-ready agent from a demo is how it handles the tenth edge case, the caller with an accent, the person who interrupts mid-sentence, the question the prompt did not anticipate, and the five-second silence when someone is checking their calendar.
+
+This section covers a systematic approach to testing: what to test, how to test it, how to read the results, and when an agent is actually ready for live calls.
+
+## **The Testing Cycle**
+
+Every agent goes through the same cycle: build, test, fix, test again. Most agents need two to five full cycles before they are production-ready. If your agent is perfect on the first test, you are not testing hard enough.
+
+| **Phase** | **What You Are Doing** |
+| :-- | :-- |
+| 1. Happy path | Test the ideal conversation. The contact answers, follows the script, agrees to everything, and the call completes cleanly. If this does not work, nothing else will. |
+| 2. Objection paths | Test every objection your prompt has a handler for. Verify the agent acknowledges, redirects, and returns to the script correctly. |
+| 3. Edge cases | Test the scenarios your prompt does not explicitly cover. What happens when the contact asks something unexpected? When they stay silent? When they say something ambiguous? |
+| 4. Stress test | Try to break the agent. Interrupt it. Change the subject. Speak fast. Mumble. Give wrong information on purpose. Ask the same question three times. Whatever your real contacts might do. |
+| 5. Real phone test | Call the agent from a real phone over the actual telephone network. Test calls within the platform use WebRTC, which has different audio characteristics than PSTN. Some issues only surface on real phone lines. |
+
+## **What to Test**
+
+A comprehensive test covers four dimensions: script adherence, function execution, voice quality, and edge case handling.
+
+### **Script Adherence**
+
+Does the agent follow the script in the right order? Does it wait for responses before advancing? Does it use the correct dynamic variables? Does it skip steps or combine steps that should be separate? Does it repeat itself unnecessarily?
+
+Test this by walking through the happy path first, then deliberately delaying your responses, giving partial answers, and asking off-topic questions between steps. A well-structured prompt will keep the agent on track. A weak one will let it drift.
+
+### **Function Execution**
+
+If your agent books appointments, transfers calls, sends SMS, or triggers any external action, test every function path. Verify that the function fires at the right moment, that the correct data is passed, and that the agent responds appropriately to both success and failure. If a booking fails (unavailable slot, API error), does the agent recover gracefully or does it freeze?
+
+Functions are the highest-risk component of any agent. A prompt that says the wrong thing is embarrassing. A function that books the wrong appointment, transfers to the wrong number, or sends the wrong SMS is operationally damaging. Test functions more rigorously than anything else.
+
+### **Voice Quality & Timing**
+
+Listen critically to how the agent sounds, not just what it says. Is the pacing natural? Are there awkward pauses between the contact finishing and the agent responding? Does the agent talk over the contact? Does it yield when interrupted? Does the voice sound warm and human or flat and robotic?
+
+These issues are almost always tunable through call settings (response eagerness, interruption sensitivity, voice speed, voice temperature) rather than prompt changes. If the content is right but the delivery feels off, adjust the settings, not the words.
+
+### **Edge Case Handling**
+
+This is where production agents earn their keep. Test the scenarios that do not fit neatly into the script:
+
+| **Scenario** | **What to Check** |
+| :-- | :-- |
+| Contact says nothing for 10 seconds | Does the agent prompt them gently or sit in silence? |
+| Contact speaks a different language | Does the agent acknowledge and handle gracefully? |
+| Contact asks if this is AI | Does the agent respond honestly and pivot back to value? |
+| Contact gives wrong verification info | Does the agent allow a retry without sounding accusatory? |
+| Contact interrupts mid-sentence repeatedly | Does the agent yield and recover without losing its place? |
+| Contact says yes to everything too quickly | Does the agent still confirm details or rush through? |
+| Contact puts agent on hold | Does the agent handle the silence without hanging up? |
+| Background noise (TV, traffic, children) | Does the speech recognition still pick up the contact clearly? |
+| Contact asks a question not covered by prompt or KB | Does the agent admit it does not know, or does it hallucinate? |
+
+## **Using the Test Call Tool**
+
+The built-in Test Call tool (the microphone icon in the agent editor) lets you have a live voice conversation with your agent directly from the dashboard. It uses your browser’s microphone and speakers, which means you can test without a phone — but it also means the audio path is different from a real phone call.
+
+**What the Test Call tool is good for. **Validating prompt logic, script flow, function execution, objection handling, and dynamic variable rendering. It is the fastest way to iterate on your agent’s behaviour because you can test, read the transcript, adjust the prompt, and test again without leaving the editor.
+
+**What the Test Call tool does not cover. **Telephony-specific issues. WebRTC audio (browser-to-platform) has lower latency and higher audio quality than PSTN audio (phone-to-platform via Twilio). This means an agent that sounds perfectly timed in a test call may have slightly different pacing on a real phone call. Background noise, call compression, and network jitter all affect real calls in ways that browser-based testing does not simulate.
+
+| 💡 Best practice: Use the Test Call tool for rapid iteration on logic and content. Once the agent passes your in-browser tests, make 3–5 real phone calls before declaring it production-ready. Issues that only appear on real phone lines are rare but consequential when they do. |
+| :-- |
+
+## **Reading Test Results**
+
+Every test call is logged in Call History with the same detail as a production call: full transcript, recording, cost, latency, sentiment, and extracted data. This is your diagnostic toolkit.
+
+**The transcript is your primary debugging tool. **Read it line by line. Find the exact moment the agent deviated from what you expected. Compare that moment to the corresponding section of the prompt. The gap between what the prompt says and what the agent did tells you exactly what needs to change.
+
+**Latency tells you if the agent feels too slow. **If the latency metric is above 1,500 ms consistently, the conversation will feel unnatural. Check which stage is contributing the most: a heavy LLM, a slow voice provider, or both. Switch to a lighter configuration and test again.
+
+**Sentiment tells you how the conversation landed. **A single test call’s sentiment is not meaningful on its own, but if you run five test calls and all come back negative, the agent’s tone or approach needs work.
+
+**Extracted data tells you if post-call processing works. **If you have configured post-call data extraction fields (outcome, callback time, interest level), check that the extracted values match what actually happened in the conversation. If the agent booked an appointment but the “outcome” field says “no booking,” the extraction logic needs adjustment.
+
+## **When Is an Agent Production-Ready?**
+
+An agent is ready for live calls when it passes all of the following:
+
+**Happy path works flawlessly. **The ideal conversation completes cleanly, every time, with no hallucination, no skipped steps, and all functions executing correctly.
+
+**Every handler fires correctly. **Each objection handler has been triggered at least once and produced the expected response and recovery.
+
+**Dynamic variables render properly. **The agent uses the contact’s name, account details, and other personalised data naturally — no blanks, no “undefined,” no mispronunciations of data that should have been formatted in the prompt.
+
+**Functions work end-to-end. **Every function (booking, transfer, SMS, webhook) has been tested with real data and confirmed to produce the correct outcome on the receiving end (calendar, CRM, phone).
+
+**Real phone calls sound natural. **At least three calls from an actual phone have been completed. Pacing, interruption handling, and audio quality are acceptable.
+
+**Edge cases are handled gracefully. **The agent does not freeze, hallucinate, or go off-script when confronted with unexpected input. It either handles the situation with a relevant response or falls back cleanly.
+
+| ⚠️ The biggest mistake in agent deployment is declaring an agent ready after a single successful test call. That test call was you, following the script, being patient, speaking clearly, in a quiet room. Your real contacts will not do any of those things. Test like your contacts will behave, not like you hope they will. |
+| :-- |
+
+## **Post-Launch Quality Assurance**
+
+Testing does not stop when the agent goes live. The first 50–100 production calls will surface issues that testing did not catch, because real contacts do things you could not anticipate.
+
+**Listen to recordings from the first batch. **Pick 10–15 calls at random from the first day of production. Listen to the full recordings — not just the transcripts. Are there moments where the agent sounds awkward? Where the contact seems confused? Where the conversation stalls? These are the real-world edge cases that your next prompt iteration should address.
+
+**Check your conversion funnel. **If the agent is supposed to book appointments, how many calls resulted in a booking versus how many resulted in a decline, a transfer, or a hangup? If the booking rate is lower than expected, read the transcripts of the declined calls. The reason is almost always in the conversation — a weak pitch, a missing handler, or a moment where the agent lost the contact’s trust.
+
+**Track sentiment trends. **A sudden shift in sentiment (more negative calls than usual) can indicate a prompt issue, a data quality problem (wrong variables being passed), or an external factor (you are calling at the wrong time). The Performance dashboard shows sentiment over time, making trends visible.
+
+**Iterate continuously. **The best agents are never finished. Each batch of production calls teaches you something. Update the prompt, add a handler, adjust a setting, test the change, and publish. Over time, the agent gets tighter, smoother, and more effective. This is the same process human call teams go through — the difference is that an AI agent’s improvements apply to every subsequent call instantly, not one rep at a time.
+
+| 💡 A useful discipline: after every 500 production calls, review the 10 lowest-sentiment transcripts. They will tell you exactly what the agent’s weaknesses are and what your next prompt update should focus on. |
+| :-- |

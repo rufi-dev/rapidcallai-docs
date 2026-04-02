@@ -1,0 +1,22 @@
+---
+title: "Agent Not Connecting Calls"
+---
+
+This is the most common issue new users encounter. The agent is configured, you trigger a call, but nothing happens — or the call connects and immediately drops. Work through these checks in order:
+
+**1. Is the agent published? **The most frequent cause. You can save changes to an agent without publishing them. If you have created or modified an agent but have not clicked Publish, the live version is either the previous published version or, for new agents, nothing at all. Check the agent editor — if the Publish button is highlighted, your latest changes are not live yet.
+
+**2. Is a phone number assigned? **Outbound calls require an originating number. Inbound calls require a number routed to the agent. Go to Phone Numbers and confirm that the correct number is assigned for the correct direction (inbound, outbound, or both). If no number is assigned, calls have nowhere to route.
+
+**3. Is the phone number in E.164 format? **All phone numbers on the platform must be in international E.164 format: \+\[country code\]\[number\] with no spaces, dashes, or brackets. For example, a US number should look like \+14155551234. If the destination number is not in this format, the call will fail to initiate.
+
+**4. Are country permissions set? **Each phone number has country permissions that control which countries it can call. If you are trying to call a number in a country that is not enabled on your originating number, the call will be blocked. Check the number’s settings and enable the relevant countries.
+
+**5. Is the number verified? **For some regions, particularly the US, unverified numbers may be flagged as spam or blocked by carriers. If your calls are being rejected or going straight to voicemail at unusually high rates, consider enabling Verified Caller ID on the number.
+
+**6. Run Check Config. **The Check Config tool on the Phone Numbers page runs a diagnostic on the number’s wiring: SIP trunk status, inbound routing, outbound routing, and agent assignment. If something is misconfigured, it will tell you what is wrong. Run this before contacting support.
+
+**7. Is the call being answered? **If the call connects on your end but the contact never picks up, the issue is on the recipient’s side — not the platform. Check Call History for the call status. “No Answer” means the call rang but was not picked up. “Max Duration” means the call connected but hit the time limit. Both are normal operational outcomes, not errors.
+
+| 🔧 Quick check: the single most common cause of “agent not working” is an unpublished agent. Save and Publish are separate actions. Always publish after making changes. |
+| :-- |

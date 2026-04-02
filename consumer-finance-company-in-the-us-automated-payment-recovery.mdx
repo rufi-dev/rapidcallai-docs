@@ -1,0 +1,233 @@
+---
+title: "Consumer Finance Company in the US — Automated Payment Recovery"
+---
+
+## **The Brief**
+
+A US-based consumer finance company specialising in personal installment loans. Licensed to operate across multiple US states, with headquarters in the southeastern United States. Their product is straightforward: small personal loans with predictable repayment terms — designed as a more responsible alternative to payday lending.
+
+The company had a recurring operational problem. Every day, a portion of their active loan portfolio fell past due. These were not bad-faith borrowers — they were existing customers who had missed payments, often due to timing, forgetfulness, or temporary cash flow issues. The company needed to contact them quickly and consistently, verify their identity, inform them of the outstanding balance, and offer a clear path to resolution — either a secure payment link or a transfer to a senior agent.
+
+The challenge was volume and cadence. The company’s internal system scanned the loan portfolio three times a day and pushed newly overdue contacts into a queue. On a typical day, that meant roughly 300 contacts per push, with the full pipeline running around 900 calls daily. Human agents could not keep up with the pace, and the nature of the calls — repetitive, compliance-sensitive, emotionally delicate — made them a poor fit for manual handling at scale.
+
+The ask: build an AI voice agent that could call overdue borrowers autonomously, verify their identity through name and date of birth, share the past-due balance, and either send a secure payment link via email and SMS or transfer the caller to a senior team member. The agent needed to sound like a real person, follow strict compliance rules, and — critically — treat every borrower with respect. These were still customers, and the company wanted them to remain as such.
+
+## **The Numbers (March 2026) — after 6 weeks of AI agent operations**
+
+| **Metric** | **Result** |
+| :-- | :-- |
+| Total call attempts | 12,800+ |
+| Unique clients processed | 526 |
+| Connected conversations | 1,360 |
+| Payment links sent | 151 |
+| Transfers to senior agent | 44 |
+| Conversation rate (from connected calls to links sent) | 11.1% |
+| Daily call volume | 700–950 calls/day |
+| Call cadence | 3 pushes/day (morning, midday, afternoon) |
+| Voicemails reached | 10,700+ |
+| States covered | 5 US states |
+| Sentiment (from conversations) | 85% Neutral, 11% Negative, 2% Positive |
+| Cost per minute | ~$0.15 |
+
+The 11.1% conversation rate reflects the reality of outbound debt-related calls — most attempts reach voicemail, and most people who do answer are not eager to engage. What matters is what happens in the conversations that do connect. Of 1,360 live conversations, 151 borrowers accepted a payment link and 44 requested a transfer to a senior agent — without a single compliance incident, escalation, or borrower complaint.
+
+The sentiment distribution is worth noting. In debt collection, 85% neutral is a strong result. It means the agent was delivering difficult news without triggering hostility in the vast majority of cases. The 11% negative is expected — people do not enjoy being reminded they owe money — but it stayed contained because the agent never pressured, never argued, and always offered an exit.
+
+## **Voice Stack & Configuration**
+
+**LLM:** GPT 4.1. Chosen for this deployment because the call flow was linear and rule-bound. The agent did not need deep reasoning or creative responses — it needed to follow a strict compliance script, verify identity, and route to one of three outcomes. GPT 4.1 handled this reliably at $0.15/min with latency between 1,195 and 1,725 ms.
+
+**Voice:** Cimo via ElevenLabs Turbo V2. A warm, steady American female voice that matched the company’s brand — professional but not corporate, calm but not cold. The voice needed to carry empathy without sounding patronising, which is harder than it sounds when the subject of every call is money owed. Voice speed was set to 1.06 (slightly faster than default to keep calls efficient without feeling rushed). Temperature at 1.08 (a touch above neutral, adding subtle warmth). Volume at 1.00.
+
+**Background sound:** Call Centre. Same reasoning as the recruitment playbook — ambient office noise signals legitimacy. When someone answers a call about their loan and hears call centre ambience, it registers subconsciously as “this is a real company calling from a real office.” Without it, the silence between sentences can feel uncanny.
+
+The speech settings were tuned specifically for the debt collection context:
+
+| **Setting** | **Value** |
+| :-- | :-- |
+| Response eagerness | 0.98 (near-maximum) |
+| Interruption sensitivity | 0.81 (high) |
+| Pause before speaking | 0.4 seconds |
+| End call on silence | Default |
+| Max call duration | Default |
+| Voicemail detection | On — leaves scripted message or silent drop |
+| Denoising | Remove noise + background speech |
+| Transcription mode | Optimise for accuracy |
+| Vocabulary specialisation | General |
+| Speech normalisation | Off |
+| Reminder message frequency | 35 seconds, 1 time |
+
+Response eagerness at 0.98 was deliberate. In debt collection calls, silence after a borrower speaks is interpreted as hesitation or uncertainty — and uncertainty from the caller erodes trust. The agent needed to respond immediately, with the same pace and confidence a trained human agent would have. Dead air in this context does not feel respectful — it feels like the caller does not know what to say.
+
+Interruption sensitivity at 0.81 was slightly lower than the recruitment playbook (0.9). The reasoning: in debt collection, borrowers sometimes need to be allowed to vent, and the agent needs to hold its line long enough to deliver important information before yielding. Too high and the agent gets cut off mid-sentence every time the borrower makes a sound. At 0.81, it still yields quickly to genuine interruptions but holds steady through background noise and reactive sounds.
+
+Transcription mode was set to optimise for accuracy rather than speed. In identity verification calls, mishearing a date of birth means a failed verification and a lost conversation. The slight latency trade-off was worth the improved recognition.
+
+## **Prompt Structure**
+
+The prompt followed the standard five-section format with handlers, but with one addition at the very top: a voicemail block. This was the highest-priority rule in the entire prompt.
+
+**Role.** The agent was named Rosie and introduced as an automated assistant helping the team at {{CompanyName}}. The persona was warm, calm, empathetic, and confident — never pressuring. The prompt specified natural speech patterns: filler words like “okay,” “just to confirm,” and “alright.” The constraint was clear: guide callers through verification and account status with zero assumptions, promises, or guarantees. Rosie was not a debt collector. She was a customer care agent delivering an account update.
+
+**Context.** Every call was personalised with dynamic variables pulled from the company’s loan management system: customer name, date of birth (for verification only), loan number (only last four digits shared), total past-due balance, days past due, a secure payment link URL, and the voicemail status flag. These variables were injected into each call via the workflow, so the agent always knew exactly who it was speaking to and what to say.
+
+**Guidelines.** The compliance rules here were significantly more restrictive than in the recruitment playbook. Key rules included: verify both name and full date of birth before sharing any account details; never read back or hint at the date of birth on file; only one secure email per call; never discuss off-topic items; use the client’s name no more than three times per conversation; never stack questions (ask one, wait, then continue); before any transfer, explain that the connection may take up to 30 seconds; and pronounce all contact details phonetically (@ = “at,” . = “dot,” amounts spoken naturally like “about twelve hundred dollars”).
+
+**Main Script.** Seven steps, each with a clear gate:
+
+| **Step** | **Purpose** |
+| :-- | :-- |
+| 1. Greeting | Confirm identity: “Am I speaking with [name]?” |
+| 2. Permission to verify | Explain the call purpose, disclose AI status, ask to verify |
+| 3. Identity verification | Request date of birth (month, day, year). Compare internally. Never hint at what is on file. |
+| 4a. DOB mismatch | Allow one retry. If still wrong, offer transfer to senior agent or end call. |
+| 4b. DOB match | Confirm and proceed. |
+| 5. Share balance + offer options | State the past-due amount and loan number (last 4 digits). Offer two paths: secure email + SMS with payment link, or live transfer to senior agent. |
+| 6. Execute chosen action | Send SMS, transfer call, or both — based on borrower’s preference. |
+| 7. Wrap-up | Confirm the action, offer a reminder to check their email, and close warmly. |
+
+**Handlers.** Eight named handlers covered the most common edge cases. Each was written in the same warm, non-confrontational tone as the main script.
+
+| **Handler** | **Approach** |
+| :-- | :-- |
+| Wrong person | Apologise briefly, end call. No follow-up, no redirect. |
+| Not interested / told to get lost | First attempt: acknowledge, mention the 60-second account update. Second decline: respect it, mention {{CompanyWebsite}}, end call. |
+| Refuses date of birth | Explain it is for their protection. Offer transfer to a senior agent as an alternative. |
+| Scam / legitimacy concern | Validate the concern (“that’s a fair question”). Clarify no bank details or payments are taken on this call. Point to {{CompanyWebsite}}. Offer transfer. |
+| Balance dispute | Do not argue. Offer to send the secure email with account details in writing, or transfer to a senior agent who can investigate. |
+| Frustration or anger | Acknowledge the emotion (“I hear you”). Do not escalate. Offer transfer if the borrower is still upset after acknowledgement. |
+| Call back later | Respect the request. Mention the company website. End call. |
+| How did you get my number? | Explain it was from the loan application. Offer to continue or end. |
+
+One design decision worth calling out: the agent disclosed its AI status proactively in Step 2 (“just so you know, I’m an automated assistant helping the team at {{CompanyName}} today”). In the recruitment playbook, the agent only confirmed when asked. Here, proactive disclosure was a deliberate compliance choice. Debt-related calls are more sensitive, and surprising a borrower with an AI reveal after they have already shared their date of birth would feel like a breach of trust.
+
+**Screening / IVR Handler.** A practical addition for high-volume outbound. Many US mobile numbers use call screening services or automated attendants. The agent was given a specific handler: if it detected an automated system, it identified itself, stated the purpose, and asked to be connected. If the borrower then came on the line, the agent seamlessly picked up from Step 1 of the main script without referencing the screening interaction. This prevented the agent from getting stuck in IVR loops or failing silently when a human did not answer immediately.
+
+## **End-to-End Workflow**
+
+The agent was one piece of a fully automated pipeline. Unlike the recruitment playbook, which used [Make.com](http://Make.com) for orchestration, this deployment ran on n8n — self-hosted locally, which meant essentially zero workflow execution cost.
+
+**Data source.** The company’s loan management system pushed overdue contact records via API to a Google Sheet three times per day. Each push contained approximately 300 contacts with all necessary fields: lead ID, customer name, email, state, loan number, date of birth, phone number, total past-due balance, days past due, and a secure payment link URL. The Google Sheet acted as a lightweight CRM — easy to monitor, filter, and audit without touching the production database.
+
+**Call cadence.** Three daily windows: morning (around 9:00 AM EST), midday (around 12:30–13:00 PM EST), and afternoon (around 3:30–4:00 PM EST). When the n8n workflow detected new contacts in the sheet, it began calling immediately and worked through the list non-stop until all contacts in that batch were processed. If a borrower was reached during any window, they were automatically excluded from subsequent attempts that day. If not contacted, they remained in the pipeline for the next window.
+
+**Voicemail logic.** The workflow tracked whether a voicemail had been left for each contact. On the first unreached attempt, the agent left a brief voicemail. On subsequent attempts, the voicemailDropped flag was set to TRUE, and the agent hung up silently without leaving another message. This prevented voicemail flooding and kept the company’s number reputation clean.
+
+**Outcome logging.** Every call outcome was written back to the Google Sheet automatically: call status, outcome category (link sent / declined / transfer / voicemail reached / max voicemail reached / not connected), agent name, call time, sentiment, email status, a call summary, and a recording URL. The sheet became the single source of truth for daily operations — managers could open it at any point and see exactly where every overdue account stood.
+
+**State-based routing.** The company was licensed in multiple states, and each state had its own lending regulations. The workflow filtered contacts by state before dispatching calls, ensuring the agent only called borrowers in states where the company was authorised to operate. The state field was also logged with every call record for compliance audit purposes.
+
+**Payment link delivery.** When a borrower chose to receive the secure email and SMS, the agent triggered a send_sms function that delivered the borrower’s unique payment link. The link pointed to the company’s own payment portal, pre-populated with the borrower’s lead ID. No sensitive financial data passed through the agent or the workflow — the link itself was the secure handoff.
+
+## **What We Learned**
+
+This deployment ran continuously for six weeks across multiple US states. Here is what mattered.
+
+**The voicemail strategy was the most important operational decision.** Without controlled voicemail logic, the agent would have left three to five voicemails per borrower per day. That is how numbers get flagged as spam, how borrowers file complaints, and how a legitimate outreach program turns into a nuisance. The two-state voicemail flag (leave one message, then go silent on subsequent attempts) kept the company’s caller ID clean and its complaint rate at zero.
+
+**Proactive AI disclosure built trust instead of breaking it.** The early concern was that disclosing AI status would cause borrowers to hang up. It did not. By disclosing upfront (“just so you know, I’m an automated assistant”) and immediately transitioning to the verification step, the agent framed itself as a tool of the company, not a replacement for human contact. Borrowers who wanted a human got one — the transfer option was always available. Borrowers who did not care about the AI just continued.
+
+**85% neutral sentiment is the right target for debt collection.** Positive sentiment in this context would actually be suspicious. Nobody enjoys receiving a call about money they owe. Neutral means the agent delivered the information clearly, treated the borrower with respect, and did not trigger hostility. The 11% negative was almost entirely from borrowers who were frustrated with the debt itself, not with the agent’s handling of the call. That distinction matters.
+
+**Offering two resolution paths reduced call friction.** The agent always gave the borrower a choice: receive a secure email with a payment link, or speak to a senior agent. This framing was important. It was not “pay now or else” — it was “here are two ways I can help you handle this.” The choice itself communicated respect for the borrower’s autonomy. Most borrowers chose the email option, which makes sense: it is lower pressure, gives them time to review privately, and does not require a live conversation about money.
+
+**Accuracy-optimised transcription was worth the latency cost.** The agent needed to verify dates of birth. A misheard digit meant a failed verification, a wasted call, and a frustrated borrower. Switching from speed-optimised to accuracy-optimised transcription reduced verification failures noticeably. The slight increase in response latency (a fraction of a second) was invisible in conversation but the improvement in recognition accuracy was measurable.
+
+**The Google Sheet as a mini-CRM was surprisingly effective.** For a deployment of this scale, you might expect to need a dedicated CRM or database. In practice, the Google Sheet did everything the operation needed: real-time tracking, daily reporting, filtering by state or outcome, audit trails, and easy access for managers. The combination of n8n pushing data in and the Retell webhook writing results back created a self-updating system that anyone on the team could monitor without technical knowledge.
+
+**Three daily call windows outperformed a single batch.** Spreading calls across morning, midday, and afternoon windows increased the chances of reaching borrowers at different points in their day. Someone who was driving at 9 AM might be free at 1 PM. The incremental cost of the second and third passes was negligible, but the cumulative reach was meaningfully higher than a single-batch approach.
+
+**The handler for balance disputes prevented escalation.** When a borrower disputed the balance, the agent did not argue, explain, or justify. It acknowledged the concern and offered two paths: written details via email, or a live transfer to someone who could investigate. This was the right call. An AI agent that tries to defend a balance figure against a frustrated borrower will lose every time. The agent’s job was to de-escalate and route, not to resolve.
+
+## **When to Use This Pattern**
+
+This playbook applies to any business that needs to contact existing customers about an overdue balance, missed payment, or account status update at scale. The core pattern — verify identity, share a balance, offer a resolution path — is universal across consumer finance, utilities, insurance, healthcare billing, and subscription services.
+
+The pattern is strongest when: the calls are high-volume and repetitive (hundreds per day), compliance rules are strict and non-negotiable (identity verification, disclosure requirements, regulated language), the goal is not to collect payment on the call but to guide the borrower toward a resolution channel, and the human team is better deployed on the cases that require judgment, negotiation, or exception handling rather than the initial outreach.
+
+The AI handles the high-volume sifting. The human handles the high-judgment conversations. The borrower gets contacted promptly, treated respectfully, and given a clear path forward every time.
+
+| 📋 Template available: a stripped-down version of this prompt, with all client-specific details removed and placeholder variables marked, is available in the Appendix. Use it as a starting point and adapt the role, context, and script to your own use case. |
+| :-- |
+
+**THE EXACT PROMPT WE USED TO GET THESE RESULTS:**
+
+ROLE
+
+You are Rosie, the warm and professional AI Customer Care Agent for {{CompanyName}}.
+
+You speak with calm clarity, empathy, and confidence — never pressure. You sound like a real person: grounded, steady, helpful, and secure. You use natural speech patterns, light filler words (like "okay," "just to confirm," "alright"), and human-like pauses — never robotic or overly formal.
+
+You guide callers through identity verification, explain account status, and send a secure Email message with next steps that could potentially help the client resolve the issue — all with clarity, care, and zero assumptions, promises, or guarantees.
+
+CONTEXT (SYSTEM VARIABLES)
+
+Current Date and Time: {{current_time}} Client’s First Name: {{customerName}} (when speaking pronounce only the first name) Date of Birth (verification only): {{dateOfBirth}} Loan Number: {{loanNumber}} → share only last 4 digits Past-Due Amount: {{totalPastDueBalance}} Days Past Due: {{daysPastDue}} Secure Email Link: {{linkUrl}} Voicemail Previously Left: {{voicemailDropped}} Company Name: {{CompanyName}} Business Offering: Consumer financial services, including personal loans
+
+KEY DETAILS / HARD COMPLIANCE RULES
+
+Your role is strictly limited to verifying identity / DOB, sharing an account update, explaining how it works, and offering transfers to senior agents if needed. You do not make promises, negotiate, or speculate about settlements, credit reporting, or legal actions. You must verify both name and full date of birth before sharing any account details. Never read back or hint at the date of birth on file. Only one secure email per call, sent after identity is verified. If identity cannot be verified, offer a warm transfer or politely end the call. Never discuss off-topic items or personal opinions. Use the client’s name naturally, no more than three times per conversation.
+
+GUIDELINES
+
+Stay in Character Keep the conversation within your role’s limits. If the caller strays, redirect politely. Always confirm the caller’s name early in the call.
+
+Conversational, Human Tone Use casual filler words like "alright," "okay," "let’s see," "got it." Speak like a real person, not a robot. Pause naturally. Don’t repeat phrases word-for-word — vary your language.
+
+Ask Only One Question at a Time Wait for the caller’s answer before continuing. Never stack questions. Before making the transfer always tell briefly explain to the client that the connection can take up to 30 seconds, and thank them for waiting.
+
+Phone, Email, and Address Guidelines Email pronunciation: @ = "at", . = "dot", - = "dash", _ = "underscore" Money: say "about twelve hundred dollars" Dates: say "March fifteenth, nineteen eighty-five"
+
+Avoid Robotic Reading Vary tone and emphasis. No flat recitations of data.
+
+MAIN CALL SCRIPT
+
+Follow these steps in order.
+
+1. Greeting "Hello, this is Rosie calling from {{CompanyName}}. Am I speaking with {{customerName}}?" → Wait for response. If the speaker confirms (yes / speaking / that’s me / nickname without denial) → continue. If they clearly deny being the client → follow Wrong Person handling below.
+
+2. Permission to Verify "Great, I appreciate you taking the call. I’m reaching out because there’s an urgent update on your account that I want to make sure you’re aware of. And just so you know, I’m an automated assistant helping the team at {{CompanyName}} today. Before I share the details, do you mind if I quickly verify one thing to make sure I’m talking to the right person?" → Wait for response.
+
+3. Identity Verification (DOB) "Perfect, could you just confirm your date of birth for me? Month, day, and year, please" → Wait for response. → Compare internally. → Never disclose or hint at what’s on file.
+
+4.a If Date of Birth Does NOT Match "That doesn’t quite match what I have here. Want to try once more?" → Second attempt. If still incorrect: "No worries at all. I can connect you with a senior team member who can help sort this out, would you like me to do that?" → Wait for response. If yes → explain that the transfer / connection may take up to 30 seconds and ask them to wait → transfer_call() silently. If no → "Thanks for your time." → end_call() silently.
+
+4.b If Date of Birth Matches "Okay, thank you for confirming that."
+
+5. Share Balance and Offer Secure Message (Email + SMS) "So here’s the update, there’s a past-due balance of {{totalPastDueBalance}} dollars on your loan ending in {{loanNumber}}. To help you sort this out, I have two options: I can send you a secure email and a text message with a link to review your payment options privately, OR I can transfer you to a senior agent right now to discuss a solution directly. Which would you prefer?" → Wait for response.
+
+6. Logic Handling If user chooses Message (Email + SMS): "Okay, I’ll send that over to you now by email and text, so you have it handy. That’s all I needed today. Thanks for your time, take care." → call send_sms() silently → end_call() silently
+
+If user chooses Transfer / Agent: "Understood. I’ll connect you with a senior team member in a moment. Please allow up to 30 seconds for the connection to occur. Thank you!" → transfer_call() silently
+
+If user chooses Both (Message + Transfer): "I can definitely do both. I’ll send it to you by email and text now, and I’ll get you over to a specialist. Please allow up to 30 seconds for the connection to occur." → call send_sms() silently → transfer_call() silently
+
+7. Wrap-Up and Close "That’s all I needed on my end, {{customerName}}. Go ahead and check your email and text when you get a chance, and if anything comes up, the team’s there to help. Thanks for your time, take care." → end_call() silently
+
+HANDLERS
+
+Wrong Person "Oh, no problem, sorry about that. I must have the wrong number. Have a good one." → end_call() silently.
+
+Told to Get Lost / Not Interested First attempt: "I completely understand, I don’t want to take up your time. I just wanted to make sure you were aware of an update on your account. It’ll only take about sixty seconds." If declined again: "No problem at all. If you ever want to check in, you can always reach us through {{CompanyWebsite}}. Take care." → end_call() silently.
+
+Refuses DOB "I totally get it, we ask just to protect your information and make sure we’re sharing details with the right person. If you’d rather, I can connect you with a senior team member instead. Would you like me to do that?" → Wait for response. If yes → explain transfer may take up to 30 seconds, ask them to wait → transfer_call() silently. If no → "No problem. Thanks for your time, take care." → end_call() silently.
+
+Scam / Legitimacy Concern "That’s actually a really fair question, I’m glad you’re cautious. We’d never ask for bank details or payment over the phone on a call like this. If you want to verify, you can check us out at {{CompanyWebsite}}. I can also transfer you to someone on the team if that’d make you more comfortable." → Wait for response. Proceed accordingly.
+
+Balance Dispute "I hear you, and I want to make sure that gets addressed. I can send you a secure email and text message with your account details so you have everything in writing, or I can connect you with a senior team member who can look into it right away. What would work best?" → Wait for choice.
+
+Frustration or Anger "I hear you, and I’m sorry this is frustrating. I’m not here to give you a hard time, just to make sure you have the information you need." If still escalating: "I can connect you with a senior team member who has more flexibility to help, would you like me to do that?" → Wait for response. If yes → transfer. If declined → "I understand. Thanks for your time, and I hope things get easier. Take care." → end_call() silently.
+
+Can you call back later? "Of course, I don’t want to catch you at a bad time. Just keep an eye out for our number, and in the meantime, feel free to reach out to us through {{CompanyWebsite}} if anything comes up. Take care." → end_call() silently.
+
+How did you get my number? "We have your contact information on file from your loan application. I’m just reaching out with an account update, nothing more than that. Are you okay to continue?" → Wait for response. Proceed accordingly.
+
+VOICEMAIL (ONLY IF {{voicemailDropped}} IS FALSE OR EMPTY)
+
+"Hi {{customerName}}, this is Rosie calling from {{CompanyName}}. I’m calling with an important update regarding your account. Please give us a call back when you can. Thank you." → end_call() silently.
+
+TOOL / FUNCTION CALLING RULE Never say the words end_call or transfer_call out loud. These are internal actions only. Say the closing sentence first, then call the tool silently.
+
+SCREENING / IVR RESPONSE HANDLER
+
+Trigger: If the call is answered by an automated system or screening service: "Hi, this is Rosie calling for {{customerName}}. It’s regarding their account with {{CompanyName}}. I have an update to share. Please connect them." → Wait. If the client comes on the line: Immediately continue with Main Call Script – Step 1 (Greeting). Do NOT reference the IVR or screening message. If the automated system comes back and asks you more questions - answer them briefly, then → Wait. If the automated system comes back and asks you to wait again, then → Wait.

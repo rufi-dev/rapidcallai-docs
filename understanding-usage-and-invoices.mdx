@@ -1,0 +1,89 @@
+---
+title: "Understanding Usage & Invoices"
+---
+
+[RapidCall.ai](http://RapidCall.ai) runs on a pure pay-as-you-go model. There are no monthly subscriptions, no seat fees, no per-agent charges, and no minimum spend. You pay for what you use, and you can see exactly what you are being charged for at any time.
+
+This section covers how billing works, how to read your usage data and invoices, and how to manage your account if you need to close a workspace or export your data.
+
+## **Understanding Usage & Invoices**
+
+All billing is handled through Stripe. Your payment method is stored securely with Stripe — card details never touch our servers. Charges accumulate as your agents make and receive calls, and you are billed monthly for your total usage. There is no prepaid balance or top-up system — you are charged after the fact for actual usage, the same way a utility bill works.
+
+There is no minimum balance, no minimum monthly spend, and no commitment. If your agents make zero calls in a given month, you are charged nothing.
+
+| 🎁 New accounts receive \$50 in free call credit to get started. This credit is applied automatically and covers your initial testing and first live calls so you can evaluate the platform before any charges hit your payment method. |
+| :-- |
+
+\
+
+### **How Charges Work**
+
+Every billable minute of call time is broken down into its component parts. You are not charged a single flat rate per minute — instead, each component is metered and priced separately. This means your effective cost per minute depends on which voice provider and language model you have configured for each agent.
+
+| **Component** | **What It Covers** |
+| :-- | :-- |
+| Platform Minutes | The base per-minute charge for using [RapidCall.ai](http://RapidCall.ai)’s orchestration layer, telephony infrastructure, and real-time call processing. |
+| Voice Provider (TTS) | The text-to-speech engine generating the agent’s spoken audio. Charged per minute of active speech. Varies by provider (ElevenLabs, Cartesia, Gemini Native Audio, OpenAI Realtime). |
+| Language Model (LLM) | The AI model driving the conversation. Charged per minute of active inference. Varies by model (Claude Haiku, Claude Sonnet, GPT-4.1, GPT-4.1 Mini, GPT-5, Gemini Flash). |
+| Phone Number Rental | Fixed monthly fee per active phone number. Charged regardless of call volume. |
+| Verified Caller ID | \$10/month per number (US only). Reduces spam flagging on outbound calls. |
+| Branded Caller ID | \$0.10 per call (US only). Displays your business name on the contact’s screen. |
+
+\
+
+For example, if your agent uses Claude 4.5 Haiku as the LLM and ElevenLabs as the voice provider, a one-minute call would include three separate line items: platform minutes, ElevenLabs TTS, and Claude 4.5 Haiku. If you switch that same agent to Gemini Native Audio, the ElevenLabs charge disappears and a Gemini Native Audio charge appears instead. The platform minutes charge stays the same regardless of which stack you use.
+
+This transparency matters because it lets you make informed decisions about cost. If you are running a high-volume outreach campaign where cost efficiency is critical, you can choose a lighter model and a cheaper voice provider. If you are running a complex agent where quality is the priority, you can choose a heavier stack and see exactly what the premium costs you.
+
+In practice, all-in costs start as low as \$0.15 per minute for a production-quality agent. That includes the platform, the voice engine, and the language model — not a stripped-down demo configuration, but a stack that delivers natural-sounding audio and sub-second response latency on real calls. For context, most competing platforms charge more per minute for noticeably higher latency and lower audio fidelity. The difference is felt immediately in call performance: tighter response times mean fewer awkward pauses, which means higher engagement and better conversion rates. At scale, those fractions of a second compound into a measurable advantage.
+
+### **The Billing Page**
+
+The Billing page is found under System in the left sidebar. It has two tabs: Billing History and Usage.
+
+**Billing History **shows your current period charges and all past invoices. The current period section expands to show a line-by-line breakdown of every component you have been charged for since your last invoice — each voice provider, each language model, and platform minutes, listed individually with running totals. Below the current period, past invoices are listed by date with the total amount, payment status (Paid or Ongoing), and a download link for each invoice. Every invoice is a proper Stripe receipt that you can use for accounting and expense reporting.
+
+**Usage **gives you a higher-level view of your spending. Four summary cards sit at the top of the page: Current Period (total charges for the active billing cycle, combining usage and any recurring fees), Phone Numbers (how many numbers are currently active), Calls This Month (total call count and total minutes), and Billing Status (whether your payment method is active). Below the summary cards, the page splits into two panels. On the left, Recurring Charges shows any fixed monthly fees (phone number rentals, verified caller ID). On the right, Usage Charges shows the same component-level breakdown as the Billing History tab, but with visual proportion bars so you can see at a glance where your money is going.
+
+You can filter the Usage tab by three views: Current Period (charges since your last invoice), All Time (cumulative since account creation), and Custom (any date range you choose). The custom range is useful for tracking costs on a specific campaign or comparing spend across months.
+
+**Manage Billing **is the button in the top-right corner of the Billing page. It opens the Stripe customer portal where you can update your payment method, view your full Stripe invoice history, and manage your billing details. All payment management happens through Stripe directly.
+
+### **Reading Your Invoice**
+
+Each invoice corresponds to a billing period and lists every component charge individually. A typical invoice for a workspace running two agents might look like this:
+
+| **Line Item** | **Amount** |
+| :-- | :-- |
+| ElevenLabs TTS | \$37.95 |
+| Cartesia TTS | \$17.67 |
+| Platform Minutes | \$12.24 |
+| GPT-5 | \$0.93 |
+| Claude 4.5 Haiku | \$0.93 |
+| OpenAI Realtime | \$0.56 |
+| Gemini Native Audio | \$0.38 |
+| GPT-4.1 | \$0.36 |
+| GPT-4.1 Mini | \$0.30 |
+| Claude 4.5 Sonnet | \$0.12 |
+| Gemini 2.5 Flash | \$0.02 |
+
+\
+
+If you see charges for multiple voice providers or multiple LLMs on the same invoice, it means you have been testing different configurations or running different agents with different stacks. This is normal and expected — the platform tracks each component independently so you always know what each one costs.
+
+The note at the bottom of the current period section tells you when the current period started and confirms that charges reset after each payment. There is no carryover, no rollover credits, and no accumulation between billing cycles.
+
+### **Keeping Costs Under Control**
+
+Because billing is usage-based, your costs scale directly with your call volume. A few practical habits help:
+
+**Check the Usage tab regularly. **The Usage tab updates in real time. If you are running a large outbound campaign, check it daily. The component breakdown will tell you exactly where your spend is going and whether a different voice or model configuration could reduce costs without affecting quality.
+
+**Test on lighter stacks first. **During development and testing, use a cost-efficient LLM and voice provider. Switch to a heavier stack only once the prompt and call flow are validated. Testing rounds can add up if you are running them on your most expensive configuration.
+
+**Use the Custom date filter. **If you want to understand the cost of a specific campaign, filter the Usage tab to the exact dates the campaign ran. This gives you a clean per-campaign cost figure without noise from other agents or test calls.
+
+**Watch your phone number count. **Phone numbers carry a fixed monthly rental regardless of whether they are making calls. If you have numbers you are no longer using, release them to avoid unnecessary recurring charges.
+
+\

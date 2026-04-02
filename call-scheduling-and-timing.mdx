@@ -1,0 +1,15 @@
+---
+title: "Call Scheduling & Timing"
+---
+
+When you call matters almost as much as what you say. The best agent in the world will underperform if it is calling people at the wrong time.
+
+**Respect local time zones. **If your contacts are spread across multiple time zones, your workflow needs to account for that. Calling someone at 9 AM your time might mean calling them at 6 AM their time. Most workflow engines ([Make.com](http://Make.com), n8n) support timezone-aware scheduling. Use it.
+
+**Respect legal calling hours. **In the US, the FTC Telemarketing Sales Rule restricts calls to between 8 AM and 9 PM local time. Other jurisdictions have similar restrictions. Your workflow is responsible for enforcing these windows. The platform will execute calls whenever you trigger them — it does not enforce calling hour restrictions on your behalf.
+
+**Front-load your calling window. **For most outbound campaigns, the highest answer rates come from calls placed in the mid-morning (9–11 AM local time) and early afternoon (1–3 PM local time). Calls placed after 5 PM have lower answer rates but can still produce results, particularly for consumer-facing campaigns where people are home from work. If you have a limited daily window, start in the morning.
+
+**Use multiple calling windows. **Rather than burning through your entire list in one pass, split your calling across two or three windows per day. A contact who was unavailable at 9 AM may answer at 1 PM. The Playbook 2 case study (Section 7) demonstrates this pattern: three daily windows at morning, midday, and afternoon, with contacts automatically excluded once reached. The incremental cost of a second or third pass is minimal, but the cumulative reach improvement is significant.
+
+**Speed-to-contact for new leads. **If your contact list is fed by live lead sources (Meta ads, website forms, inbound enquiries), call speed matters more than anything else. A lead called within five minutes of submission converts at a dramatically higher rate than one called an hour later. Configure your workflow to trigger the first call immediately when a new contact arrives,
