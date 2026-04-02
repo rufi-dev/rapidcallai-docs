@@ -2,16 +2,20 @@
 title: "Prompt Structure"
 ---
 
-We use a five-section format across all our production agents. It works.
+We use a five-section prompt structure across our production agents because it is the most reliable way to build agents that perform consistently on live calls.
 
-\*\*Role \*\*— identity, tone, and objective. Who is this agent, how does it sound, and what is it trying to accomplish on every call?
+Each section has a clear purpose.
 
-\*\*Context \*\*— business details, caller information, and environment variables. Everything the agent needs to know before the call starts, including dynamic data like the contact’s name, when they enquired, and what they enquired about.
+**Role** defines the agent’s identity, tone, and objective. It answers three questions: who the agent is, how it should sound, and what it is trying to accomplish on every call.
 
-\*\*Availability \*\*— business hours and booking rules. When can appointments be offered? What days and times are off-limits? This section prevents the agent from booking someone at 3am on a Sunday.
+**Context** contains the business details, caller information, and dynamic variables the agent needs before the conversation begins. This includes things like the contact’s name, when they enquired, what they were interested in, and any other relevant data passed into the call.
 
-\*\*Guidelines \*\*— behaviour rules, conversation style, objection handling, and edge case management. This is where you define the agent’s personality in action: keep responses under two sentences, never argue, always acknowledge the contact’s concern before redirecting.
+**Availability** defines business hours, booking rules, and any scheduling restrictions. This section prevents the agent from offering times that should never be available, such as weekends, holidays, or hours outside your operating window.
 
-\*\*Main Script \*\*— the ordered conversation flow from introduction to close, with branching logic for different responses. This eliminates hallucination and is the single biggest driver of conversion rate.
+**Guidelines** control how the agent behaves throughout the conversation. This is where you define conversation style, objection handling, response length, tone rules, and how the agent should deal with edge cases. It is the section that turns personality into repeatable behaviour.
 
-Optionally, add Handlers — named response blocks triggered by specific situations (contact is busy, contact asks if this is AI, contact is hostile, booking fails). Handlers keep your main script clean and make edge case behaviour predictable.
+**Main Script** is the ordered flow of the conversation from introduction to close. It defines what happens first, what happens next, and how the agent should move through the call based on the contact’s responses. In most production agents, this is the single biggest driver of consistency and conversion rate.
+
+You can also add **Handlers** as an optional layer.
+
+Handlers are named response blocks for specific situations, such as when the contact is busy, asks whether the caller is AI, becomes hostile, or when a booking fails. They keep the main script cleaner and make edge-case behaviour more predictable.

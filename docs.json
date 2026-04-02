@@ -91,16 +91,16 @@
               "handling-objections",
               "selecting-and-customising-voice",
               "configuring-call-logic",
-              "testing-your-agent",
-              {
-                "group": "5. ANALYTICS & REPORTING",
-                "pages": [
-                  "reading-your-performance-dashboard",
-                  "call-recordings-and-transcripts",
-                  "custom-dashboards",
-                  "the-by-agent-view"
-                ]
-              }
+              "testing-your-agent"
+            ]
+          },
+          {
+            "group": "5. ANALYTICS & REPORTING",
+            "pages": [
+              "reading-your-performance-dashboard",
+              "call-recordings-and-transcripts",
+              "custom-dashboards",
+              "the-by-agent-view"
             ]
           },
           {
@@ -118,8 +118,8 @@
           {
             "group": "7. USE CASE PLAYBOOKS",
             "pages": [
-              "consumer-finance-company-in-the-us-automated-payment-recovery",
-              "recruitment-company-in-the-uk"
+              "recruitment-company-in-the-uk",
+              "consumer-finance-us-payment-recovery"
             ]
           },
           {
@@ -147,8 +147,7 @@
               "voice-quality-issues",
               "campaign-not-launching",
               "billing-discrepancies",
-              "frequently-asked-questions",
-              "untitled-page"
+              "frequently-asked-questions"
             ]
           }
         ]
@@ -156,7 +155,7 @@
       {
         "tab": "SUPPORT",
         "pages": [
-          "untitled-page"
+          "contact-support"
         ]
       }
     ]

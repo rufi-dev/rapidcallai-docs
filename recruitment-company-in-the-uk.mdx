@@ -125,7 +125,7 @@ This allowed the agent to reference prior activity naturally, which made the con
 
 The booking logic was restricted to **Monday to Friday only**.
 
-The agent checked real-time calendar availability through a [**Cal.com**](http://Cal.com) integration before offering any time. It never promised a slot without checking first, and it did not allow weekend callbacks.
+The agent checked real-time calendar availability through a **Cal.com** integration before offering any time. It never promised a slot without checking first, and it did not allow weekend callbacks.
 
 ### Guidelines
 
@@ -199,7 +199,7 @@ Candidate data was stored in a **Google Sheet** acting as a lightweight CRM. Eac
 
 ### Trigger logic
 
-A [**Make.com**](http://Make.com) scenario scanned the sheet every 10 minutes between **8:00 AM and 4:00 PM**.
+A **Make.com** scenario scanned the sheet every 10 minutes between **8:00 AM and 4:00 PM**.
 
 If it found uncalled leads, it triggered up to **10 concurrent calls** through the RapidCall API.
 
@@ -238,7 +238,7 @@ Based on call outcome, the workflow triggered one of several automated email tem
 
 ### Booking flow
 
-When a candidate agreed to a callback, the agent checked live availability via [**Cal.com**](http://Cal.com), offered a slot, and booked it directly. The candidate and recruiter both received notifications, and the team manager was also informed.
+When a candidate agreed to a callback, the agent checked live availability via **Cal.com**, offered a slot, and booked it directly. The candidate and recruiter both received notifications, and the team manager was also informed.
 
 ### Territory routing
 
