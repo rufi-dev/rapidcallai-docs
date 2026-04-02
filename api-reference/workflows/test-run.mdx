@@ -1,0 +1,43 @@
+---
+title: Test Run Workflow
+api: POST https://api.rapidcall.ai/api/agents/{id}/workflow/test-run
+description: "Simulate a workflow execution with sample conversation"
+---
+
+Simulate a workflow execution with a sample conversation. Returns the path the agent would take through the workflow graph based on the provided input.
+
+<ParamField path="id" type="string" required>
+  The agent ID.
+</ParamField>
+
+<ParamField body="inputs" type="array" required>
+  Array of simulated conversation messages. Each message has `role` (`"user"` or `"assistant"`) and `content`.
+</ParamField>
+
+<RequestExample>
+```bash cURL
+curl -X POST https://api.rapidcall.ai/api/agents/g4d3cXIpDr/workflow/test-run \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "inputs": [
+      { "role": "user", "content": "I want to place a new order" }
+    ]
+  }'
+```
+</RequestExample>
+
+<ResponseExample>
+```json 200
+{
+  "path": ["node_1", "node_2", "node_3"],
+  "responses": [
+    { "nodeId": "node_1", "output": "Hello! How can I help you today?" },
+    { "nodeId": "node_2", "output": "Are you calling about an existing order or a new inquiry?" },
+    { "nodeId": "node_3", "output": "Let me connect you to our sales team." }
+  ],
+  "finalNode": "node_3",
+  "finalAction": "transfer"
+}
+```
+</ResponseExample>

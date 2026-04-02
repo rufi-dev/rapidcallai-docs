@@ -1,0 +1,37 @@
+---
+title: Validate Workflow
+api: POST https://api.rapidcall.ai/api/agents/{id}/workflow/validate
+description: "Check the workflow draft for errors"
+---
+
+Check the current draft for errors such as disconnected nodes, missing required fields, or circular references.
+
+<ParamField path="id" type="string" required>
+  The agent ID.
+</ParamField>
+
+<RequestExample>
+```bash cURL
+curl -X POST https://api.rapidcall.ai/api/agents/g4d3cXIpDr/workflow/validate \
+  -H "Authorization: Bearer YOUR_TOKEN"
+```
+</RequestExample>
+
+<ResponseExample>
+```json 200 Valid
+{
+  "valid": true,
+  "errors": []
+}
+```
+
+```json 200 Has Errors
+{
+  "valid": false,
+  "errors": [
+    { "nodeId": "node_5", "message": "Node is not connected to any edge." },
+    { "nodeId": "node_3", "message": "Transfer node is missing a phone number." }
+  ]
+}
+```
+</ResponseExample>

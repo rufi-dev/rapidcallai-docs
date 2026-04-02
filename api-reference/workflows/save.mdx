@@ -1,0 +1,62 @@
+---
+title: Save Workflow Draft
+api: PUT https://api.rapidcall.ai/api/agents/{id}/workflow
+description: "Save or update the workflow draft"
+---
+
+Save or update the workflow draft. This does not affect the live agent until you publish.
+
+<ParamField path="id" type="string" required>
+  The agent ID.
+</ParamField>
+
+<ParamField body="nodes" type="array" required>
+  Array of node objects defining conversation steps. Each node has `id`, `type`, `data`, and `position`.
+</ParamField>
+
+<ParamField body="edges" type="array" required>
+  Array of edge objects defining transitions between nodes. Each edge has `id`, `source`, `target`, and optional `label`.
+</ParamField>
+
+<RequestExample>
+```bash cURL
+curl -X PUT https://api.rapidcall.ai/api/agents/g4d3cXIpDr/workflow \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "nodes": [
+      {
+        "id": "node_1",
+        "type": "greeting",
+        "data": { "message": "Hello! How can I help you today?" },
+        "position": { "x": 100, "y": 50 }
+      },
+      {
+        "id": "node_2",
+        "type": "question",
+        "data": { "question": "Are you calling about an existing order or a new inquiry?" },
+        "position": { "x": 100, "y": 200 }
+      },
+      {
+        "id": "node_3",
+        "type": "transfer",
+        "data": { "transferTo": "+14155551234", "announcement": "Let me connect you to our sales team." },
+        "position": { "x": 300, "y": 350 }
+      }
+    ],
+    "edges": [
+      { "id": "edge_1", "source": "node_1", "target": "node_2" },
+      { "id": "edge_2", "source": "node_2", "target": "node_3", "label": "new inquiry" }
+    ]
+  }'
+```
+</RequestExample>
+
+<ResponseExample>
+```json 200
+{
+  "message": "Workflow draft saved.",
+  "updatedAt": "2026-04-01T12:00:00Z"
+}
+```
+</ResponseExample>

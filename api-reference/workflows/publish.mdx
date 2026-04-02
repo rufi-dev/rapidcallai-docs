@@ -1,0 +1,36 @@
+---
+title: Publish Workflow
+api: POST https://api.rapidcall.ai/api/agents/{id}/workflow/publish
+description: "Publish the workflow draft to production"
+---
+
+Publish the current draft workflow to production. The agent will immediately start using the published workflow for new calls. Validation is performed automatically before publishing.
+
+<ParamField path="id" type="string" required>
+  The agent ID.
+</ParamField>
+
+<RequestExample>
+```bash cURL
+curl -X POST https://api.rapidcall.ai/api/agents/g4d3cXIpDr/workflow/publish \
+  -H "Authorization: Bearer YOUR_TOKEN"
+```
+</RequestExample>
+
+<ResponseExample>
+```json 200
+{
+  "message": "Workflow published successfully.",
+  "publishedAt": "2026-04-01T12:30:00Z"
+}
+```
+
+```json 400 Validation Failure
+{
+  "error": "Workflow has validation errors and cannot be published.",
+  "errors": [
+    { "nodeId": "node_5", "message": "Node is not connected to any edge." }
+  ]
+}
+```
+</ResponseExample>

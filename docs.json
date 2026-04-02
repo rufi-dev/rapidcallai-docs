@@ -184,7 +184,11 @@
           {
             "group": "Workflows",
             "pages": [
-              "api-workflows"
+              "api-reference/workflows/get",
+              "api-reference/workflows/save",
+              "api-reference/workflows/validate",
+              "api-reference/workflows/publish",
+              "api-reference/workflows/test-run"
             ]
           },
           {
