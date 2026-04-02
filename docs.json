@@ -166,6 +166,17 @@
               "campaign-not-launching",
               "billing-discrepancies"
             ]
+          },
+          {
+            "group": "Developer / API",
+            "pages": [
+              "api-overview",
+              "api-agents",
+              "api-calls",
+              "api-phone-numbers",
+              "api-outbound",
+              "api-webhooks"
+            ]
           }
         ]
       }

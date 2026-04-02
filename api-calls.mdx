@@ -1,0 +1,86 @@
+---
+title: "Calls API"
+description: "Retrieve call history, recordings, and transcripts."
+---
+
+## List calls
+
+```http
+GET /api/calls?limit=20&offset=0
+```
+
+Returns calls for your workspace, newest first.
+
+**Query parameters:**
+- `limit` — max results (default 20, max 100)
+- `offset` — pagination offset
+- `agentId` — filter by agent
+- `outcome` — filter by outcome (e.g., `user_hangup`, `agent_hangup`, `call_transfer`)
+- `from` — start date (ISO 8601)
+- `to` — end date (ISO 8601)
+
+**Response:**
+```json
+{
+  "calls": [
+    {
+      "id": "call_abc123",
+      "agentId": "g4d3cXIpDr",
+      "to": "+44123456789",
+      "outcome": "user_hangup",
+      "durationSec": 120,
+      "cost": 0.15,
+      "startedAt": "2026-04-02T10:00:00Z",
+      "endedAt": "2026-04-02T10:02:00Z"
+    }
+  ],
+  "total": 150
+}
+```
+
+## Get call
+
+```http
+GET /api/calls/:id
+```
+
+Returns full call details including transcript, metrics, and cost breakdown.
+
+**Response includes:**
+- `transcript` — array of speaker turns with timestamps
+- `metrics.costBreakdown` — per-model cost detail
+- `metrics.latency` — response time metrics
+- `metrics.models` — LLM and TTS models used
+- `recording` — recording status and URL
+
+## Get recording URL
+
+```http
+GET /api/calls/:id/recording-url
+```
+
+Returns a signed URL to download the call recording (MP3).
+
+**Response:**
+```json
+{
+  "url": "https://s3.eu-north-1.amazonaws.com/...",
+  "expiresIn": 3600
+}
+```
+
+## Delete call
+
+```http
+DELETE /api/calls/:id
+```
+
+Permanently deletes the call, recording, and transcript.
+
+## End call
+
+```http
+POST /api/calls/:id/end
+```
+
+Ends an active web test call. For phone calls, the call ends when either party hangs up.

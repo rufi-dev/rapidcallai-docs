@@ -1,0 +1,110 @@
+---
+title: "Phone Numbers API"
+description: "Purchase, manage, and configure phone numbers."
+---
+
+## List phone numbers
+
+```http
+GET /api/phone-numbers
+```
+
+Returns all phone numbers in your workspace.
+
+**Response:**
+```json
+{
+  "phoneNumbers": [
+    {
+      "id": "pn_abc123",
+      "number": "+44207123456",
+      "agentId": "g4d3cXIpDr",
+      "source": "purchased",
+      "provider": "twilio",
+      "status": "active"
+    }
+  ]
+}
+```
+
+## Search available numbers
+
+```http
+GET /api/phone-numbers/available?country=GB&type=local
+```
+
+**Query parameters:**
+- `country` — ISO country code (e.g., `US`, `GB`, `DE`)
+- `type` — `local`, `tollfree`, or `mobile`
+- `areaCode` — optional area code filter
+- `contains` — optional number pattern
+
+**Response:**
+```json
+{
+  "numbers": [
+    { "number": "+442071234567", "type": "local", "monthlyPrice": 3.00 }
+  ]
+}
+```
+
+## Purchase number
+
+```http
+POST /api/phone-numbers
+Content-Type: application/json
+```
+
+**Body:**
+```json
+{
+  "number": "+442071234567",
+  "agentId": "g4d3cXIpDr"
+}
+```
+
+Requires a payment method on file. Numbers cost $3/month.
+
+## Update number
+
+```http
+PUT /api/phone-numbers/:id
+Content-Type: application/json
+```
+
+**Body:**
+```json
+{
+  "agentId": "newAgentId"
+}
+```
+
+Reassigns the phone number to a different agent.
+
+## Delete number
+
+```http
+DELETE /api/phone-numbers/:id
+```
+
+Releases the phone number. The number becomes available for others to purchase.
+
+## Connect existing number (SIP)
+
+```http
+POST /api/phone-numbers/connect
+Content-Type: application/json
+```
+
+**Body:**
+```json
+{
+  "number": "+44207123456",
+  "agentId": "g4d3cXIpDr",
+  "sipTerminationUri": "sip:trunk.yourprovider.com",
+  "sipUsername": "user",
+  "sipPassword": "pass"
+}
+```
+
+Connects your existing phone number via SIP trunk. No monthly charge from RapidCall.

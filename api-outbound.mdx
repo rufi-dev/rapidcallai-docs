@@ -1,0 +1,92 @@
+---
+title: "Outbound Calls API"
+description: "Trigger outbound calls and manage campaigns programmatically."
+---
+
+## Start an outbound call
+
+```http
+POST /api/outbound/call
+Content-Type: application/json
+```
+
+**Body:**
+```json
+{
+  "agentId": "g4d3cXIpDr",
+  "phoneNumberId": "pn_abc123",
+  "to": "+44207123456",
+  "dynamicVariables": {
+    "name": "John Smith",
+    "company": "Acme Corp",
+    "bookingRef": "BK-12345"
+  }
+}
+```
+
+**Dynamic variables** are injected into the agent's prompt using `{{name}}`, `{{company}}`, etc.
+
+**Response:**
+```json
+{
+  "callId": "out_abc123",
+  "status": "queued"
+}
+```
+
+## Create an outbound campaign
+
+```http
+POST /api/outbound/campaigns
+Content-Type: application/json
+```
+
+**Body:**
+```json
+{
+  "name": "Q2 Follow-up",
+  "agentId": "g4d3cXIpDr",
+  "phoneNumberId": "pn_abc123",
+  "contacts": [
+    { "to": "+44207123456", "variables": { "name": "John", "company": "Acme" } },
+    { "to": "+44207654321", "variables": { "name": "Jane", "company": "Beta" } }
+  ],
+  "settings": {
+    "maxConcurrent": 3,
+    "retryAttempts": 2,
+    "retryDelayMinutes": 30,
+    "startTime": "09:00",
+    "endTime": "18:00",
+    "timezone": "Europe/London"
+  }
+}
+```
+
+## List campaigns
+
+```http
+GET /api/outbound/campaigns
+```
+
+## Get campaign status
+
+```http
+GET /api/outbound/campaigns/:id
+```
+
+Returns campaign progress, completed calls, and remaining contacts.
+
+## Pause / resume campaign
+
+```http
+POST /api/outbound/campaigns/:id/pause
+POST /api/outbound/campaigns/:id/resume
+```
+
+## Cancel campaign
+
+```http
+POST /api/outbound/campaigns/:id/cancel
+```
+
+Stops all pending calls. Calls already in progress will complete.

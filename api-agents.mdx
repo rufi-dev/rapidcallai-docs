@@ -1,0 +1,109 @@
+---
+title: "Agents API"
+description: "Create, update, list, and manage AI voice agents."
+---
+
+## List agents
+
+```http
+GET /api/agents
+```
+
+Returns all agents in your workspace.
+
+**Response:**
+```json
+{
+  "agents": [
+    {
+      "id": "g4d3cXIpDr",
+      "name": "Sales Agent",
+      "llmModel": "gpt-4.1-mini",
+      "promptDraft": "You are a sales assistant...",
+      "publishedAt": "2026-03-15T10:00:00Z",
+      "voice": { "provider": "elevenlabs", "model": "eleven_flash_v2_5", "voiceId": "IKne3meq5aSn9XLyUdCD" }
+    }
+  ]
+}
+```
+
+## Get agent
+
+```http
+GET /api/agents/:id
+```
+
+Returns a single agent by ID.
+
+## Create agent
+
+```http
+POST /api/agents
+Content-Type: application/json
+```
+
+**Body:**
+```json
+{
+  "name": "My Agent",
+  "promptDraft": "You are a helpful customer support agent...",
+  "llmModel": "gpt-4.1-mini",
+  "voice": {
+    "provider": "elevenlabs",
+    "model": "eleven_flash_v2_5",
+    "voiceId": "IKne3meq5aSn9XLyUdCD"
+  },
+  "welcome": {
+    "mode": "ai",
+    "aiMessageMode": "dynamic"
+  }
+}
+```
+
+**Response:** The created agent object.
+
+## Update agent
+
+```http
+PUT /api/agents/:id
+Content-Type: application/json
+```
+
+Send only the fields you want to update. All fields are optional.
+
+**Body:**
+```json
+{
+  "name": "Updated Name",
+  "promptDraft": "Updated prompt...",
+  "publish": true
+}
+```
+
+Set `"publish": true` to publish the current draft as the live config.
+
+## Delete agent
+
+```http
+DELETE /api/agents/:id
+```
+
+Permanently deletes the agent and all associated data.
+
+## Start a test call
+
+```http
+POST /api/agents/:id/start
+Content-Type: application/json
+```
+
+Starts a web test call (WebRTC). Returns a LiveKit room token for connecting.
+
+**Response:**
+```json
+{
+  "token": "eyJ...",
+  "roomName": "call-g4d3cXIpDr-abc123",
+  "callId": "call_abc123def456"
+}
+```

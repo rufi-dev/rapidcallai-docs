@@ -1,0 +1,98 @@
+---
+title: "Webhooks"
+description: "Receive real-time notifications when calls start, end, or transfer."
+---
+
+## Overview
+
+RapidCall can send HTTP POST requests to your server when events happen. Configure a webhook URL in your agent settings or workspace settings.
+
+## Setting up webhooks
+
+1. Go to **Agent > Settings > Webhooks**
+2. Enter your webhook URL (must be HTTPS)
+3. Select which events to receive
+4. Click Save
+
+## Events
+
+### call.started
+
+Fired when a call begins (agent connects to the room).
+
+```json
+{
+  "event": "call.started",
+  "callId": "call_abc123",
+  "agentId": "g4d3cXIpDr",
+  "to": "+44207123456",
+  "from": "+44207654321",
+  "startedAt": "2026-04-02T10:00:00Z"
+}
+```
+
+### call.ended
+
+Fired when a call ends. Includes outcome, duration, cost, and transcript.
+
+```json
+{
+  "event": "call.ended",
+  "callId": "call_abc123",
+  "agentId": "g4d3cXIpDr",
+  "outcome": "user_hangup",
+  "durationSec": 120,
+  "cost": 0.15,
+  "transcript": [
+    { "speaker": "agent", "text": "Hello, how can I help?", "timestamp": 0 },
+    { "speaker": "user", "text": "I need to cancel my booking.", "timestamp": 2.5 }
+  ],
+  "analysis": {
+    "callSummary": "Customer called to cancel their booking...",
+    "userSentiment": "neutral",
+    "callSuccessful": true
+  }
+}
+```
+
+### call.transferred
+
+Fired when the agent transfers the call to a human.
+
+```json
+{
+  "event": "call.transferred",
+  "callId": "call_abc123",
+  "transferTo": "+44207999999",
+  "transferStatus": "answered"
+}
+```
+
+## Retry policy
+
+If your server returns a non-2xx status code, RapidCall retries the webhook:
+- 1st retry: 10 seconds
+- 2nd retry: 60 seconds
+- 3rd retry: 5 minutes
+
+After 3 failed retries, the webhook is logged and skipped.
+
+## Verifying webhooks
+
+Each webhook includes a `X-RapidCall-Signature` header containing an HMAC-SHA256 signature. Verify it using your webhook secret (available in Settings).
+
+```javascript
+const crypto = require('crypto');
+
+function verifyWebhook(payload, signature, secret) {
+  const expected = crypto
+    .createHmac('sha256', secret)
+    .update(payload)
+    .digest('hex');
+  return signature === expected;
+}
+```
+
+## Testing webhooks
+
+Use the **Test Webhook** button in agent settings to send a sample payload to your URL. You can also use services like [webhook.site](https://webhook.site) for testing.
