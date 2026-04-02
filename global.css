@@ -1,0 +1,6 @@
+/* Increase logo size in navbar */
+img[alt="light logo"],
+img[alt="dark logo"] {
+  height: 36px !important;
+  max-height: 36px !important;
+}
