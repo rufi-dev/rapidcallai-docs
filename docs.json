@@ -149,9 +149,24 @@
       {
         "tab": "SUPPORT",
         "pages": [
-          "contact-support",
-          "support/troubleshooting",
-          "support/faq"
+          {
+            "group": "Get Help",
+            "pages": [
+              "contact-support",
+              "frequently-asked-questions"
+            ]
+          },
+          {
+            "group": "Troubleshooting",
+            "pages": [
+              "agent-not-connecting-calls",
+              "latency-issues",
+              "logic-issues",
+              "voice-quality-issues",
+              "campaign-not-launching",
+              "billing-discrepancies"
+            ]
+          }
         ]
       }
     ]
