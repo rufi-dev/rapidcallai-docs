@@ -1,0 +1,32 @@
+---
+title: Create Workspace
+api: POST https://api.rapidcall.ai/api/workspaces
+description: "Create a new workspace"
+---
+
+Create a new workspace. The authenticated user becomes the owner.
+
+<ParamField body="name" type="string" required>
+  Workspace name.
+</ParamField>
+
+<RequestExample>
+```bash cURL
+curl -X POST https://api.rapidcall.ai/api/workspaces \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{ "name": "My New Workspace" }'
+```
+</RequestExample>
+
+<ResponseExample>
+```json 201
+{
+  "workspace": {
+    "id": "ws_new456",
+    "name": "My New Workspace",
+    "createdAt": "2026-04-02T12:00:00Z"
+  }
+}
+```
+</ResponseExample>

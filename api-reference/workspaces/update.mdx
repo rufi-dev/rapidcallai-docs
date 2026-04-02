@@ -1,0 +1,36 @@
+---
+title: Update Workspace
+api: PATCH https://api.rapidcall.ai/api/workspaces/{id}
+description: "Update workspace details"
+---
+
+Update workspace details. Only the workspace owner can update.
+
+<ParamField path="id" type="string" required>
+  Workspace ID.
+</ParamField>
+
+<ParamField body="name" type="string">
+  New workspace name.
+</ParamField>
+
+<RequestExample>
+```bash cURL
+curl -X PATCH https://api.rapidcall.ai/api/workspaces/ws_abc123 \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{ "name": "Updated Name" }'
+```
+</RequestExample>
+
+<ResponseExample>
+```json 200
+{
+  "workspace": {
+    "id": "ws_abc123",
+    "name": "Updated Name",
+    "updatedAt": "2026-04-02T12:30:00Z"
+  }
+}
+```
+</ResponseExample>

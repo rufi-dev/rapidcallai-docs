@@ -1,0 +1,29 @@
+---
+title: List Workspaces
+api: GET https://api.rapidcall.ai/api/workspaces
+description: "List all workspaces the current user belongs to"
+---
+
+Returns all workspaces the authenticated user has access to.
+
+<RequestExample>
+```bash cURL
+curl https://api.rapidcall.ai/api/workspaces \
+  -H "Authorization: Bearer YOUR_TOKEN"
+```
+</RequestExample>
+
+<ResponseExample>
+```json 200
+{
+  "workspaces": [
+    {
+      "id": "ws_abc123",
+      "name": "My Company",
+      "role": "owner",
+      "createdAt": "2026-01-15T10:00:00Z"
+    }
+  ]
+}
+```
+</ResponseExample>

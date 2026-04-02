@@ -1,0 +1,41 @@
+---
+title: List Members
+api: GET https://api.rapidcall.ai/api/workspaces/{id}/members
+description: "List all members of a workspace"
+---
+
+Returns all users who have access to this workspace.
+
+<ParamField path="id" type="string" required>
+  Workspace ID.
+</ParamField>
+
+<RequestExample>
+```bash cURL
+curl https://api.rapidcall.ai/api/workspaces/ws_abc123/members \
+  -H "Authorization: Bearer YOUR_TOKEN"
+```
+</RequestExample>
+
+<ResponseExample>
+```json 200
+{
+  "members": [
+    {
+      "userId": "usr_001",
+      "name": "John Smith",
+      "email": "john@example.com",
+      "role": "owner",
+      "joinedAt": "2026-01-15T10:00:00Z"
+    },
+    {
+      "userId": "usr_002",
+      "name": "Jane Doe",
+      "email": "jane@example.com",
+      "role": "member",
+      "joinedAt": "2026-02-20T14:00:00Z"
+    }
+  ]
+}
+```
+</ResponseExample>

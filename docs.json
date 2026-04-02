@@ -160,7 +160,13 @@
           {
             "group": "Workspaces",
             "pages": [
-              "api-workspaces"
+              "api-reference/workspaces/list",
+              "api-reference/workspaces/create",
+              "api-reference/workspaces/update",
+              "api-reference/workspaces/delete",
+              "api-reference/workspaces/list-members",
+              "api-reference/workspaces/add-member",
+              "api-reference/workspaces/remove-member"
             ]
           },
           {

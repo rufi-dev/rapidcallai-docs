@@ -1,0 +1,41 @@
+---
+title: Add Member
+api: POST https://api.rapidcall.ai/api/workspaces/{id}/members
+description: "Invite a user to the workspace"
+---
+
+Add a new member to the workspace by email. The user will receive an invitation.
+
+<ParamField path="id" type="string" required>
+  Workspace ID.
+</ParamField>
+
+<ParamField body="email" type="string" required>
+  Email address of the user to invite.
+</ParamField>
+
+<ParamField body="role" type="string">
+  Role: `"member"` (default) or `"admin"`.
+</ParamField>
+
+<RequestExample>
+```bash cURL
+curl -X POST https://api.rapidcall.ai/api/workspaces/ws_abc123/members \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{ "email": "jane@example.com", "role": "member" }'
+```
+</RequestExample>
+
+<ResponseExample>
+```json 201
+{
+  "member": {
+    "userId": "usr_002",
+    "email": "jane@example.com",
+    "role": "member",
+    "joinedAt": "2026-04-02T14:00:00Z"
+  }
+}
+```
+</ResponseExample>

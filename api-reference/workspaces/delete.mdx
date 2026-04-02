@@ -1,0 +1,28 @@
+---
+title: Delete Workspace
+api: DELETE https://api.rapidcall.ai/api/workspaces/{id}
+description: "Delete a workspace and all its data"
+---
+
+Permanently delete a workspace and all associated agents, calls, phone numbers, and data. Only the workspace owner can delete.
+
+<Warning>This action is irreversible. All agents, calls, recordings, and billing data will be permanently deleted.</Warning>
+
+<ParamField path="id" type="string" required>
+  Workspace ID.
+</ParamField>
+
+<RequestExample>
+```bash cURL
+curl -X DELETE https://api.rapidcall.ai/api/workspaces/ws_abc123 \
+  -H "Authorization: Bearer YOUR_TOKEN"
+```
+</RequestExample>
+
+<ResponseExample>
+```json 200
+{
+  "message": "Workspace deleted."
+}
+```
+</ResponseExample>

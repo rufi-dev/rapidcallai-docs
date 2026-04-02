@@ -1,0 +1,30 @@
+---
+title: Remove Member
+api: DELETE https://api.rapidcall.ai/api/workspaces/{id}/members/{userId}
+description: "Remove a member from the workspace"
+---
+
+Remove a user from the workspace. Only the workspace owner can remove members.
+
+<ParamField path="id" type="string" required>
+  Workspace ID.
+</ParamField>
+
+<ParamField path="userId" type="string" required>
+  User ID of the member to remove.
+</ParamField>
+
+<RequestExample>
+```bash cURL
+curl -X DELETE https://api.rapidcall.ai/api/workspaces/ws_abc123/members/usr_002 \
+  -H "Authorization: Bearer YOUR_TOKEN"
+```
+</RequestExample>
+
+<ResponseExample>
+```json 200
+{
+  "message": "Member removed."
+}
+```
+</ResponseExample>
