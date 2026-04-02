@@ -1,0 +1,94 @@
+---
+title: Start Call
+api: POST https://api.rapidcall.ai/api/agents/{id}/start
+description: "Start a web test call with an agent via WebRTC"
+---
+
+<ParamField path="id" type="string" required>
+  The agent ID. Example: `agent_abc123`
+</ParamField>
+
+<ParamField body="welcome" type="object">
+  Override welcome config for this session.
+</ParamField>
+
+<ParamField body="voice" type="object">
+  Override voice config for this session.
+</ParamField>
+
+<ParamField body="enabledTools" type="string[]">
+  Override enabled tools for this session.
+</ParamField>
+
+<ParamField body="language" type="string">
+  Language code for TTS/STT.
+</ParamField>
+
+<ParamField body="preferredRegion" type="string">
+  Preferred agent region: `"eu"`, `"ap"`, or `"us"`.
+</ParamField>
+
+## Request
+
+```bash
+curl -X POST https://api.rapidcall.ai/api/agents/agent_abc123/start \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "language": "en",
+    "preferredRegion": "us"
+  }'
+```
+
+## Response
+
+```json
+{
+  "callId": "call_def456",
+  "roomName": "call-agent_abc123-x7k9m2",
+  "token": "eyJ0eXAiOiJKV1Qi...",
+  "wsUrl": "wss://rtc.rapidcall.ai",
+  "agent": {
+    "id": "agent_abc123",
+    "name": "Reception Bot"
+  },
+  "expectedAgentName": "rapidcall-agent",
+  "backchannelEnabled": false,
+  "callOptions": {
+    "maxCallDurationMinutes": 0,
+    "responsiveness": 0.95,
+    "interruptionSensitivity": 0.95
+  }
+}
+```
+
+Use the `token` and `wsUrl` to connect via the WebRTC SDK for browser-based calls.
+
+## Demo Call
+
+For unauthenticated demo calls (rate-limited, no auth required):
+
+```bash
+curl -X POST https://api.rapidcall.ai/api/demo/start \
+  -H "Content-Type: application/json" \
+  -d '{"voice": "friendly-female"}'
+```
+
+Available demo voices: `"default"`, `"british-male"`, `"friendly-female"`, `"confident-male"`.
+
+Response:
+
+```json
+{
+  "wsUrl": "wss://rtc.rapidcall.ai",
+  "roomName": "call-demo-x7k9m2",
+  "token": "eyJ0eXAiOiJKV1Qi..."
+}
+```
+
+<Info>
+- A payment method is required to start web test calls (demo calls are exempt).
+- Suspended workspaces cannot start calls.
+- The agent must have a non-empty prompt.
+- Demo calls are limited to a maximum duration and concurrent call limit.
+</Info>

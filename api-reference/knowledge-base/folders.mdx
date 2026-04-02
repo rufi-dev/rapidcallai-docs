@@ -1,0 +1,96 @@
+---
+title: Knowledge Base Folders
+description: "Manage knowledge base folders"
+---
+
+## List Folders
+
+```bash
+curl -H "Authorization: Bearer YOUR_TOKEN" \
+  https://api.rapidcall.ai/api/kb/folders
+```
+
+### Response
+
+```json
+{
+  "folders": [
+    {
+      "id": "folder_abc123",
+      "workspaceId": "ws_xyz",
+      "name": "Product FAQ",
+      "parentId": null,
+      "createdAt": "2025-01-10T09:00:00Z",
+      "updatedAt": "2025-01-10T09:00:00Z"
+    }
+  ]
+}
+```
+
+## Create Folder
+
+<ParamField body="name" type="string" required>
+  Folder name (max 120 characters).
+</ParamField>
+
+<ParamField body="parentId" type="string">
+  Parent folder ID for nesting.
+</ParamField>
+
+```bash
+curl -X POST https://api.rapidcall.ai/api/kb/folders \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"name": "Product FAQ"}'
+```
+
+### Response
+
+```json
+{
+  "folder": {
+    "id": "folder_new456",
+    "workspaceId": "ws_xyz",
+    "name": "Product FAQ",
+    "parentId": null,
+    "createdAt": "2025-01-15T14:00:00Z",
+    "updatedAt": "2025-01-15T14:00:00Z"
+  }
+}
+```
+
+## Update Folder
+
+<ParamField path="id" type="string" required>
+  The folder ID. Example: `folder_abc123`
+</ParamField>
+
+<ParamField body="name" type="string">
+  Updated folder name.
+</ParamField>
+
+```bash
+curl -X PUT https://api.rapidcall.ai/api/kb/folders/folder_abc123 \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"name": "Updated FAQ"}'
+```
+
+Returns `{ "folder": { ... } }` with the updated folder.
+
+## Delete Folder
+
+<ParamField path="id" type="string" required>
+  The folder ID. Example: `folder_abc123`
+</ParamField>
+
+```bash
+curl -X DELETE https://api.rapidcall.ai/api/kb/folders/folder_abc123 \
+  -H "Authorization: Bearer YOUR_TOKEN"
+```
+
+Returns `{ "ok": true }`.
+
+<Warning>
+Deleting a folder removes all documents inside it. Agents that reference this folder will no longer have access to its content.
+</Warning>

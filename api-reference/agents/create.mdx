@@ -1,0 +1,187 @@
+---
+title: Create Agent
+api: POST https://api.rapidcall.ai/api/agents
+description: "Create a new voice agent"
+---
+
+<ParamField body="name" type="string" required>
+  Agent display name (max 60 characters).
+</ParamField>
+
+<ParamField body="promptDraft" type="string">
+  Draft system prompt that defines the agent's personality, role, and behavior.
+</ParamField>
+
+<ParamField body="promptPublished" type="string">
+  Published (live) system prompt. This is the prompt used during actual calls.
+</ParamField>
+
+<ParamField body="welcome" type="object">
+  Welcome message configuration.
+
+  <Expandable title="welcome properties">
+    <ParamField body="welcome.mode" type="string">
+      `"user"` (wait for user to speak first) or `"agent"` (agent speaks first).
+    </ParamField>
+    <ParamField body="welcome.aiMessageMode" type="string">
+      `"static"` (fixed text) or `"dynamic"` (LLM-generated greeting).
+    </ParamField>
+    <ParamField body="welcome.aiMessageText" type="string">
+      Static welcome text used when `aiMessageMode` is `"static"`.
+    </ParamField>
+    <ParamField body="welcome.aiDelaySeconds" type="number">
+      Delay in seconds before the agent speaks.
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+<ParamField body="voice" type="object">
+  Text-to-speech voice configuration.
+
+  <Expandable title="voice properties">
+    <ParamField body="voice.provider" type="string">
+      TTS provider: `"cartesia"`, `"elevenlabs"`, or `"openai"`.
+    </ParamField>
+    <ParamField body="voice.model" type="string">
+      Provider model ID (e.g., `"sonic-2"` for Cartesia).
+    </ParamField>
+    <ParamField body="voice.voiceId" type="string">
+      Voice ID from the provider.
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+<ParamField body="llmModel" type="string">
+  LLM model identifier. Examples: `"gpt-4o"`, `"claude-sonnet-4-20250514"`, `"gemini-2.0-flash"`.
+</ParamField>
+
+<ParamField body="language" type="string">
+  Language code (default: `"en"`).
+</ParamField>
+
+<ParamField body="enabledTools" type="string[]">
+  Tools the agent can use during conversations. Examples: `["end_call", "transfer_call"]`.
+</ParamField>
+
+<ParamField body="toolConfigs" type="object">
+  Per-tool configuration (transfer numbers, Cal.com keys, etc.).
+</ParamField>
+
+<ParamField body="backgroundAudio" type="object">
+  Background audio preset (e.g., office, cafe, restaurant).
+</ParamField>
+
+<ParamField body="backchannelEnabled" type="boolean">
+  Enable agent backchannel responses (e.g., "uh-huh", "I see").
+</ParamField>
+
+<ParamField body="knowledgeFolderIds" type="string[]">
+  Knowledge base folder IDs to attach to the agent.
+</ParamField>
+
+<ParamField body="maxCallSeconds" type="number">
+  Maximum call duration in seconds. `0` means unlimited.
+</ParamField>
+
+<ParamField body="defaultDynamicVariables" type="object">
+  Default values for `{{variable}}` placeholders in the prompt.
+</ParamField>
+
+<ParamField body="callSettings" type="object">
+  Call-level settings (voice speed, volume, etc.).
+</ParamField>
+
+<ParamField body="fallbackVoice" type="object">
+  Fallback voice config if the primary TTS provider fails.
+</ParamField>
+
+<ParamField body="fallbackLlmModel" type="string">
+  Fallback LLM model if the primary model fails.
+</ParamField>
+
+<ParamField body="postCallDataExtraction" type="array">
+  Fields to extract from calls via AI after the call ends.
+</ParamField>
+
+<ParamField body="postCallExtractionModel" type="string">
+  LLM model to use for post-call data extraction.
+</ParamField>
+
+<ParamField body="webhookUrl" type="string">
+  URL to receive post-call webhook notifications.
+</ParamField>
+
+<ParamField body="agentType" type="string">
+  `"inbound"` or `"outbound"`.
+</ParamField>
+
+<ParamField body="role" type="string">
+  Agent role: `"reception"`, `"booking"`, `"sales"`, or `"followup"`.
+</ParamField>
+
+<ParamField body="mode" type="string">
+  Agent mode: `"pipeline"`, `"native_audio"`, or `"openai_realtime"`.
+</ParamField>
+
+## Request
+
+```bash
+curl -X POST https://api.rapidcall.ai/api/agents \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Sales Bot",
+    "promptDraft": "You are a sales qualification agent...",
+    "welcome": {
+      "mode": "agent",
+      "aiMessageMode": "static",
+      "aiMessageText": "Hi! Thanks for calling. How can I help you today?"
+    },
+    "voice": {
+      "provider": "cartesia",
+      "model": "sonic-2",
+      "voiceId": "a0e99841-438c-4a64-b679-ae501e7d6091"
+    },
+    "llmModel": "gpt-4o",
+    "language": "en",
+    "enabledTools": ["end_call", "transfer_call"],
+    "agentType": "inbound",
+    "role": "reception"
+  }'
+```
+
+## Response
+
+```json
+{
+  "agent": {
+    "id": "agent_xyz789",
+    "workspaceId": "ws_abc",
+    "name": "Sales Bot",
+    "promptDraft": "You are a sales qualification agent...",
+    "promptPublished": "",
+    "publishedAt": null,
+    "welcome": {
+      "mode": "agent",
+      "aiMessageMode": "static",
+      "aiMessageText": "Hi! Thanks for calling. How can I help you today?"
+    },
+    "voice": {
+      "provider": "cartesia",
+      "model": "sonic-2",
+      "voiceId": "a0e99841-438c-4a64-b679-ae501e7d6091"
+    },
+    "language": "en",
+    "llmModel": "gpt-4o",
+    "enabledTools": ["end_call", "transfer_call"],
+    "toolConfigs": {},
+    "backgroundAudio": {},
+    "backchannelEnabled": false,
+    "agentType": "inbound",
+    "role": "reception",
+    "mode": "pipeline",
+    "createdAt": "2025-01-15T14:00:00Z",
+    "updatedAt": "2025-01-15T14:00:00Z"
+  }
+}
+```

@@ -1,0 +1,69 @@
+---
+title: List Agents
+api: GET https://api.rapidcall.ai/api/agents
+description: "Get all agents in the current workspace"
+---
+
+## Request
+
+```bash
+curl -H "Authorization: Bearer YOUR_TOKEN" \
+  https://api.rapidcall.ai/api/agents
+```
+
+## Response
+
+```json
+{
+  "agents": [
+    {
+      "id": "agent_abc123",
+      "workspaceId": "ws_xyz",
+      "name": "Reception Bot",
+      "promptDraft": "You are a friendly receptionist...",
+      "promptPublished": "You are a friendly receptionist...",
+      "publishedAt": "2025-01-15T12:00:00Z",
+      "welcome": {
+        "mode": "agent",
+        "aiMessageMode": "dynamic",
+        "aiMessageText": "",
+        "aiDelaySeconds": 0,
+        "pauseBeforeSpeakingSeconds": 0
+      },
+      "voice": {
+        "provider": "cartesia",
+        "model": "sonic-2",
+        "voiceId": "a0e99841-438c-4a64-b679-ae501e7d6091"
+      },
+      "language": "en",
+      "backgroundAudio": {},
+      "enabledTools": ["end_call", "transfer_call"],
+      "toolConfigs": {},
+      "backchannelEnabled": false,
+      "llmModel": "gpt-4o",
+      "autoEvalEnabled": false,
+      "knowledgeFolderIds": [],
+      "maxCallSeconds": 0,
+      "defaultDynamicVariables": {},
+      "callSettings": {},
+      "fallbackVoice": null,
+      "fallbackLlmModel": null,
+      "postCallDataExtraction": [],
+      "postCallExtractionModel": "",
+      "webhookUrl": null,
+      "agentType": "inbound",
+      "role": "reception",
+      "mode": "pipeline",
+      "publishedConfig": null,
+      "cachedLatencyMs": null,
+      "latencyCallCount": 0,
+      "createdAt": "2025-01-15T10:00:00Z",
+      "updatedAt": "2025-01-15T12:30:00Z"
+    }
+  ]
+}
+```
+
+<Info>
+The response wraps agents in an `agents` array. Tool config secrets (e.g., Cal.com API keys) are redacted in the response.
+</Info>

@@ -1,0 +1,28 @@
+---
+title: Delete Call
+api: DELETE https://api.rapidcall.ai/api/calls/{id}
+description: "Delete a call record"
+---
+
+<ParamField path="id" type="string" required>
+  The call ID. Example: `call_abc123`
+</ParamField>
+
+## Request
+
+```bash
+curl -X DELETE https://api.rapidcall.ai/api/calls/call_abc123 \
+  -H "Authorization: Bearer YOUR_TOKEN"
+```
+
+## Response
+
+```json
+{
+  "ok": true
+}
+```
+
+<Warning>
+This permanently deletes the call record, transcript, and associated evaluations. The recording file in storage is not automatically deleted.
+</Warning>

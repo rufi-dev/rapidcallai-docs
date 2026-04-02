@@ -149,33 +149,62 @@
       {
         "tab": "SUPPORT",
         "pages": [
+          "contact-support",
+          "frequently-asked-questions"
+        ]
+      },
+      {
+        "tab": "DEVELOPERS",
+        "pages": [
           {
-            "group": "Get Help",
+            "group": "Getting Started",
             "pages": [
-              "contact-support",
-              "frequently-asked-questions"
+              "api-reference/overview",
+              "api-reference/authentication"
             ]
           },
           {
-            "group": "Troubleshooting",
+            "group": "Agents",
             "pages": [
-              "agent-not-connecting-calls",
-              "latency-issues",
-              "logic-issues",
-              "voice-quality-issues",
-              "campaign-not-launching",
-              "billing-discrepancies"
+              "api-reference/agents/list",
+              "api-reference/agents/create",
+              "api-reference/agents/get",
+              "api-reference/agents/update",
+              "api-reference/agents/delete",
+              "api-reference/agents/start-call"
             ]
           },
           {
-            "group": "Developer / API",
+            "group": "Calls",
             "pages": [
-              "api-overview",
-              "api-agents",
-              "api-calls",
-              "api-phone-numbers",
-              "api-outbound",
-              "api-webhooks"
+              "api-reference/calls/list",
+              "api-reference/calls/get",
+              "api-reference/calls/delete",
+              "api-reference/calls/recording"
+            ]
+          },
+          {
+            "group": "Phone Numbers",
+            "pages": [
+              "api-reference/phone-numbers/list",
+              "api-reference/phone-numbers/create",
+              "api-reference/phone-numbers/update",
+              "api-reference/phone-numbers/delete"
+            ]
+          },
+          {
+            "group": "Knowledge Base",
+            "pages": [
+              "api-reference/knowledge-base/folders",
+              "api-reference/knowledge-base/documents",
+              "api-reference/knowledge-base/search"
+            ]
+          },
+          {
+            "group": "Integrations",
+            "pages": [
+              "api-webhooks",
+              "api-outbound"
             ]
           }
         ]

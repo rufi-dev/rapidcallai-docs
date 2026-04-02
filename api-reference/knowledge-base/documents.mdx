@@ -1,0 +1,139 @@
+---
+title: Documents
+description: "Upload and manage knowledge base documents"
+---
+
+## List Documents in Folder
+
+<ParamField path="folderId" type="string" required>
+  The folder ID. Example: `folder_abc123`
+</ParamField>
+
+```bash
+curl -H "Authorization: Bearer YOUR_TOKEN" \
+  https://api.rapidcall.ai/api/kb/folders/folder_abc123/docs
+```
+
+### Response
+
+```json
+{
+  "docs": [
+    {
+      "id": "doc_abc123",
+      "workspaceId": "ws_xyz",
+      "folderId": "folder_abc123",
+      "kind": "text",
+      "title": "Business Hours",
+      "contentText": "We are open Monday through Friday...",
+      "sourceFilename": null,
+      "mime": null,
+      "sizeBytes": null,
+      "label": null,
+      "createdAt": "2025-01-10T09:00:00Z",
+      "updatedAt": "2025-01-10T09:00:00Z"
+    },
+    {
+      "id": "doc_def456",
+      "workspaceId": "ws_xyz",
+      "folderId": "folder_abc123",
+      "kind": "pdf",
+      "title": "Services Catalog.pdf",
+      "contentText": "Extracted text from the PDF...",
+      "sourceFilename": "services-catalog.pdf",
+      "mime": "application/pdf",
+      "sizeBytes": 125000,
+      "label": null,
+      "createdAt": "2025-01-12T11:00:00Z",
+      "updatedAt": "2025-01-12T11:00:00Z"
+    }
+  ]
+}
+```
+
+## Add Text Document
+
+<ParamField path="folderId" type="string" required>
+  The folder ID to add the document to.
+</ParamField>
+
+<ParamField body="title" type="string">
+  Document title (max 200 characters).
+</ParamField>
+
+<ParamField body="contentText" type="string" required>
+  Document content (max 2M characters).
+</ParamField>
+
+<ParamField body="label" type="string">
+  Optional label or tag (max 100 characters).
+</ParamField>
+
+```bash
+curl -X POST https://api.rapidcall.ai/api/kb/folders/folder_abc123/text \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "title": "Business Hours",
+    "contentText": "We are open Monday through Friday, 9 AM to 5 PM EST. Saturday 10 AM to 2 PM. Closed Sundays and holidays."
+  }'
+```
+
+## Upload PDF
+
+<ParamField path="folderId" type="string" required>
+  The folder ID to upload the PDF to.
+</ParamField>
+
+<ParamField body="file" type="file" required>
+  PDF file to upload (max 10MB).
+</ParamField>
+
+```bash
+curl -X POST https://api.rapidcall.ai/api/kb/folders/folder_abc123/pdf \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -F "file=@services-catalog.pdf"
+```
+
+The PDF is automatically parsed and the text is extracted.
+
+## Update Document
+
+<ParamField path="id" type="string" required>
+  The document ID. Example: `doc_abc123`
+</ParamField>
+
+<ParamField body="title" type="string">
+  Updated document title.
+</ParamField>
+
+<ParamField body="contentText" type="string">
+  Updated document content.
+</ParamField>
+
+```bash
+curl -X PUT https://api.rapidcall.ai/api/kb/docs/doc_abc123 \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "title": "Updated Business Hours",
+    "contentText": "New hours: Monday-Saturday 8 AM to 6 PM."
+  }'
+```
+
+<Info>
+Only text documents (`kind: "text"`) can be updated. To update a PDF, delete and re-upload.
+</Info>
+
+## Delete Document
+
+<ParamField path="id" type="string" required>
+  The document ID. Example: `doc_abc123`
+</ParamField>
+
+```bash
+curl -X DELETE https://api.rapidcall.ai/api/kb/docs/doc_abc123 \
+  -H "Authorization: Bearer YOUR_TOKEN"
+```
+
+Returns `{ "ok": true }`.
