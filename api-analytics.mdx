@@ -1,0 +1,341 @@
+---
+title: "Analytics & Dashboards API"
+description: "Access workspace analytics, per-agent metrics, and custom dashboards."
+---
+
+## Workspace analytics
+
+```http
+GET /api/analytics
+Authorization: Bearer YOUR_TOKEN
+```
+
+Returns aggregate analytics for the entire workspace over a given time period.
+
+**Query parameters:**
+
+| Parameter | Type   | Required | Description                                                   |
+|-----------|--------|----------|---------------------------------------------------------------|
+| `from`    | string | No       | Start date in ISO 8601 format. Defaults to 30 days ago.      |
+| `to`      | string | No       | End date in ISO 8601 format. Defaults to now.                 |
+
+**curl:**
+```bash
+curl "https://api.rapidcall.ai/api/analytics?from=2026-03-01T00:00:00Z&to=2026-03-31T23:59:59Z" \
+  -H "Authorization: Bearer YOUR_TOKEN"
+```
+
+**Response `200`:**
+```json
+{
+  "totalCalls": 1284,
+  "totalDurationMinutes": 642.5,
+  "averageDurationSeconds": 30.0,
+  "averageLatencyMs": 820,
+  "outcomes": {
+    "completed": 1050,
+    "voicemail": 98,
+    "call_transfer": 72,
+    "no_answer": 41,
+    "failed": 23
+  },
+  "callsByDay": [
+    { "date": "2026-03-01", "count": 42 },
+    { "date": "2026-03-02", "count": 38 }
+  ],
+  "sentimentBreakdown": {
+    "positive": 680,
+    "neutral": 412,
+    "negative": 192
+  }
+}
+```
+
+---
+
+## Agent analytics
+
+```http
+GET /api/agents/:id/analytics
+Authorization: Bearer YOUR_TOKEN
+```
+
+Returns analytics scoped to a single agent.
+
+**Query parameters:**
+
+| Parameter | Type   | Required | Description                                                   |
+|-----------|--------|----------|---------------------------------------------------------------|
+| `from`    | string | No       | Start date in ISO 8601 format. Defaults to 30 days ago.      |
+| `to`      | string | No       | End date in ISO 8601 format. Defaults to now.                 |
+
+**curl:**
+```bash
+curl "https://api.rapidcall.ai/api/agents/g4d3cXIpDr/analytics?from=2026-03-01T00:00:00Z" \
+  -H "Authorization: Bearer YOUR_TOKEN"
+```
+
+**Response `200`:**
+```json
+{
+  "agentId": "g4d3cXIpDr",
+  "totalCalls": 312,
+  "totalDurationMinutes": 156.3,
+  "averageDurationSeconds": 30.1,
+  "averageLatencyMs": 790,
+  "outcomes": {
+    "completed": 260,
+    "voicemail": 22,
+    "call_transfer": 18,
+    "no_answer": 8,
+    "failed": 4
+  },
+  "callsByDay": [
+    { "date": "2026-03-01", "count": 12 }
+  ]
+}
+```
+
+---
+
+## Agent usage summary
+
+```http
+GET /api/agents/:id/usage-summary
+Authorization: Bearer YOUR_TOKEN
+```
+
+Returns token, TTS, and STT usage totals for an agent over a given period.
+
+**Query parameters:**
+
+| Parameter | Type   | Required | Description                                                   |
+|-----------|--------|----------|---------------------------------------------------------------|
+| `from`    | string | No       | Start date in ISO 8601 format. Defaults to 30 days ago.      |
+| `to`      | string | No       | End date in ISO 8601 format. Defaults to now.                 |
+
+**curl:**
+```bash
+curl "https://api.rapidcall.ai/api/agents/g4d3cXIpDr/usage-summary" \
+  -H "Authorization: Bearer YOUR_TOKEN"
+```
+
+**Response `200`:**
+```json
+{
+  "agentId": "g4d3cXIpDr",
+  "period": {
+    "from": "2026-03-02T00:00:00Z",
+    "to": "2026-04-01T23:59:59Z"
+  },
+  "llm": {
+    "model": "gpt-4.1-mini",
+    "inputTokens": 1245000,
+    "outputTokens": 312000,
+    "costUsd": 4.82
+  },
+  "tts": {
+    "provider": "elevenlabs",
+    "characters": 580000,
+    "costUsd": 2.10
+  },
+  "stt": {
+    "provider": "deepgram",
+    "durationMinutes": 156.3,
+    "costUsd": 1.56
+  },
+  "totalCostUsd": 8.48
+}
+```
+
+---
+
+## List custom dashboards
+
+```http
+GET /api/dashboards
+Authorization: Bearer YOUR_TOKEN
+```
+
+Returns all custom dashboards in the workspace.
+
+**curl:**
+```bash
+curl https://api.rapidcall.ai/api/dashboards \
+  -H "Authorization: Bearer YOUR_TOKEN"
+```
+
+**Response `200`:**
+```json
+{
+  "dashboards": [
+    {
+      "id": "dash_001",
+      "name": "Sales Performance",
+      "widgets": 4,
+      "createdAt": "2026-03-15T10:00:00Z",
+      "updatedAt": "2026-03-28T14:00:00Z"
+    }
+  ]
+}
+```
+
+---
+
+## Create dashboard
+
+```http
+POST /api/dashboards
+Content-Type: application/json
+Authorization: Bearer YOUR_TOKEN
+```
+
+Create a new custom dashboard.
+
+**Body:**
+```json
+{
+  "name": "Support Metrics"
+}
+```
+
+**curl:**
+```bash
+curl -X POST https://api.rapidcall.ai/api/dashboards \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"name": "Support Metrics"}'
+```
+
+**Parameters:**
+
+| Parameter | Type   | Required | Description              |
+|-----------|--------|----------|--------------------------|
+| `name`    | string | Yes      | Name of the dashboard.   |
+
+**Response `201`:**
+```json
+{
+  "dashboard": {
+    "id": "dash_002",
+    "name": "Support Metrics",
+    "widgets": [],
+    "createdAt": "2026-04-01T12:00:00Z"
+  }
+}
+```
+
+---
+
+## Add widget to dashboard
+
+```http
+POST /api/dashboards/:id/widgets
+Content-Type: application/json
+Authorization: Bearer YOUR_TOKEN
+```
+
+Add a widget (chart, counter, table) to a dashboard.
+
+**Body:**
+```json
+{
+  "type": "line_chart",
+  "title": "Daily Call Volume",
+  "config": {
+    "metric": "call_count",
+    "groupBy": "day",
+    "agentId": "g4d3cXIpDr"
+  }
+}
+```
+
+**curl:**
+```bash
+curl -X POST https://api.rapidcall.ai/api/dashboards/dash_002/widgets \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "type": "line_chart",
+    "title": "Daily Call Volume",
+    "config": {
+      "metric": "call_count",
+      "groupBy": "day",
+      "agentId": "g4d3cXIpDr"
+    }
+  }'
+```
+
+**Parameters:**
+
+| Parameter | Type   | Required | Description                                                             |
+|-----------|--------|----------|-------------------------------------------------------------------------|
+| `type`    | string | Yes      | Widget type: `line_chart`, `bar_chart`, `counter`, `table`, `pie_chart`.|
+| `title`   | string | Yes      | Display title for the widget.                                           |
+| `config`  | object | Yes      | Widget-specific configuration (metric, filters, grouping).              |
+
+**Response `201`:**
+```json
+{
+  "widget": {
+    "id": "wgt_001",
+    "type": "line_chart",
+    "title": "Daily Call Volume",
+    "config": {
+      "metric": "call_count",
+      "groupBy": "day",
+      "agentId": "g4d3cXIpDr"
+    }
+  }
+}
+```
+
+---
+
+## Get widget data
+
+```http
+POST /api/dashboards/:dashId/widgets/:widgetId/data
+Content-Type: application/json
+Authorization: Bearer YOUR_TOKEN
+```
+
+Fetch the rendered data for a specific widget, optionally overriding the time range.
+
+**Body:**
+```json
+{
+  "from": "2026-03-01T00:00:00Z",
+  "to": "2026-03-31T23:59:59Z"
+}
+```
+
+**curl:**
+```bash
+curl -X POST https://api.rapidcall.ai/api/dashboards/dash_002/widgets/wgt_001/data \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "from": "2026-03-01T00:00:00Z",
+    "to": "2026-03-31T23:59:59Z"
+  }'
+```
+
+**Parameters:**
+
+| Parameter | Type   | Required | Description                                         |
+|-----------|--------|----------|-----------------------------------------------------|
+| `from`    | string | No       | Start date in ISO 8601 format.                      |
+| `to`      | string | No       | End date in ISO 8601 format.                        |
+
+**Response `200`:**
+```json
+{
+  "widgetId": "wgt_001",
+  "type": "line_chart",
+  "data": {
+    "labels": ["2026-03-01", "2026-03-02", "2026-03-03"],
+    "values": [42, 38, 55]
+  }
+}
+```

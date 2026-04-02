@@ -1,0 +1,253 @@
+---
+title: "Workspaces & Members API"
+description: "Manage workspaces and team members."
+---
+
+## List workspaces
+
+```http
+GET /api/workspaces
+Authorization: Bearer YOUR_TOKEN
+```
+
+Returns all workspaces the authenticated user belongs to.
+
+**curl:**
+```bash
+curl https://api.rapidcall.ai/api/workspaces \
+  -H "Authorization: Bearer YOUR_TOKEN"
+```
+
+**Response `200`:**
+```json
+{
+  "workspaces": [
+    {
+      "id": "ws_def456",
+      "name": "Acme Corp",
+      "role": "owner",
+      "hasPaymentMethod": true,
+      "suspended": false,
+      "createdAt": "2026-03-01T12:00:00Z"
+    }
+  ]
+}
+```
+
+---
+
+## Create workspace
+
+```http
+POST /api/workspaces
+Content-Type: application/json
+Authorization: Bearer YOUR_TOKEN
+```
+
+Create a new workspace. The authenticated user becomes the owner.
+
+**Body:**
+```json
+{
+  "name": "New Workspace"
+}
+```
+
+**curl:**
+```bash
+curl -X POST https://api.rapidcall.ai/api/workspaces \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"name": "New Workspace"}'
+```
+
+**Parameters:**
+
+| Parameter | Type   | Required | Description           |
+|-----------|--------|----------|-----------------------|
+| `name`    | string | Yes      | Name of the workspace.|
+
+**Response `201`:**
+```json
+{
+  "workspace": {
+    "id": "ws_ghi789",
+    "name": "New Workspace",
+    "role": "owner",
+    "hasPaymentMethod": false,
+    "createdAt": "2026-04-01T09:00:00Z"
+  }
+}
+```
+
+---
+
+## Update workspace
+
+```http
+PATCH /api/workspaces/:id
+Content-Type: application/json
+Authorization: Bearer YOUR_TOKEN
+```
+
+Update workspace details. Only the workspace owner can update.
+
+**Body:**
+```json
+{
+  "name": "Renamed Workspace"
+}
+```
+
+**curl:**
+```bash
+curl -X PATCH https://api.rapidcall.ai/api/workspaces/ws_def456 \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"name": "Renamed Workspace"}'
+```
+
+**Parameters:**
+
+| Parameter | Type   | Required | Description                |
+|-----------|--------|----------|----------------------------|
+| `name`    | string | Yes      | New name for the workspace.|
+
+**Response `200`:**
+```json
+{
+  "workspace": {
+    "id": "ws_def456",
+    "name": "Renamed Workspace"
+  }
+}
+```
+
+---
+
+## Delete workspace
+
+```http
+DELETE /api/workspaces/:id
+Authorization: Bearer YOUR_TOKEN
+```
+
+Permanently delete a workspace and all its data. This action is irreversible. Only the workspace owner can delete.
+
+**curl:**
+```bash
+curl -X DELETE https://api.rapidcall.ai/api/workspaces/ws_def456 \
+  -H "Authorization: Bearer YOUR_TOKEN"
+```
+
+**Response `200`:**
+```json
+{
+  "message": "Workspace deleted successfully."
+}
+```
+
+---
+
+## List members
+
+```http
+GET /api/workspaces/:id/members
+Authorization: Bearer YOUR_TOKEN
+```
+
+Returns all members of a workspace.
+
+**curl:**
+```bash
+curl https://api.rapidcall.ai/api/workspaces/ws_def456/members \
+  -H "Authorization: Bearer YOUR_TOKEN"
+```
+
+**Response `200`:**
+```json
+{
+  "members": [
+    {
+      "userId": "u_abc123",
+      "name": "Jane Smith",
+      "email": "jane@company.com",
+      "role": "owner",
+      "joinedAt": "2026-03-01T12:00:00Z"
+    },
+    {
+      "userId": "u_xyz789",
+      "name": "John Doe",
+      "email": "john@company.com",
+      "role": "member",
+      "joinedAt": "2026-03-10T14:30:00Z"
+    }
+  ]
+}
+```
+
+---
+
+## Invite member
+
+```http
+POST /api/workspaces/:id/members
+Content-Type: application/json
+Authorization: Bearer YOUR_TOKEN
+```
+
+Invite a new member to the workspace by email.
+
+**Body:**
+```json
+{
+  "email": "newmember@company.com",
+  "role": "member"
+}
+```
+
+**curl:**
+```bash
+curl -X POST https://api.rapidcall.ai/api/workspaces/ws_def456/members \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"email": "newmember@company.com", "role": "member"}'
+```
+
+**Parameters:**
+
+| Parameter | Type   | Required | Description                                     |
+|-----------|--------|----------|-------------------------------------------------|
+| `email`   | string | Yes      | Email address of the person to invite.          |
+| `role`    | string | No       | Role to assign: `member` (default) or `admin`.  |
+
+**Response `201`:**
+```json
+{
+  "message": "Invitation sent to newmember@company.com"
+}
+```
+
+---
+
+## Remove member
+
+```http
+DELETE /api/workspaces/:id/members/:userId
+Authorization: Bearer YOUR_TOKEN
+```
+
+Remove a member from the workspace. Only workspace owners and admins can remove members. You cannot remove the workspace owner.
+
+**curl:**
+```bash
+curl -X DELETE https://api.rapidcall.ai/api/workspaces/ws_def456/members/u_xyz789 \
+  -H "Authorization: Bearer YOUR_TOKEN"
+```
+
+**Response `200`:**
+```json
+{
+  "message": "Member removed from workspace."
+}
+```

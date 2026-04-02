@@ -160,7 +160,15 @@
             "group": "Getting Started",
             "pages": [
               "api-reference/overview",
-              "api-reference/authentication"
+              "api-reference/authentication",
+              "api-auth",
+              "api-keys"
+            ]
+          },
+          {
+            "group": "Workspaces",
+            "pages": [
+              "api-workspaces"
             ]
           },
           {
@@ -170,7 +178,15 @@
               "api-reference/agents/create",
               "api-reference/agents/get",
               "api-reference/agents/update",
-              "api-reference/agents/delete"
+              "api-reference/agents/delete",
+              "api-agent-prompts",
+              "api-variants"
+            ]
+          },
+          {
+            "group": "Workflows",
+            "pages": [
+              "api-workflows"
             ]
           },
           {
@@ -180,7 +196,8 @@
               "api-reference/calls/list",
               "api-reference/calls/get",
               "api-reference/calls/delete",
-              "api-reference/calls/recording"
+              "api-reference/calls/recording",
+              "api-evaluations"
             ]
           },
           {
@@ -201,10 +218,27 @@
             ]
           },
           {
+            "group": "Outbound Campaigns",
+            "pages": [
+              "api-outbound-jobs"
+            ]
+          },
+          {
+            "group": "Analytics & Dashboards",
+            "pages": [
+              "api-analytics"
+            ]
+          },
+          {
+            "group": "Billing",
+            "pages": [
+              "api-billing"
+            ]
+          },
+          {
             "group": "Integrations",
             "pages": [
-              "api-webhooks",
-              "api-outbound"
+              "api-webhooks"
             ]
           }
         ]

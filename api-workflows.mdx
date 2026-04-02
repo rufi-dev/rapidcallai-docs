@@ -1,0 +1,240 @@
+---
+title: "Workflow Builder API"
+description: "Build, validate, and publish visual conversation workflows for agents."
+---
+
+The Workflow Builder lets you define agent conversation logic as a visual graph of nodes and edges. Each node represents a step in the conversation (greeting, question, decision, transfer, etc.), and edges define the transitions between them.
+
+## Get workflow
+
+```http
+GET /api/agents/:id/workflow
+Authorization: Bearer YOUR_TOKEN
+```
+
+Retrieve the current workflow graph for an agent, including both the draft and published versions.
+
+**curl:**
+```bash
+curl https://api.rapidcall.ai/api/agents/g4d3cXIpDr/workflow \
+  -H "Authorization: Bearer YOUR_TOKEN"
+```
+
+**Response `200`:**
+```json
+{
+  "draft": {
+    "nodes": [
+      {
+        "id": "node_1",
+        "type": "greeting",
+        "data": { "message": "Hello! How can I help you today?" },
+        "position": { "x": 100, "y": 50 }
+      },
+      {
+        "id": "node_2",
+        "type": "question",
+        "data": { "question": "Are you calling about an existing order or a new inquiry?" },
+        "position": { "x": 100, "y": 200 }
+      }
+    ],
+    "edges": [
+      { "id": "edge_1", "source": "node_1", "target": "node_2" }
+    ],
+    "updatedAt": "2026-04-01T10:00:00Z"
+  },
+  "published": null
+}
+```
+
+---
+
+## Save workflow draft
+
+```http
+PUT /api/agents/:id/workflow
+Content-Type: application/json
+Authorization: Bearer YOUR_TOKEN
+```
+
+Save or update the workflow draft. This does not affect the live agent until you publish.
+
+**Body:**
+```json
+{
+  "nodes": [
+    {
+      "id": "node_1",
+      "type": "greeting",
+      "data": { "message": "Hello! How can I help you today?" },
+      "position": { "x": 100, "y": 50 }
+    },
+    {
+      "id": "node_2",
+      "type": "question",
+      "data": { "question": "Are you calling about an existing order or a new inquiry?" },
+      "position": { "x": 100, "y": 200 }
+    },
+    {
+      "id": "node_3",
+      "type": "transfer",
+      "data": { "transferTo": "+14155551234", "announcement": "Let me connect you to our sales team." },
+      "position": { "x": 300, "y": 350 }
+    }
+  ],
+  "edges": [
+    { "id": "edge_1", "source": "node_1", "target": "node_2" },
+    { "id": "edge_2", "source": "node_2", "target": "node_3", "label": "new inquiry" }
+  ]
+}
+```
+
+**curl:**
+```bash
+curl -X PUT https://api.rapidcall.ai/api/agents/g4d3cXIpDr/workflow \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "nodes": [...],
+    "edges": [...]
+  }'
+```
+
+**Parameters:**
+
+| Parameter | Type   | Required | Description                                        |
+|-----------|--------|----------|----------------------------------------------------|
+| `nodes`   | array  | Yes      | Array of node objects defining conversation steps.  |
+| `edges`   | array  | Yes      | Array of edge objects defining transitions.         |
+
+**Response `200`:**
+```json
+{
+  "message": "Workflow draft saved.",
+  "updatedAt": "2026-04-01T12:00:00Z"
+}
+```
+
+---
+
+## Validate workflow
+
+```http
+POST /api/agents/:id/workflow/validate
+Authorization: Bearer YOUR_TOKEN
+```
+
+Check the current draft for errors such as disconnected nodes, missing required fields, or circular references.
+
+**curl:**
+```bash
+curl -X POST https://api.rapidcall.ai/api/agents/g4d3cXIpDr/workflow/validate \
+  -H "Authorization: Bearer YOUR_TOKEN"
+```
+
+**Response `200` (valid):**
+```json
+{
+  "valid": true,
+  "errors": []
+}
+```
+
+**Response `200` (has errors):**
+```json
+{
+  "valid": false,
+  "errors": [
+    { "nodeId": "node_5", "message": "Node is not connected to any edge." },
+    { "nodeId": "node_3", "message": "Transfer node is missing a phone number." }
+  ]
+}
+```
+
+---
+
+## Publish workflow
+
+```http
+POST /api/agents/:id/workflow/publish
+Authorization: Bearer YOUR_TOKEN
+```
+
+Publish the current draft workflow to production. The agent will immediately start using the published workflow for new calls. Validation is performed automatically before publishing.
+
+**curl:**
+```bash
+curl -X POST https://api.rapidcall.ai/api/agents/g4d3cXIpDr/workflow/publish \
+  -H "Authorization: Bearer YOUR_TOKEN"
+```
+
+**Response `200`:**
+```json
+{
+  "message": "Workflow published successfully.",
+  "publishedAt": "2026-04-01T12:30:00Z"
+}
+```
+
+**Response `400` (validation failure):**
+```json
+{
+  "error": "Workflow has validation errors and cannot be published.",
+  "errors": [
+    { "nodeId": "node_5", "message": "Node is not connected to any edge." }
+  ]
+}
+```
+
+---
+
+## Test run workflow
+
+```http
+POST /api/agents/:id/workflow/test-run
+Content-Type: application/json
+Authorization: Bearer YOUR_TOKEN
+```
+
+Simulate a workflow execution with a sample conversation. Returns the path the agent would take through the workflow graph based on the provided input.
+
+**Body:**
+```json
+{
+  "inputs": [
+    { "role": "user", "content": "I want to place a new order" }
+  ]
+}
+```
+
+**curl:**
+```bash
+curl -X POST https://api.rapidcall.ai/api/agents/g4d3cXIpDr/workflow/test-run \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "inputs": [
+      { "role": "user", "content": "I want to place a new order" }
+    ]
+  }'
+```
+
+**Parameters:**
+
+| Parameter | Type  | Required | Description                                                        |
+|-----------|-------|----------|--------------------------------------------------------------------|
+| `inputs`  | array | Yes      | Array of simulated conversation messages with `role` and `content`. |
+
+**Response `200`:**
+```json
+{
+  "path": ["node_1", "node_2", "node_3"],
+  "responses": [
+    { "nodeId": "node_1", "output": "Hello! How can I help you today?" },
+    { "nodeId": "node_2", "output": "Are you calling about an existing order or a new inquiry?" },
+    { "nodeId": "node_3", "output": "Let me connect you to our sales team." }
+  ],
+  "finalNode": "node_3",
+  "finalAction": "transfer"
+}
+```

@@ -1,0 +1,319 @@
+---
+title: "Outbound Campaigns API"
+description: "Create and manage outbound calling campaigns with contact lists, scheduling, and retry logic."
+---
+
+## Create outbound job
+
+```http
+POST /api/outbound/jobs
+Content-Type: application/json
+Authorization: Bearer YOUR_TOKEN
+```
+
+Create a new outbound calling campaign. The system will dial each contact using the specified agent and phone number.
+
+**Body:**
+```json
+{
+  "agentId": "g4d3cXIpDr",
+  "phoneNumberId": "pn_abc123",
+  "name": "March Lead Follow-up",
+  "contacts": [
+    {
+      "phoneNumber": "+14155550101",
+      "variables": {
+        "name": "Alice Johnson",
+        "company": "TechCorp",
+        "lastContact": "2026-03-15"
+      }
+    },
+    {
+      "phoneNumber": "+14155550102",
+      "variables": {
+        "name": "Bob Williams",
+        "company": "DataInc",
+        "lastContact": "2026-03-18"
+      }
+    }
+  ],
+  "settings": {
+    "maxConcurrent": 3,
+    "retryAttempts": 2,
+    "retryDelayMinutes": 30,
+    "scheduling": {
+      "timezone": "America/New_York",
+      "startTime": "09:00",
+      "endTime": "17:00",
+      "daysOfWeek": ["mon", "tue", "wed", "thu", "fri"]
+    }
+  }
+}
+```
+
+**curl:**
+```bash
+curl -X POST https://api.rapidcall.ai/api/outbound/jobs \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "agentId": "g4d3cXIpDr",
+    "phoneNumberId": "pn_abc123",
+    "name": "March Lead Follow-up",
+    "contacts": [
+      {
+        "phoneNumber": "+14155550101",
+        "variables": { "name": "Alice Johnson", "company": "TechCorp" }
+      }
+    ],
+    "settings": {
+      "maxConcurrent": 3,
+      "retryAttempts": 2,
+      "retryDelayMinutes": 30
+    }
+  }'
+```
+
+**Parameters:**
+
+| Parameter                         | Type   | Required | Description                                                                                           |
+|-----------------------------------|--------|----------|-------------------------------------------------------------------------------------------------------|
+| `agentId`                         | string | Yes      | ID of the agent that will handle the calls.                                                           |
+| `phoneNumberId`                   | string | Yes      | ID of the phone number to dial from.                                                                  |
+| `name`                            | string | No       | Descriptive name for the campaign.                                                                    |
+| `contacts`                        | array  | Yes      | Array of contact objects.                                                                             |
+| `contacts[].phoneNumber`          | string | Yes      | Phone number in E.164 format (e.g., `+14155550101`).                                                  |
+| `contacts[].variables`            | object | No       | Dynamic variables injected into the agent prompt (e.g., `{{name}}`, `{{company}}`).                   |
+| `settings.maxConcurrent`          | number | No       | Maximum simultaneous calls (default 1, max 10).                                                       |
+| `settings.retryAttempts`          | number | No       | Number of retry attempts for unanswered calls (default 0).                                            |
+| `settings.retryDelayMinutes`      | number | No       | Delay between retry attempts in minutes (default 60).                                                 |
+| `settings.scheduling`             | object | No       | Time window constraints for when calls can be placed.                                                 |
+| `settings.scheduling.timezone`    | string | No       | IANA timezone (e.g., `America/New_York`). Defaults to UTC.                                            |
+| `settings.scheduling.startTime`   | string | No       | Earliest time to place calls (HH:MM, 24-hour).                                                       |
+| `settings.scheduling.endTime`     | string | No       | Latest time to place calls (HH:MM, 24-hour).                                                         |
+| `settings.scheduling.daysOfWeek`  | array  | No       | Days to place calls: `mon`, `tue`, `wed`, `thu`, `fri`, `sat`, `sun`.                                 |
+
+**Response `201`:**
+```json
+{
+  "job": {
+    "id": "job_xyz789",
+    "name": "March Lead Follow-up",
+    "status": "queued",
+    "totalContacts": 2,
+    "createdAt": "2026-04-01T12:00:00Z"
+  }
+}
+```
+
+---
+
+## List outbound jobs
+
+```http
+GET /api/outbound/jobs
+Authorization: Bearer YOUR_TOKEN
+```
+
+Returns all outbound jobs in the workspace.
+
+**Query parameters:**
+
+| Parameter | Type   | Required | Description                                              |
+|-----------|--------|----------|----------------------------------------------------------|
+| `status`  | string | No       | Filter by status: `queued`, `running`, `completed`, `cancelled`. |
+| `limit`   | number | No       | Number of records (default 50).                          |
+| `offset`  | number | No       | Pagination offset (default 0).                           |
+
+**curl:**
+```bash
+curl "https://api.rapidcall.ai/api/outbound/jobs?status=running" \
+  -H "Authorization: Bearer YOUR_TOKEN"
+```
+
+**Response `200`:**
+```json
+{
+  "jobs": [
+    {
+      "id": "job_xyz789",
+      "name": "March Lead Follow-up",
+      "agentId": "g4d3cXIpDr",
+      "agentName": "Sales Agent",
+      "status": "running",
+      "totalContacts": 200,
+      "completedContacts": 87,
+      "failedContacts": 3,
+      "createdAt": "2026-04-01T12:00:00Z",
+      "startedAt": "2026-04-01T12:01:00Z"
+    }
+  ],
+  "total": 1
+}
+```
+
+---
+
+## Get job status
+
+```http
+GET /api/outbound/jobs/:id
+Authorization: Bearer YOUR_TOKEN
+```
+
+Returns detailed status and progress for a single outbound job.
+
+**curl:**
+```bash
+curl https://api.rapidcall.ai/api/outbound/jobs/job_xyz789 \
+  -H "Authorization: Bearer YOUR_TOKEN"
+```
+
+**Response `200`:**
+```json
+{
+  "job": {
+    "id": "job_xyz789",
+    "name": "March Lead Follow-up",
+    "agentId": "g4d3cXIpDr",
+    "phoneNumberId": "pn_abc123",
+    "status": "running",
+    "totalContacts": 200,
+    "completedContacts": 87,
+    "failedContacts": 3,
+    "pendingContacts": 110,
+    "settings": {
+      "maxConcurrent": 3,
+      "retryAttempts": 2,
+      "retryDelayMinutes": 30
+    },
+    "createdAt": "2026-04-01T12:00:00Z",
+    "startedAt": "2026-04-01T12:01:00Z",
+    "completedAt": null
+  }
+}
+```
+
+---
+
+## Get job call logs
+
+```http
+GET /api/outbound/jobs/:id/logs
+Authorization: Bearer YOUR_TOKEN
+```
+
+Returns per-contact call logs for the job.
+
+**Query parameters:**
+
+| Parameter | Type   | Required | Description                                              |
+|-----------|--------|----------|----------------------------------------------------------|
+| `status`  | string | No       | Filter: `completed`, `failed`, `pending`, `in_progress`. |
+| `limit`   | number | No       | Number of records (default 50).                          |
+| `offset`  | number | No       | Pagination offset (default 0).                           |
+
+**curl:**
+```bash
+curl "https://api.rapidcall.ai/api/outbound/jobs/job_xyz789/logs?status=completed&limit=10" \
+  -H "Authorization: Bearer YOUR_TOKEN"
+```
+
+**Response `200`:**
+```json
+{
+  "logs": [
+    {
+      "contactPhone": "+14155550101",
+      "contactVariables": { "name": "Alice Johnson", "company": "TechCorp" },
+      "callId": "call_def456",
+      "status": "completed",
+      "outcome": "completed",
+      "durationSeconds": 68,
+      "attempts": 1,
+      "calledAt": "2026-04-01T12:02:00Z"
+    },
+    {
+      "contactPhone": "+14155550103",
+      "contactVariables": { "name": "Carol Lee", "company": "BuildCo" },
+      "callId": "call_ghi789",
+      "status": "failed",
+      "outcome": "no_answer",
+      "durationSeconds": 0,
+      "attempts": 3,
+      "calledAt": "2026-04-01T13:45:00Z"
+    }
+  ],
+  "total": 90
+}
+```
+
+---
+
+## Cancel job
+
+```http
+POST /api/outbound/jobs/:id/cancel
+Authorization: Bearer YOUR_TOKEN
+```
+
+Cancel a running or queued outbound job. Calls currently in progress will complete, but no new calls will be placed.
+
+**curl:**
+```bash
+curl -X POST https://api.rapidcall.ai/api/outbound/jobs/job_xyz789/cancel \
+  -H "Authorization: Bearer YOUR_TOKEN"
+```
+
+**Response `200`:**
+```json
+{
+  "message": "Job cancelled. 110 pending contacts will not be called.",
+  "job": {
+    "id": "job_xyz789",
+    "status": "cancelled",
+    "completedContacts": 87,
+    "cancelledContacts": 110
+  }
+}
+```
+
+---
+
+## Mark number as Do-Not-Call
+
+```http
+POST /api/outbound/jobs/:id/dnc
+Content-Type: application/json
+Authorization: Bearer YOUR_TOKEN
+```
+
+Add a phone number to the workspace Do-Not-Call list. The number will be skipped in all current and future outbound campaigns.
+
+**Body:**
+```json
+{
+  "phoneNumber": "+14155550103"
+}
+```
+
+**curl:**
+```bash
+curl -X POST https://api.rapidcall.ai/api/outbound/jobs/job_xyz789/dnc \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"phoneNumber": "+14155550103"}'
+```
+
+**Parameters:**
+
+| Parameter     | Type   | Required | Description                            |
+|---------------|--------|----------|----------------------------------------|
+| `phoneNumber` | string | Yes      | Phone number in E.164 format to block. |
+
+**Response `200`:**
+```json
+{
+  "message": "+14155550103 added to Do-Not-Call list."
+}
+```

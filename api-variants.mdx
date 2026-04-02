@@ -1,0 +1,177 @@
+---
+title: "A/B Testing Variants API"
+description: "Create and manage prompt variants for A/B testing your agents."
+---
+
+Variants let you run A/B tests on your agent's prompt. Each variant has its own prompt text and a traffic weight. When a call comes in, RapidCall selects a variant based on the configured weights and tracks performance per variant.
+
+## List variants
+
+```http
+GET /api/agents/:id/variants
+Authorization: Bearer YOUR_TOKEN
+```
+
+Returns all variants for an agent.
+
+**curl:**
+```bash
+curl https://api.rapidcall.ai/api/agents/g4d3cXIpDr/variants \
+  -H "Authorization: Bearer YOUR_TOKEN"
+```
+
+**Response `200`:**
+```json
+{
+  "variants": [
+    {
+      "id": "var_001",
+      "name": "Control",
+      "promptDraft": "You are a professional sales agent...",
+      "weight": 50,
+      "callCount": 142,
+      "createdAt": "2026-03-20T09:00:00Z"
+    },
+    {
+      "id": "var_002",
+      "name": "Friendly Tone",
+      "promptDraft": "You are a warm and friendly sales agent...",
+      "weight": 50,
+      "callCount": 138,
+      "createdAt": "2026-03-20T09:05:00Z"
+    }
+  ]
+}
+```
+
+---
+
+## Create variant
+
+```http
+POST /api/agents/:id/variants
+Content-Type: application/json
+Authorization: Bearer YOUR_TOKEN
+```
+
+Create a new prompt variant for the agent.
+
+**Body:**
+```json
+{
+  "name": "Concise Variant",
+  "promptDraft": "You are a concise and efficient sales agent. Keep responses under two sentences...",
+  "weight": 30
+}
+```
+
+**curl:**
+```bash
+curl -X POST https://api.rapidcall.ai/api/agents/g4d3cXIpDr/variants \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Concise Variant",
+    "promptDraft": "You are a concise and efficient sales agent. Keep responses under two sentences...",
+    "weight": 30
+  }'
+```
+
+**Parameters:**
+
+| Parameter     | Type   | Required | Description                                                                 |
+|---------------|--------|----------|-----------------------------------------------------------------------------|
+| `name`        | string | No       | A descriptive name for the variant.                                         |
+| `promptDraft` | string | Yes      | The system prompt for this variant.                                         |
+| `weight`      | number | Yes      | Traffic weight (0-100). All variant weights across the agent should sum logically. |
+
+**Response `201`:**
+```json
+{
+  "variant": {
+    "id": "var_003",
+    "name": "Concise Variant",
+    "promptDraft": "You are a concise and efficient sales agent. Keep responses under two sentences...",
+    "weight": 30,
+    "callCount": 0,
+    "createdAt": "2026-04-01T12:00:00Z"
+  }
+}
+```
+
+---
+
+## Update variant
+
+```http
+PUT /api/agents/:id/variants/:variantId
+Content-Type: application/json
+Authorization: Bearer YOUR_TOKEN
+```
+
+Update a variant's prompt or weight.
+
+**Body:**
+```json
+{
+  "promptDraft": "Updated prompt text...",
+  "weight": 40
+}
+```
+
+**curl:**
+```bash
+curl -X PUT https://api.rapidcall.ai/api/agents/g4d3cXIpDr/variants/var_003 \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "promptDraft": "Updated prompt text...",
+    "weight": 40
+  }'
+```
+
+**Parameters:**
+
+| Parameter     | Type   | Required | Description                          |
+|---------------|--------|----------|--------------------------------------|
+| `name`        | string | No       | Updated variant name.                |
+| `promptDraft` | string | No       | Updated system prompt.               |
+| `weight`      | number | No       | Updated traffic weight.              |
+
+**Response `200`:**
+```json
+{
+  "variant": {
+    "id": "var_003",
+    "name": "Concise Variant",
+    "promptDraft": "Updated prompt text...",
+    "weight": 40,
+    "callCount": 12,
+    "createdAt": "2026-04-01T12:00:00Z"
+  }
+}
+```
+
+---
+
+## Delete variant
+
+```http
+DELETE /api/agents/:id/variants/:variantId
+Authorization: Bearer YOUR_TOKEN
+```
+
+Delete a variant. Traffic will be redistributed among the remaining variants. You cannot delete a variant if it is the only one.
+
+**curl:**
+```bash
+curl -X DELETE https://api.rapidcall.ai/api/agents/g4d3cXIpDr/variants/var_003 \
+  -H "Authorization: Bearer YOUR_TOKEN"
+```
+
+**Response `200`:**
+```json
+{
+  "message": "Variant deleted."
+}
+```

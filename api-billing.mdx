@@ -1,0 +1,226 @@
+---
+title: "Billing & Usage API"
+description: "View usage summaries, invoices, pricing, and manage payment methods."
+---
+
+## Usage summary
+
+```http
+GET /api/billing/summary
+Authorization: Bearer YOUR_TOKEN
+```
+
+Returns the current billing period usage summary for the workspace, including total spend, call count, and cost breakdown.
+
+**curl:**
+```bash
+curl https://api.rapidcall.ai/api/billing/summary \
+  -H "Authorization: Bearer YOUR_TOKEN"
+```
+
+**Response `200`:**
+```json
+{
+  "period": {
+    "from": "2026-03-01T00:00:00Z",
+    "to": "2026-03-31T23:59:59Z"
+  },
+  "plan": "pay_as_you_go",
+  "totalCostUsd": 127.45,
+  "callCount": 842,
+  "totalDurationMinutes": 421.5,
+  "breakdown": {
+    "llmTokens": 68.20,
+    "ttsCharacters": 32.10,
+    "sttMinutes": 12.65,
+    "telephony": 14.50
+  },
+  "hasPaymentMethod": true
+}
+```
+
+---
+
+## Recent usage
+
+```http
+GET /api/billing/recent-usage
+Authorization: Bearer YOUR_TOKEN
+```
+
+Returns a per-call usage breakdown for recent calls, ordered by most recent first.
+
+**Query parameters:**
+
+| Parameter | Type   | Required | Description                          |
+|-----------|--------|----------|--------------------------------------|
+| `limit`   | number | No       | Number of records to return (default 50, max 200). |
+| `offset`  | number | No       | Pagination offset (default 0).       |
+
+**curl:**
+```bash
+curl "https://api.rapidcall.ai/api/billing/recent-usage?limit=10" \
+  -H "Authorization: Bearer YOUR_TOKEN"
+```
+
+**Response `200`:**
+```json
+{
+  "usage": [
+    {
+      "callId": "call_abc123",
+      "agentName": "Sales Agent",
+      "direction": "inbound",
+      "durationSeconds": 92,
+      "llmModel": "gpt-4.1-mini",
+      "inputTokens": 3200,
+      "outputTokens": 850,
+      "ttsCharacters": 4200,
+      "sttMinutes": 1.53,
+      "totalCostUsd": 0.18,
+      "timestamp": "2026-03-31T15:30:00Z"
+    }
+  ],
+  "total": 842
+}
+```
+
+---
+
+## List invoices
+
+```http
+GET /api/billing/invoices
+Authorization: Bearer YOUR_TOKEN
+```
+
+Returns all invoices for the workspace.
+
+**curl:**
+```bash
+curl https://api.rapidcall.ai/api/billing/invoices \
+  -H "Authorization: Bearer YOUR_TOKEN"
+```
+
+**Response `200`:**
+```json
+{
+  "invoices": [
+    {
+      "id": "inv_001",
+      "periodStart": "2026-02-01T00:00:00Z",
+      "periodEnd": "2026-02-28T23:59:59Z",
+      "amountUsd": 89.32,
+      "status": "paid",
+      "paidAt": "2026-03-05T10:00:00Z",
+      "stripeInvoiceUrl": "https://invoice.stripe.com/i/acct_xxx/inv_yyy"
+    },
+    {
+      "id": "inv_002",
+      "periodStart": "2026-03-01T00:00:00Z",
+      "periodEnd": "2026-03-31T23:59:59Z",
+      "amountUsd": 127.45,
+      "status": "pending",
+      "paidAt": null,
+      "stripeInvoiceUrl": null
+    }
+  ]
+}
+```
+
+---
+
+## Current pricing
+
+```http
+GET /api/billing/pricing
+Authorization: Bearer YOUR_TOKEN
+```
+
+Returns the current pricing rates for all supported models, voice providers, and telephony. Rates are dynamically sourced from the billing configuration.
+
+**curl:**
+```bash
+curl https://api.rapidcall.ai/api/billing/pricing \
+  -H "Authorization: Bearer YOUR_TOKEN"
+```
+
+**Response `200`:**
+```json
+{
+  "llm": {
+    "gpt-4.1-mini": { "inputPer1MTokens": 0.80, "outputPer1MTokens": 3.20 },
+    "gpt-4.1": { "inputPer1MTokens": 4.00, "outputPer1MTokens": 16.00 },
+    "claude-3-5-sonnet": { "inputPer1MTokens": 6.00, "outputPer1MTokens": 30.00 },
+    "gemini-2.0-flash": { "inputPer1MTokens": 0.20, "outputPer1MTokens": 0.80 }
+  },
+  "tts": {
+    "elevenlabs": { "per1MCharacters": 60.00 },
+    "cartesia": { "per1MCharacters": 40.00 }
+  },
+  "stt": {
+    "deepgram": { "perMinute": 0.06 }
+  },
+  "telephony": {
+    "inboundPerMinute": 0.02,
+    "outboundPerMinute": 0.04,
+    "phoneNumberMonthly": 3.00
+  }
+}
+```
+
+---
+
+## Stripe customer portal
+
+```http
+GET /api/billing/portal-url
+Authorization: Bearer YOUR_TOKEN
+```
+
+Returns a URL to the Stripe customer portal where users can manage payment methods, view invoices, and update billing details.
+
+**curl:**
+```bash
+curl https://api.rapidcall.ai/api/billing/portal-url \
+  -H "Authorization: Bearer YOUR_TOKEN"
+```
+
+**Response `200`:**
+```json
+{
+  "url": "https://billing.stripe.com/p/session/cs_live_xxx"
+}
+```
+
+<Note>
+  The portal URL is a single-use session link. Generate a new one each time the user needs to access the portal.
+</Note>
+
+---
+
+## Setup payment method
+
+```http
+GET /api/billing/checkout-url
+Authorization: Bearer YOUR_TOKEN
+```
+
+Returns a Stripe Checkout URL for setting up a payment method. This is required before the workspace can make calls or purchase phone numbers.
+
+**curl:**
+```bash
+curl https://api.rapidcall.ai/api/billing/checkout-url \
+  -H "Authorization: Bearer YOUR_TOKEN"
+```
+
+**Response `200`:**
+```json
+{
+  "url": "https://checkout.stripe.com/c/pay/cs_live_yyy"
+}
+```
+
+<Note>
+  After the user completes checkout, their workspace `hasPaymentMethod` will be set to `true` and all platform features will be unlocked.
+</Note>
