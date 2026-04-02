@@ -2,21 +2,76 @@
 title: "Multi-Attempt Logic"
 ---
 
-Most outbound calls do not connect on the first attempt. Voicemail, no answer, and busy signals are normal operational outcomes, not failures. A well-designed campaign includes multiple attempts with intelligent spacing.
+Most outbound calls do not connect on the first attempt.
 
-**How many attempts? **Two to three attempts per contact is the standard for most campaigns. More than three rarely produces meaningful incremental results and risks annoying the contact. The sweet spot depends on your use case: debt collection and payment reminders can justify three attempts across a single day; lead qualification and appointment setting typically work best with two attempts spaced across different times of day.
+Voicemail, no answer, and busy signals are normal outcomes in outbound operations. A strong campaign does not treat those as failures. It plans for them with a clear retry structure.
 
-**How to space them. **The most effective pattern is to vary the time of day between attempts. If the first attempt was in the morning, schedule the second for the afternoon. If both failed, schedule the third for the next business day at a different time again. This maximises the chance of catching the contact when they are available. Calling three times in the same hour produces three voicemails and an irritated contact.
+### How many attempts?
 
-**Voicemail strategy. **Decide in advance whether your agent should leave a voicemail, and if so, on which attempt. A common pattern: leave a voicemail on the first unanswered attempt, then call silently (no voicemail) on subsequent attempts. This prevents voicemail flooding, keeps your caller ID reputation clean, and still gives the contact a touchpoint. Use the voicemailDropped dynamic variable to control this — set it to FALSE on the first attempt and TRUE on subsequent ones.
+For most campaigns, **two to three attempts per contact** is the standard.
 
-**Exclusion logic. **Once a contact is reached (whether the outcome is positive or negative), exclude them from further attempts. Your workflow should check the call outcome after each attempt and remove connected contacts from the retry queue. Without this, a contact who already booked an appointment might get called again the next day.
+More than three attempts usually adds little value and increases the risk of irritating the contact. The right number depends on the use case:
 
-**Callback handling. **If the contact asks to be called back at a specific time, your agent can log that request and the preferred time. Your workflow picks up the callback request from the webhook data and schedules the next call accordingly, rather than following the standard retry cadence.
+- **debt collection** and **payment reminders** can often justify three attempts within a day,
+- **lead qualification** and **appointment setting** usually perform best with two attempts spread across different times.
 
-| **Attempt** | **Recommended Approach** |
+### How to space attempts
+
+The most effective retry pattern changes the time of day between attempts.
+
+For example:
+
+- if the first call was in the morning, place the second in the afternoon,
+- if both attempts fail, place the third on the next business day at a different time.
+
+This increases the chance of reaching the contact when they are actually available. Repeating attempts too close together usually produces more voicemails, fewer answers, and a worse experience.
+
+### Voicemail strategy
+
+Decide in advance whether the agent should leave a voicemail, and if so, on which attempt.
+
+A common structure is:
+
+- leave a voicemail on the first unanswered attempt,
+- do not leave a voicemail on later attempts.
+
+This gives the contact a clear first touchpoint without repeatedly filling their voicemail inbox. It also helps protect number reputation and keeps follow-up cleaner.
+
+If your workflow supports it, use a variable such as **voicemailDropped** to track whether voicemail has already been left and control this behaviour across attempts.
+
+### Exclusion logic
+
+Once a contact has been reached, they should usually be removed from the retry queue.
+
+That includes both positive and negative outcomes. If someone has already booked, declined, requested removal, or completed the intended conversation, they should not be called again through the standard retry flow.
+
+Your workflow should check the result after each attempt and exclude connected contacts from further retries where appropriate.
+
+### Callback handling
+
+If a contact asks to be called back at a specific time, that request should override the standard retry cadence.
+
+In that case, the agent should capture the preferred callback time, and the workflow should schedule the next attempt around that request rather than using the normal retry logic.
+
+This keeps the experience more natural and avoids calling the contact at the wrong time after they have already given a preference.
+
+### Recommended structure
+
+| Attempt | Recommended approach |
 | :-- | :-- |
-| 1st attempt | Call during primary window. Leave voicemail if unanswered. Log outcome. |
-| 2nd attempt | Call 3–4 hours later (different window). No voicemail. Log outcome. |
-| 3rd attempt (optional) | Call next business day at a different time. No voicemail. Log outcome. |
-| After all attempts | If still not reached, trigger a follow-up email or SMS as final touchpoint. |
+| 1st attempt | Call during the primary window. Leave voicemail if unanswered. Log outcome. |
+| 2nd attempt | Call 3 to 4 hours later in a different window. Do not leave voicemail. Log outcome. |
+| 3rd attempt (optional) | Call on the next business day at a different time. Do not leave voicemail. Log outcome. |
+| After all attempts | If still unreached, send a follow-up email or SMS as a final touchpoint. |
+
+### Best practice
+
+A good retry system should:
+
+- limit total attempts,
+- vary the timing of each attempt,
+- avoid repeated voicemail drops,
+- stop retrying once the contact has been reached,
+- and respect requested callback times when provided.
+
+That is what turns repeat calling into a controlled campaign rather than noise.

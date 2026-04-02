@@ -1,5 +1,25 @@
 ---
-title: "Webhook"
+title: "Webhooks"
 ---
 
-An endpoint URL you provide to receive automatic data after each call. The platform sends structured payloads for three events: call\_started, call\_ended, and call\_analyzed. This is how you connect agents to CRMs, databases, and automation tools so call data flows without manual effort.
+Webhooks let RapidCall send call data automatically to your systems.
+
+You provide an endpoint URL, and the platform sends structured event payloads to that destination as calls move through different stages. This is one of the main ways to connect agents to CRMs, databases, internal tools, and automation workflows without manual work.
+
+RapidCall currently sends webhook events for three core call stages:
+
+- **call\_started**
+- **call\_ended**
+- **call\_analyzed**
+
+These events allow your systems to receive updates when a call begins, when it finishes, and when post-call analysis has been completed.
+
+In practice, webhooks are commonly used to:
+
+- update CRM records,
+- store call outcomes in a database,
+- trigger follow-up workflows,
+- sync extracted call data to other systems,
+- or launch automations in external tools.
+
+Webhooks are useful when you want call activity to move directly into your existing business processes rather than staying only inside the RapidCall dashboard.

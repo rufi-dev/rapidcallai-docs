@@ -2,16 +2,84 @@
 title: "Voice Quality Issues"
 ---
 
-If the agent sounds robotic, unnatural, distorted, or has audio artefacts, the issue is usually in the voice configuration rather than the infrastructure.
+If the agent sounds robotic, unnatural, distorted, or inconsistent, the problem is usually in the voice setup rather than the platform infrastructure.
 
-**Agent sounds robotic or flat. **Voice temperature controls the expressiveness and warmth of the output. If it is set too low, the voice sounds monotone. Increase voice temperature slightly (1.05–1.10) and test again. Also check voice speed — a speed that is too slow makes the agent sound lethargic, while too fast sounds rushed and unnatural.
+In most cases, voice quality issues come from settings such as voice temperature, speed, interruption sensitivity, denoising, or the interaction between the voice provider and the selected language model.
 
-**Agent talks over the contact. **Interruption sensitivity is too low. Increase it (0.80–0.90) so the agent stops speaking when the contact starts talking. If the agent consistently fails to yield during interruptions, the issue may also be the denoising mode — set it to “Remove noise \+ background speech” so the speech recognition engine can distinguish the contact’s voice from ambient noise.
+### Agent sounds robotic or flat
 
-**Agent gets interrupted too easily. **The opposite problem: the agent stops mid-sentence on every small sound from the contact. Interruption sensitivity is too high. Lower it slightly (0.70–0.80) so the agent holds its ground through background noise and reactive sounds (“mm-hmm,” coughs, shuffling) without yielding. This is common in environments where contacts are driving, outdoors, or in noisy offices.
+If the voice feels monotone or lifeless, the most common cause is that the voice settings are too conservative.
 
-**Audio has static, echo, or distortion. **This is almost always on the telephony side rather than the voice engine. If it happens on specific numbers or specific carriers, the issue is the call routing path. If it happens consistently across all calls, check that denoising is enabled. If the issue persists, contact support with a recording URL so we can diagnose the audio path.
+Start by checking:
 
-**The voice sounds different from the preview. **The voice preview in the gallery uses an isolated audio sample. On a live call, the voice is processed through the full pipeline: speech recognition, LLM inference, TTS generation, and telephony encoding. Each stage can subtly affect how the voice sounds. Additionally, the LLM you choose affects how the TTS engine receives and processes text — the same voice can sound noticeably different depending on which model is driving the conversation. If the live call voice does not match your expectations, test the same voice with a different LLM before switching voices entirely.
+- **voice temperature**,
+- **voice speed**,
+- and the overall voice choice.
 
-\
+If temperature is set too low, the voice can sound overly controlled and flat. Increasing it slightly often helps the delivery feel warmer and more natural. Voice speed matters too. If the speed is too slow, the agent can sound lethargic. If it is too fast, the result can feel rushed and unnatural.
+
+### Agent talks over the contact
+
+If the agent keeps speaking when the contact starts talking, **interruption sensitivity** is usually too low.
+
+Increase it so the agent yields more quickly when it detects the other speaker. If the problem persists, check the denoising mode as well. In noisier environments, stronger denoising can help the speech recognition layer distinguish the contact’s voice from background sound more accurately.
+
+### Agent gets interrupted too easily
+
+If the agent stops speaking every time it hears a small noise, **interruption sensitivity** is probably too high.
+
+Lower it slightly so the agent can continue through light background sounds, reactive noises, or non-verbal interruptions without constantly giving up the floor.
+
+This is especially common in calls where the contact is:
+
+- driving,
+- outside,
+- in a call centre,
+- or in another noisy environment.
+
+### Audio has static, echo, or distortion
+
+If the audio contains static, echo, clipping, or distortion, the issue is often on the telephony side rather than in the voice engine itself.
+
+If it happens only on certain numbers or carriers, the likely cause is the call routing path. If it happens across many calls, check the audio settings and make sure denoising is enabled appropriately.
+
+If the issue continues, the best next step is to review an affected recording and use that specific call as the basis for troubleshooting.
+
+### The live voice sounds different from the preview
+
+This is normal to some extent.
+
+The preview in the voice gallery is a clean sample. A live call uses the full voice pipeline:
+
+- speech recognition,
+- language model generation,
+- text-to-speech,
+- and telephony encoding.
+
+That full chain can change how the voice feels in practice. In addition, the selected language model affects the wording, pacing, and sentence shape being sent into the voice engine. That means the same voice can sound noticeably different depending on which model is driving it.
+
+If a voice sounds wrong in production, do not assume the voice itself is the problem immediately. Test the same voice with a different model first.
+
+### What to adjust first
+
+If voice quality feels off, work through the settings in this order:
+
+1. check voice temperature,
+2. check voice speed,
+3. adjust interruption sensitivity,
+4. review denoising,
+5. test the same voice with a different model,
+6. then compare with a different voice provider or voice option if needed.
+
+### Best practice
+
+Always judge voice quality from real call recordings, not just the voice preview.
+
+The preview helps you narrow options, but the real test is how the voice sounds:
+
+- in a live conversation,
+- through the chosen model,
+- over the phone network,
+- with the actual script and pacing of the agent.
+
+That is the only version that matters in production.

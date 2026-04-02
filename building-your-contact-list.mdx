@@ -2,15 +2,67 @@
 title: "Building Your Contact List"
 ---
 
-The contact list is the foundation of every campaign. Getting it right before you start calling saves time, money, and compliance headaches.
+## Building Your Contact List
 
-**Format every phone number in E.164. **This is the single most common source of failed calls in campaigns. Every destination number must be in international format: \+\[country code\]\[number\] with no spaces, dashes, brackets, or leading zeros. If your list has numbers in local format, clean them before loading. One malformed number in a batch of a thousand will fail silently — you will not get an error message, you will just get a missing call in your logs.
+Your contact list is the foundation of every outbound campaign.
 
-**Include all dynamic variables your agent needs. **If your prompt references {{customerName}}, {{appointmentTime}}, or {{leadType}}, every row in the contact list must have a value for those fields. Missing variables will arrive as empty strings or undefined, which the agent will read aloud or skip awkwardly. Use the Dynamic Variable Defaults feature in the agent’s Security & Fallback settings to define fallback values for any field that might be empty — but treat this as a safety net, not a substitute for clean data.
+If the data is wrong, incomplete, or poorly formatted, even a well-configured agent will underperform. Clean input data leads to cleaner execution, better reporting, and fewer operational issues.
 
-**Deduplicate. **If the same contact appears twice in your list, they will be called twice. The platform does not deduplicate automatically because it cannot know whether a duplicate is intentional (e.g. a follow-up attempt) or accidental. Clean your list before loading.
+### Format every phone number in E.164
 
-**Add a status column. **Include a column in your contact list for call status (e.g. “pending,” “called,” “no answer,” “booked,” “declined”). Your workflow engine will update this column after each call. This is how you track progress, filter for retry attempts, and generate reports without leaving your spreadsheet or CRM.
+Every destination number should be stored in **E.164 format**:
 
-| ⚠️ Data quality is the most underestimated factor in campaign performance. A perfectly configured agent calling a messy contact list will produce messy results. Spend the time cleaning your data before you start calling. |
-| :-- |
+`+[country code][number]`
+
+Use no spaces, brackets, dashes, or leading zeros.
+
+This is one of the most common causes of failed outbound calls. If numbers are stored in local format, clean them before loading them into your workflow. A badly formatted number may simply fail to connect, which means missed calls and incomplete campaign data.
+
+### Include all required dynamic variables
+
+If your prompt uses dynamic fields such as:
+
+- `{{customerName}}`
+- `{{appointmentTime}}`
+- `{{leadType}}`
+- `{{accountNumber}}`
+
+then every row in your contact list needs to include a value for those fields.
+
+If a variable is missing, the agent may receive an empty value and respond awkwardly, skip information, or read something unusable into the conversation.
+
+Fallback values can be configured using **Dynamic Variable Defaults**, but these should be treated as protection against occasional gaps, not as a substitute for clean data.
+
+### Remove duplicates
+
+If the same contact appears twice in your list, the workflow may call them twice.
+
+RapidCall does not automatically deduplicate contact lists, because it cannot know whether a repeated record is an intentional follow-up or an accidental duplicate. Deduplication should be handled before the campaign starts.
+
+### Add a status column
+
+Include a status field in your contact list so your workflow can track the result of each call.
+
+Common values include:
+
+- **pending**
+- **called**
+- **no answer**
+- **booked**
+- **declined**
+- **callback requested**
+
+Your workflow engine can update this field after each call, making it easier to manage retries, monitor progress, and generate reports directly from your spreadsheet, CRM, or database.
+
+### Best practice
+
+A strong outbound campaign starts with a clean list.
+
+Before launching, make sure your data is:
+
+- correctly formatted,
+- complete,
+- deduplicated,
+- and structured to support status tracking and write-backs.
+
+Data quality is one of the most overlooked drivers of campaign performance. A strong agent on a poor contact list will still produce poor results.

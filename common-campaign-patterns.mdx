@@ -2,14 +2,90 @@
 title: "Common Campaign Patterns"
 ---
 
-Different use cases call for different campaign structures. Here are the patterns we see most often:
+Different outbound use cases require different campaign structures.
 
-**Lead follow-up (speed-to-contact). **New leads from Meta ads, website forms, or CRM triggers. The workflow fires the first call within minutes of the lead arriving. If unanswered, a second attempt follows 2–3 hours later. If still unanswered, an automated email or SMS is sent as a fallback. This pattern is covered in detail in Playbook 3 (Section 7).
+The underlying architecture may stay the same, but the timing, retry logic, and workflow design should reflect the goal of the campaign.
 
-**Database re-engagement. **Large batch of dormant leads or past customers. The workflow processes the list in daily batches (200–500 contacts per day), with two attempts per contact spaced across morning and afternoon windows. Outcomes are logged to a reporting sheet. The goal is to identify who is still interested and route them to a human for the high-value conversation. Playbook 1 (Section 7) demonstrates this pattern.
+Below are the most common patterns used with RapidCall.
 
-**Recurring outreach (daily pipeline). **Contacts are pushed into the list continuously by an external system (CRM, loan management system, booking platform). The workflow runs on a fixed schedule — two or three times per day — and processes whatever contacts are in the queue. Contacts that are reached are excluded from subsequent runs. This pattern suits debt collection, payment reminders, appointment reminders, and any use case with a recurring flow of contacts. Playbook 2 (Section 7) demonstrates this pattern.
+### Lead Follow-Up
 
-**A/B testing. **Two versions of the same agent with different prompts, voices, or LLMs, each assigned to a random subset of the contact list. The workflow splits contacts into two groups, triggers calls with the respective agent for each group, and logs outcomes separately. After a statistically meaningful number of calls, compare conversion rates, sentiment, and average duration to determine which version performs better. This is how you optimise agents systematically rather than guessing.
+This pattern is built for speed-to-contact.
 
-\
+It is typically used for new leads coming from:
+
+- Meta ads,
+- website forms,
+- CRM triggers,
+- or other live enquiry sources.
+
+The workflow triggers the first call within minutes of the lead arriving. If the lead does not answer, a second attempt follows a few hours later. If there is still no connection, a fallback touchpoint such as an email or SMS is sent automatically.
+
+This pattern works best when the lead is fresh and response speed has a direct impact on conversion.
+
+### Database Re-Engagement
+
+This pattern is used for large batches of dormant leads, old enquiries, or previous customers.
+
+Instead of calling the full list at once, the workflow processes the data in daily batches. Each contact typically receives two attempts across different calling windows, such as morning and afternoon.
+
+Results are written back into the reporting system so the team can identify:
+
+- who is still interested,
+- who needs a follow-up,
+- who should be excluded,
+- and who should be routed to a human.
+
+This pattern is well suited to reactivation campaigns where the goal is to surface live opportunities from older data.
+
+### Recurring Outreach
+
+This pattern is designed for workflows where new contacts enter the system continuously.
+
+Examples include:
+
+- debt collection,
+- payment reminders,
+- appointment reminders,
+- recurring customer outreach,
+- and operational follow-up flows.
+
+The workflow runs on a fixed schedule, usually two or three times per day, and processes whatever contacts are currently waiting in the queue. Once a contact has been reached or completed the intended outcome, they are excluded from future runs.
+
+This creates a steady, automated calling pipeline without needing to launch manual batches each day.
+
+### A/B Testing
+
+This pattern is used to compare different agent versions in a structured way.
+
+Two versions of the same agent are created with one meaningful difference, such as:
+
+- prompt wording,
+- voice choice,
+- model selection,
+- or call flow structure.
+
+The workflow splits the contact list into separate groups and routes each group to one version of the agent. Outcomes are then logged separately so you can compare performance across the two versions.
+
+Useful comparison points include:
+
+- conversion rate,
+- answer rate,
+- sentiment,
+- average duration,
+- and transfer rate.
+
+This is the most reliable way to improve agents over time. Instead of guessing which version is better, you test both under similar conditions and compare the results directly.
+
+### Best practice
+
+Choose the campaign pattern that matches the operational reality of your use case.
+
+Use:
+
+- **Lead Follow-Up** for fresh inbound leads,
+- **Database Re-Engagement** for older lists,
+- **Recurring Outreach** for ongoing operational queues,
+- and **A/B Testing** when you want to improve performance systematically.
+
+The structure of the campaign should always support the goal of the workflow, not the other way around.

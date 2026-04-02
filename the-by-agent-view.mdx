@@ -2,35 +2,75 @@
 title: "The By Agent View"
 ---
 
-The General view tells you how things are going overall. The By Agent view tells you why.
+The **General** view shows how your operation is performing overall. The **By Agent** view shows which agents are driving those results and where differences in performance are coming from.
 
-Switch to the By Agent tab and you get a table listing every agent in your workspace. Each row shows the agent’s name, total calls, successful calls, success rate, average duration, average latency, and average cost. This is where you stop looking at aggregate numbers and start comparing individual agents side by side. Just like looking at the performance of your human agents.
+Open the **By Agent** tab to see a table listing every agent in your workspace. Each row includes key metrics such as:
 
-### **The Agent Table**
+- agent name,
+- total calls,
+- successful calls,
+- success rate,
+- average duration,
+- average latency,
+- and average cost.
 
-The table is sorted by call volume by default, so your busiest agents sit at the top. Each column tells you something different about that agent’s performance.
+This is where you move from aggregate reporting to agent-by-agent comparison.
 
-A few things jump out immediately when you scan a table like this. Success rate varies widely across agents — one might sit at 88% while another hovers at 46%. That gap is not random. It usually comes down to one of three things: the quality of the contact list each agent is working, the calling hours configured for that campaign, or the caller ID and number reputation. An agent with a 46% answer rate is not necessarily a bad agent — it might just be calling a cold list where half the numbers are stale.
+### The agent table
 
-Average duration tells you how conversations are going once they connect. An agent averaging 48 seconds is having short, pointed exchanges — that is typical for a website inbound handler or a quick qualification call. An agent averaging nearly 5 minutes is handling longer conversations, which could mean complex use cases (good) or an agent that rambles and gets stuck in loops (not good). Context matters.
+By default, the table is sorted by call volume, so the busiest agents appear first.
 
-Average latency is the technical pulse check. It shows the time between the contact finishing a sentence and the agent starting its response. Sub-1,000 ms feels natural. 1,200–1,400 ms is noticeable but acceptable for complex agents running heavier LLMs. Above 1,500 ms and contacts start to feel like something is off. If one agent’s latency is significantly higher than the others, check its voice stack configuration — the LLM and TTS combination is usually the driver.
+Each column helps you evaluate a different part of performance.
 
-### **Expanding an Agent**
+**Success Rate** shows how often calls result in live conversations or successful outcomes, depending on the workflow. Large differences between agents are usually caused by one of three things:
 
-Click the dropdown arrow on any agent row and the table expands to reveal that agent’s full performance breakdown — the same dashboard you see in the General view, but scoped to that single agent.
+- the quality of the contact list,
+- the calling windows being used,
+- or caller ID and number reputation.
 
-This expanded view shows five metric cards across the top: Total Calls (with completed count), Success Rate, Average Duration, Average Latency, and Average Cost per Call. Below that, the same daily volume bar chart, sentiment donut, and outcomes breakdown — all filtered to that one agent.
+A low success rate does not always mean the agent itself is weak. In many cases, it reflects the conditions the agent is operating in.
 
-This is where you do real diagnostic work.
+**Average Duration** shows how long connected conversations tend to last. Shorter durations can be normal for fast qualification or routing use cases. Longer durations may reflect more involved conversations, but they can also indicate that the agent is rambling, looping, or struggling to close. The number only becomes useful when viewed in context.
 
-### **Comparing Agents**
+**Average Latency** is a technical performance indicator. It measures how long the agent takes to begin responding after the contact finishes speaking. Lower latency generally feels more natural. If one agent’s latency is noticeably higher than others, the cause is often the voice stack configuration.
 
-The real power of the By Agent view is comparison. When two agents are running similar campaigns but one consistently outperforms the other, the difference is in the configuration — and the table helps you isolate it.
+**Average Cost** helps you compare the efficiency of different agents, especially when they use different voice or model combinations. This is useful when balancing performance against operating cost.
 
-If Agent A has lower latency and higher sentiment than Agent B, and both run the same prompt, the voice stack is the variable. If they run the same stack but Agent A has longer average duration and more transfers, Agent A’s prompt is probably doing a better job of holding the conversation and reaching the handoff point.
+### Expanding an agent
 
-Use the expanded views side by side (open one, scroll down, open the next) to compare sentiment distributions, outcome splits, and volume patterns. The answers are usually obvious once you see the data next to each other.
+Click the dropdown arrow on any row to expand that agent’s detailed performance view.
 
-| 💡 Pro move: when testing a new prompt or voice stack, clone the agent, make the change on the clone, run both on the same campaign for a few days, and compare them in the By Agent view. That is a proper A/B test and it takes ten minutes to set up. |
-| :-- |
+This opens the same style of reporting available in the **General** dashboard, but filtered to that one agent only. You can review:
+
+- total calls,
+- success rate,
+- average duration,
+- average latency,
+- average cost per call,
+- daily call volume,
+- sentiment,
+- and call outcomes.
+
+This is where deeper diagnosis happens.
+
+### Comparing agents
+
+The real value of the **By Agent** view is comparison.
+
+When two agents are running similar campaigns but performing differently, this view helps you isolate what is changing the result. In many cases, the answer is in the configuration.
+
+For example:
+
+- if one agent has lower latency and better sentiment, the voice stack may be the reason,
+- if two agents use the same stack but one has longer conversations and more successful handoffs, the prompt or call logic may be stronger,
+- if one agent has a much lower success rate, the issue may be list quality, timing, or caller ID rather than the agent itself.
+
+Comparing agents side by side makes these differences easier to spot.
+
+### Best practice
+
+A useful way to test changes is to clone an existing agent, adjust one variable, and run both versions under similar conditions for a few days.
+
+Then compare them in the **By Agent** view.
+
+This gives you a clean way to test changes to prompts, voice stacks, settings, or logic without guessing which version performs better.

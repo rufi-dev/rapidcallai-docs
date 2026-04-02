@@ -1,149 +1,323 @@
 ---
-title: "Recruitment company in the UK"
+title: "Recruitment company in the UK - Candidate re-engagement"
 ---
 
-### **The Brief**
+### Overview
 
-A UK-based automotive recruitment firm with over 30 years in the industry. They had a database of 50,000\+ candidates who had registered interest in roles (technicians, panel beaters, service advisors, HGV mechanics, sales executives) over the past three years but had gone cold. The firm’s human consultants did not have the bandwidth to call through the full list. Most of these leads were sitting untouched.
+A UK-based automotive recruitment firm with more than 30 years in the industry had built up a database of over **50,000 candidates** who had previously registered interest in roles such as technicians, panel beaters, service advisors, HGV mechanics, and sales executives.
 
-The ask: build an AI voice agent that would re-engage these candidates at scale, identify who was still open to opportunities, and book callbacks with senior human recruiters. The agent was not trying to close anyone — it was trying to get warm candidates back in front of the right person.
+Most of these leads had gone cold. The firm’s recruiters did not have the time or capacity to work through the full database manually, which meant a large volume of potentially valuable candidates was sitting unused.
 
-### **The Numbers to-date (March 2026) - after 2 full months of AI agent operations**
+RapidCall was used to deploy an AI voice agent that could re-engage these candidates at scale, identify who was still open to opportunities, and book callbacks directly with the right human recruiter.
 
-| **Metric** | **Result** |
+The objective was not to close candidates on the call. The objective was to surface warm interest and route qualified conversations back to the recruitment team.
+
+---
+
+## The Goal
+
+The company needed an agent that could:
+
+- call dormant candidates at scale,
+- reference their previous interest naturally,
+- identify who was still open to hearing about roles,
+- handle common objections and questions,
+- book callbacks with senior recruiters,
+- and route those bookings to the correct consultant based on geography and specialism.
+
+This was a classic reactivation workflow: large database, low manual capacity, and high upside if the right people could be brought back into conversation.
+
+---
+
+## Results After 2 Full Months
+
+### March 2026 performance
+
+| Metric | Result |
 | :-- | :-- |
 | Total leads processed | 6,300\+ |
 | Total call attempts | 11,400\+ |
 | Connected conversations | 1,330 |
 | Booked callbacks | 518 |
-| Booking rate (from conversations) | 38.9% |
+| Booking rate from conversations | 38.9% |
 | Daily call volume | 200–400 calls/day |
 | Average call duration | 1–2 minutes |
 | Cost per minute | \$0.13 |
 | Positive sentiment | ~80% of analysed calls |
-| Candidates who asked if AI | ~20 out of 6,300 (0.3%) |
+| Candidates who asked if it was AI | ~20 out of 6,300 (0.3%) |
 | Candidates who asked not to be contacted | 6 out of 6,300 (0.1%) |
 
-The 38.9% booking rate from connected conversations was the headline number. For context, human recruiters doing the same re-engagement work typically convert at 15–25% on cold lists. The agent outperformed because it was making calls at a volume and consistency no human team could match, reaching candidates at optimal times and following the exact same script every time.
+The headline result was the **38.9% booking rate from connected conversations**.
 
-### **Voice Stack & Configuration**
+For context, human recruiters typically convert cold re-engagement lists at much lower rates. The AI agent performed strongly because it combined scale, consistency, and speed. It reached more people, called at better times, and followed the same proven structure every time.
 
-\*\*LLM: \*\*Claude 4.5 Haiku. Chosen over heavier models because the call flow was structured and linear — the agent did not need deep reasoning, it needed to follow a script reliably and quickly. Haiku delivered that at \$0.13/min with latency between 600 and 1,100 ms.
+---
 
-\*\*Voice: \*\*Amy (UK) via ElevenLabs Turbo V2. A natural British female voice that matched the firm’s brand (UK-based, professional but approachable). Voice speed set to 1.04 (slightly faster than default — recruitment conversations move quickly). Temperature and volume at 1.00.
+## Voice Stack and Configuration
 
-\*\*Background sound: \*\*Call Centre. This was a deliberate choice. The ambient noise made the agent sound like it was calling from a busy office, which significantly reduced the ‘is this a robot?’ reaction in the first few seconds of the call.
+### Core stack
 
-The speech settings were dialled in after several rounds of testing:
-
-| **Setting** | **Value** |
+| Component | Configuration |
 | :-- | :-- |
-| Response eagerness | 0.96 (near-maximum) |
-| Interruption sensitivity | 0.9 (high) |
+| LLM | Claude 4.5 Haiku |
+| Voice | Amy (UK) via ElevenLabs Turbo V2 |
+| Cost | \$0.13/min |
+| Typical latency | 600–1,100 ms |
+| Background sound | Call Centre |
+
+The call flow was structured and linear, so a lightweight model was the right fit. The agent did not need deep reasoning. It needed to follow the script naturally, respond quickly, and handle a small number of common branches reliably.
+
+A British female voice was chosen because it matched the client’s brand and audience. The tone needed to feel local, professional, and approachable.
+
+Call-centre background sound was added deliberately. It made the call feel like it was coming from a real busy office, which reduced early suspicion and helped the agent feel less synthetic.
+
+### Key speech settings
+
+| Setting | Value |
+| :-- | :-- |
+| Response eagerness | 0.96 |
+| Interruption sensitivity | 0.9 |
 | Pause before speaking | 0.4 seconds |
 | End call on silence | 45 seconds |
 | Max call duration | 7 minutes |
 | Ring duration | 35 seconds |
-| Voicemail detection | On — leaves scripted message |
+| Voicemail detection | On |
 | Denoising | Remove noise \+ background speech |
 | Transcription mode | Optimise for speed |
 | Speech normalisation | Off |
 
-\\
+A few settings made a particularly large difference.
 
-The 0.4-second pause before speaking was critical. Without it, the agent started talking the instant the call connected — before the candidate had even said hello — which triggered an immediate ‘this is a robocall’ reaction. A 0.4-second gap gave just enough silence to feel like a real person picking up the line.
+The **0.4-second pause before speaking** was critical. Without it, the agent spoke the moment the line connected, which made it sound like an autodialler. A very short pause made the interaction feel much more human.
 
-Response eagerness at 0.96 meant the agent jumped in almost immediately after the candidate finished speaking. In recruitment calls, dead air kills momentum. Candidates are busy, they are between tasks, and a two-second pause after every response makes them lose patience. The high eagerness kept conversations tight and professional.
+**Response eagerness** was kept very high because recruitment calls lose momentum quickly if the caller hesitates. Candidates are often busy, distracted, or between tasks. A slow agent feels awkward almost immediately.
 
-Interruption sensitivity at 0.9 meant the agent stopped talking quickly when interrupted. This was important because candidates frequently cut in with questions (‘wait, which role?’, ‘where exactly?’) and the agent needed to yield immediately rather than talking over them.
+**Interruption sensitivity** was also kept high because candidates often cut in with questions. The agent needed to yield cleanly rather than talk over them.
 
-### **Prompt Structure**
+---
 
-The prompt followed the standard five-section format with handlers.
+## Prompt Design
 
-\*\*Role. \*\*The agent was given a name (Beth), a title (AI Candidate Manager), a personality (friendly, professional, natural British tone), and a clear constraint: use simple everyday language. No ‘compensation’ — say ‘salary’. No ‘opportunity’ — say ‘role’ or ‘job’. This mattered more than most people expect. Recruitment candidates are tradespeople — mechanics, technicians, panel beaters. Formal corporate language creates immediate distance.
+The prompt followed the standard five-part structure used across RapidCall deployments.
 
-\*\*Context. \*\*Every call was personalised with dynamic variables pulled from the CRM: the candidate’s first name, when they last registered interest, what roles they enquired about, their postcode, their email, and the assigned recruiter’s contact details. The agent referenced these naturally throughout the conversation (‘you applied for HGV Technician roles back in September’) which made the call feel like a follow-up, not a cold call.
+### Role
 
-\*\*Availability. \*\*Monday to Friday only. The agent checked real-time calendar availability through a [Cal.com](http://Cal.com) integration before offering any time slot. It never promised a time without verifying first, and if a requested slot was unavailable, it offered the next available one. Weekends were hard-blocked in the prompt to prevent the agent from accidentally booking Saturday or Sunday callbacks.
+The agent was named **Beth** and framed as an **AI Candidate Manager**.
 
-\*\*Guidelines. \*\*This section carried significant weight. Key rules included: keep responses under 15 words where possible; never repeat the same sentence twice (even when looping); use British casual filler words (‘alright’, ‘lovely’, ‘cool’) to avoid sounding scripted; use the PAS objection handling framework (Problem → Agitate → Solve); read email addresses phonetically with all symbols pronounced; read phone numbers digit by digit; never make guarantees about roles; and offer booking slots one at a time, never as a list.
+The role instructions focused heavily on tone and vocabulary. The agent was told to sound friendly, natural, and British, while using simple everyday wording.
 
-One guideline worth calling out specifically: if the candidate asked about specific job details (pay, location, shift patterns), the agent was instructed to share realistic above-average salary ranges and a couple of relevant role types, frame them positively, and then transition back to booking the callback. This prevented the agent from deflecting the question (which kills trust) while keeping the conversation moving toward the goal.
+That mattered because the audience was not corporate. These were mechanics, technicians, bodyshop staff, and trade professionals. Language that felt too formal or too polished created distance immediately. Terms like **job**, **role**, and **salary** performed better than more corporate alternatives.
 
-\*\*Main Script. \*\*Six steps, each with a clear purpose:
+### Context
 
-- \*\*Confirm identity \*\*— ‘Am I speaking with \[name\]?’
-- \*\*Earn permission \*\*— reference their previous application and the new job offer, ask for 10 seconds to explain.
-- \*\*Pitch \*\*— mention that similar candidates nearby have been placed into roles with better pay and less travel. Ask if they are open to a 5-minute call with a consultant.
-- \*\*Check availability \*\*— call the calendar API to pull the next available slot.
-- \*\*Offer slot \*\*— propose a specific time. If declined, offer alternatives one at a time. If they want 3\+ days out, gently push back (‘these roles go fast — anything sooner?’).
-- \*\*Confirm and book \*\*— verify the email address, execute the booking via [Cal.com](http://Cal.com), confirm, and close.
+Each call was personalised using CRM variables, including:
 
-\\
+- candidate first name,
+- date they last registered interest,
+- role type,
+- postcode,
+- email,
+- and assigned recruiter details.
 
-\*\*Handlers. \*\*Eight named handlers covered the most common edge cases. Each handler was written conversationally — not as a policy statement, but as something a real recruiter would actually say.
+This allowed the agent to reference prior activity naturally, which made the conversation feel like a real follow-up rather than a generic cold call.
 
-- \*\*Disinterest — \*\*before letting the candidate go, the agent offered a £250 referral bonus for recommending someone else in the trade. This recovered a meaningful number of leads that would otherwise have been dead ends.
-- \*\*Already employed — \*\*acknowledged the good news, then pivoted to the same referral offer. No pressure, no pitch for ‘keeping options open’.
-- \*\*Busy / can’t talk — \*\*asked when would be better, then routed straight into the booking flow.
-- \*\*Just email me — \*\*offered to send info but pushed gently for a two-minute call instead, framing it as faster and more relevant than a generic email.
-- \*\*Scepticism — \*\*stated the company’s credentials plainly (specialist agency, 30\+ years, just a follow-up on their application).
-- \*\*Is this AI? — \*\*confirmed honestly (‘Yep, I’m an AI’), then immediately pivoted to the value (‘but I’m calling because we have a job offer’) and offered a human transfer or a callback. This handler was triggered on only 0.3% of calls.
-- \*\*Transfer to human — \*\*if the candidate wanted to speak to a recruiter immediately, the agent attempted a live transfer with a 30-second connection window.
-- \*\*Hostile — \*\*apologised, confirmed removal from records, and ended the call. No argument, no second attempt.
+### Availability
 
-### **End-to-End Workflow**
+The booking logic was restricted to **Monday to Friday only**.
 
-The agent did not operate in isolation. It was one piece of a fully automated pipeline.
+The agent checked real-time calendar availability through a [**Cal.com**](http://Cal.com) integration before offering any time. It never promised a slot without checking first, and it did not allow weekend callbacks.
 
-\*\*Data source. \*\*Candidate records were loaded into a Google Sheet that acted as a lightweight CRM. Each row contained the candidate’s name, contact details, postcode, job interest, registration date, and the assigned recruiter’s email (routed automatically by postcode region using a lookup table covering every UK postcode prefix).
+### Guidelines
 
-\*\*Trigger. \*\*A [Make.com](http://Make.com) scenario scanned the sheet every 10 minutes between 8:00 AM and 4:00 PM. If it found uncalled leads, it triggered up to 10 concurrent calls via the RapidCall API.
+The guidelines section carried a lot of the production value.
 
-\*\*First attempt window. \*\*8:00 AM – 2:00 PM. The agent worked through the list in batches of 10 simultaneous calls.
+The main rules included:
 
-\*\*Second attempt window. \*\*2:00 PM – 4:00 PM (same day). Any lead that was not connected on the first attempt got a second call.
+- keep responses short,
+- never repeat the same sentence twice,
+- use casual British filler words naturally,
+- handle objections using a structured framework,
+- read contact information clearly,
+- never make guarantees about jobs,
+- and offer booking times one at a time rather than as a list.
 
-\*\*Outcome logging. \*\*Every call outcome was written back to the Google Sheet automatically: call status, outcome category (booking made / no booking / voicemail / not connected / referral / transfer), sentiment, call summary, recording URL, and whether the candidate asked about AI or asked not to be contacted.
+One especially important rule covered candidate questions about role details. If a candidate asked about salary, location, or shifts, the agent was told to answer clearly, give realistic detail, and then guide the conversation back toward the callback booking. This prevented the trust loss that happens when an agent dodges a direct question.
 
-\*\*Email follow-up. \*\*Based on the logged outcome, [Make.com](http://Make.com) triggered the appropriate email template automatically. Five distinct templates covered every scenario: no answer (no voicemail), voicemail reached, not interested, referral interest, and second attempt not connected. Each email was written in the agent’s voice (Beth) and included relevant context from the call.
+### Main script
 
-\*\*Booking flow. \*\*When a candidate agreed to a callback, the agent called the [Cal.com](http://Cal.com) API to check real-time availability, offered a specific slot, and upon confirmation executed the booking. Both the candidate and the assigned recruiter received calendar notifications. The team manager was also notified.
+The live call flow had six core steps:
 
-\*\*Territory routing. \*\*The candidate’s postcode prefix was matched against a routing table that mapped every UK region to the appropriate recruiter by sector (Truck & Bus, Dealership, Bodyshop). This ensured the callback was booked with the recruiter who actually covered the candidate’s geography and specialisation.
+| Step | Purpose |
+| :-- | :-- |
+| 1. Confirm identity | “Am I speaking with \[name\]?” |
+| 2. Earn permission | Reference their earlier enquiry and ask for a few seconds to explain |
+| 3. Pitch the value | Mention new roles and ask if they are open to a short callback |
+| 4. Check availability | Pull live times from the calendar |
+| 5. Offer slot | Present one specific time, then alternative times if needed |
+| 6. Confirm and book | Verify details, book through [Cal.com](http://Cal.com), and close |
 
-### **What We Learned**
+The script was designed to keep momentum high and decisions simple.
 
-This deployment ran across multiple batches over several months. Here is what mattered.
+---
 
-\*\*The opening line determines everything. \*\*The first version of the opening was too long. It tried to explain the purpose of the call and ask for permission in the same breath. Candidates were hanging up before the agent finished the sentence. Cutting the opening to a single short question (‘Am I speaking with \[name\]?’) and saving the context for step two increased connection-to-conversation rates noticeably. The 0.4-second pause before speaking was discovered during this same iteration — without it, the agent sounded like an autodialler.
+## Handler Design
 
-\*\*Offering one time slot beats offering a list. \*\*Early versions had the agent offer multiple available times at once. This created decision paralysis — candidates would say ‘hmm, let me think’ and the call would stall. Switching to one slot at a time (‘the next available is Thursday at 10am — would that work?’) with alternatives offered only if the first was declined produced faster bookings and shorter calls.
+The agent included handlers for the most common edge cases:
 
-\*\*The referral pivot rescued dead calls. \*\*When a candidate was not interested, the £250 referral offer gave the agent one more move before ending the call. A meaningful number of ‘no’ conversations turned into referral leads, which the human team could then follow up on. Without this handler, those calls would have been total write-offs.
+| Situation | Response pattern |
+| :-- | :-- |
+| Disinterest | Offer a £250 referral bonus before ending the call |
+| Already employed | Acknowledge, then pivot to referrals |
+| Busy / can’t talk | Move straight into the callback flow |
+| “Just email me” | Offer email, but push gently for a quick call instead |
+| Scepticism | Clarify who the firm is and why they are calling |
+| “Is this AI?” | Answer honestly, then pivot straight back to value |
+| Wants a human now | Attempt live transfer |
+| Hostile response | Apologise, confirm removal, and end the call |
 
-\*\*Honesty about being AI was not a problem. \*\*Out of 6,300\+ leads processed, only 20 candidates (0.3%) asked whether they were speaking to AI. The ones who asked were handled with a direct admission followed by an immediate pivot to value. None of them hung up on the disclosure alone. The lesson: if the voice sounds natural, the script is conversational, and the agent is providing real value, most people do not care whether it is human or not.
+These handlers mattered because most live conversations do not stay perfectly on script. The agent needed to handle resistance without sounding robotic or policy-driven.
 
-\*\*Voicemail messages extended reach. \*\*Instead of hanging up on voicemail, the agent left a brief personalised message referencing the candidate’s name and the roles they applied for. This was paired with an automated email sent immediately after. The combination meant that even candidates the agent could not reach got a touchpoint — and some called back directly.
+The **AI disclosure handler** is worth noting. Very few candidates asked whether they were speaking to AI. When they did, direct honesty did not hurt performance. The agent answered plainly and immediately moved back to the reason for the call.
 
-\*\*The two-attempt model was worth the extra calls. \*\*The second call attempt (same day, afternoon window) produced 143 additional connected conversations and 53 additional bookings from candidates who were simply unavailable in the morning. That is a 10% increase in total bookings from a second pass that cost almost nothing incrementally.
+---
 
-\*\*Postcode-based routing removed a manual step. \*\*The lookup table that matched postcode prefixes to recruiters by region and sector meant that every booking landed directly on the right person’s calendar. No manual triage, no reassignment emails, no delays. This sounds like a small operational detail, but for a firm covering the entire UK with regional specialists, it eliminated what would have been a daily logistics headache.
+## Workflow Architecture
 
-\*\*Simple language outperformed formal language. \*\*When the prompt used words like ‘opportunity’, ‘compensation’, or ‘schedule a consultation’, call engagement was lower. Switching to ‘job’, ‘salary’, and ‘book a quick call’ — the words real people in the automotive trade actually use — made the conversations feel less like sales and more like a follow-up from someone who knew the industry.
+The agent sat inside a fully automated outreach workflow.
 
-### **When to Use This Pattern**
+### Data source
 
-This playbook applies to any business sitting on a database of leads that were once interested but went dormant. The core pattern — re-engage, qualify, book a callback with a human specialist — works across industries. If your human team is too small to call through the list, or the list is so old that calling through it manually feels like a waste of time, this is the use case.
+Candidate data was stored in a **Google Sheet** acting as a lightweight CRM. Each row included:
 
-The pattern is strongest when: the leads originally expressed genuine interest (opted in, applied, enquired), the business has specific value to offer them now (new roles, new products, new pricing), and the goal is a warm handoff to a human rather than a direct close. The AI handles the high-volume sifting. The human handles the high-value conversation.
+- name,
+- phone,
+- email,
+- postcode,
+- role type,
+- registration date,
+- and assigned recruiter email.
 
-| 📋 Template available: a stripped-down version of this prompt, with all client-specific details removed and placeholder variables marked, is available in the Appendix. Use it as a starting point and adapt the role, context, and script to your own use case. |
-| :-- |
+### Trigger logic
 
-\
-THE EXACT PROMPT WE USED TO GET THESE RESULTS:\
+A [**Make.com**](http://Make.com) scenario scanned the sheet every 10 minutes between **8:00 AM and 4:00 PM**.
+
+If it found uncalled leads, it triggered up to **10 concurrent calls** through the RapidCall API.
+
+### Calling windows
+
+The workflow used two main calling windows:
+
+- **First attempt:** 8:00 AM to 2:00 PM
+- **Second attempt:** 2:00 PM to 4:00 PM
+
+Leads not reached on the first call were retried later the same day.
+
+### Outcome logging
+
+Every call outcome was written back into the sheet automatically, including:
+
+- call status,
+- outcome category,
+- sentiment,
+- summary,
+- recording URL,
+- AI question flag,
+- and do-not-contact flag.
+
+This gave the team a live operations view without needing a heavier CRM setup.
+
+### Email follow-up
+
+Based on call outcome, the workflow triggered one of several automated email templates, including:
+
+- no answer,
+- voicemail reached,
+- not interested,
+- referral interest,
+- and second attempt unsuccessful.
+
+### Booking flow
+
+When a candidate agreed to a callback, the agent checked live availability via [**Cal.com**](http://Cal.com), offered a slot, and booked it directly. The candidate and recruiter both received notifications, and the team manager was also informed.
+
+### Territory routing
+
+Postcode prefixes were mapped to recruiter territories and specialisations using a lookup table. This ensured callbacks were booked directly with the right recruiter based on both geography and sector.
+
+---
+
+## What We Learned
+
+### 1. The opening line matters more than anything else
+
+The first version of the opening was too long. It tried to explain the purpose of the call before earning attention. Candidates dropped before the agent finished the sentence.
+
+Reducing the opening to a simple identity check improved performance immediately.
+
+### 2. One booking slot at a time works better than a list
+
+When the agent offered several times at once, calls stalled. Candidates paused, hesitated, or asked the agent to repeat them.
+
+Offering one time at a time made decisions easier and improved booking speed.
+
+### 3. The referral handler recovered value from “no” calls
+
+The referral offer turned a meaningful number of otherwise dead conversations into follow-up opportunities. Without it, those calls would simply have ended.
+
+### 4. Honest AI disclosure was not a problem
+
+Only a very small number of candidates asked if the caller was AI. Those who did were handled directly, and the disclosure itself did not cause drop-off.
+
+### 5. Voicemails helped extend reach
+
+The agent left short personalised voicemail messages, and these were paired with automated follow-up emails. This meant candidates who did not answer still received a contact point.
+
+### 6. The second attempt was worth it
+
+The second pass later in the day generated additional conversations and bookings from candidates who simply were not available in the first window.
+
+### 7. Routing by postcode removed a major manual step
+
+Automatic recruiter assignment meant bookings landed on the correct calendar immediately. That eliminated manual triage and saved the team time every day.
+
+### 8. Simple language performed better than formal language
+
+Trade audiences responded better to plain, familiar wording. When the script sounded too corporate, engagement dropped.
+
+---
+
+## When to Use This Pattern
+
+This playbook is a strong fit for any business with a large database of previously interested leads that has gone underworked or dormant.
+
+It works especially well when:
+
+- the leads originally expressed genuine interest,
+- the business has something new to offer them now,
+- the goal is to qualify and hand off, not close directly,
+- and the human team does not have capacity to work the full list manually.
+
+This pattern is useful well beyond recruitment. Any business sitting on a database of past enquiries, old leads, or dormant prospects can use the same structure:
+
+**re-engage → qualify → book human follow-up**
+
+The AI handles the high-volume filtering.\
+The human team handles the high-value conversation.
+
+---
+
+## Prompt Template Availability
+
+A stripped-down version of this prompt structure, with placeholders instead of client-specific details, can be included in the Appendix as a reusable template for:
+
+- candidate reactivation,
+- dormant lead follow-up,
+- callback booking,
+- and referral-led outreach.
+
+That gives readers a starting point they can adapt to their own sector and workflow.
+
+**THE EXACT PROMPT WE USED TO GET THESE RESULTS:**
 
 ```text
 ROLE

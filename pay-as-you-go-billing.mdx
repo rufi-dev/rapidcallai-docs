@@ -2,17 +2,31 @@
 title: "Pay-As-You-Go Billing"
 ---
 
-RapidCall runs on a pure pay-as-you-go model. You pay for active call time only. No seat fees, no per-agent fees, no monthly minimums beyond your base plan. If your agents are not making calls, you are not being charged.
+## Pay-As-You-Go Billing
 
-Billing starts the moment a contact answers and stops the moment the call ends. A billable minute includes AI speech generation, speech recognition, LLM inference, and telephony connection time. Voicemails count where applicable. Charges accumulate in real time and are visible in your Billing dashboard at any point. Payments go through Stripe. Every charge generates a downloadable invoice.
+RapidCall uses a pay-as-you-go billing model.
 
-This model works at any scale — 10 calls a month or 10,000. You scale up when you need to, scale back when you do not, and you never pay for capacity you are not using.
+You pay only for active usage. There are no seat-based charges, no per-agent fees, and no unnecessary fixed costs tied to unused capacity. If your agents are not making or receiving calls, you are not being charged for call usage.
 
-| **Component** | **When It’s Charged** |
+Billing starts when a call is answered and stops when the call ends. Billable time includes the full live call session, including speech recognition, language model processing, voice generation, and telephony connection time. Where applicable, voicemail interactions are also billable.
+
+Usage charges are tracked in real time and can be viewed at any time in your **Billing** dashboard. Payments are processed through **Stripe**, and each charge is accompanied by a downloadable invoice.
+
+This model is designed to work whether you are running a small number of calls or operating at high volume. You can scale usage up or down as needed and only pay for what you actually use.
+
+### Billing components
+
+| Component | When it is charged |
 | :-- | :-- |
 | Platform minutes | Per minute of active call time |
-| Voice provider (TTS) | Per minute — varies by provider |
-| Language model (LLM) | Per minute — varies by model |
+| Voice provider | Per minute, depending on provider |
+| Language model | Per minute, depending on model |
 | Phone number rental | Fixed monthly fee per number |
-| Verified Caller ID | \$10/month per number (US only) |
-| Branded Caller ID | \$0.10 per call (US only) |
+| Verified Caller ID | \$10/month per number, US only |
+| Branded Caller ID | \$0.10 per call, US only |
+
+### In simple terms
+
+RapidCall gives you usage-based pricing that scales with actual call activity.
+
+You are charged for live calling and the services involved in running it, while keeping full visibility over usage, invoices, and cost breakdowns inside the platform.

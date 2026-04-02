@@ -2,10 +2,57 @@
 title: "Voice stack"
 ---
 
-The voice stack controls how the agent hears speech and generates its spoken responses. Three options:
+The voice stack determines how your agent listens, thinks, and speaks during a call.
 
-\*\*Gemini Studio \*\*— a complete text-to-speech stack from Google. Good for English-only agents needing reliable performance at a moderate cost (\$0.15/min). Typical latency: 700–1,200 ms. Best for receptionist, appointment, and simple outreach agents.
+It controls how speech is processed, which model generates the response, and which voice engine turns that response into natural audio. Choosing the right stack matters because it affects latency, voice quality, reliability, multilingual performance, and how well the agent handles complex logic.
 
-\*\*OpenAI Realtime \*\*— a speech-to-speech model with very low latency (150–500 ms) and strong multilingual capability. Best for FAQ agents or situations where speed matters most. Not recommended for complex multi-step logic or agents that need to execute multiple actions reliably.
+RapidCall supports three voice stack options.
 
-\*\*Custom Stack \*\*— pick your own LLM and voice engine. Supports 18\+ languages and a wide range of voice providers. Recommended for complex or long-form conversations. Our H1 2026 picks: Claude Sonnet \+ Cartesia for complex prompts and multi-action workflows (~\$0.20/min), or Claude Haiku \+ Cartesia for cost-efficient outreach (~15% cheaper, latency under 1,000 ms).
+### Gemini Studio
+
+Gemini Studio is a complete text-to-speech stack from Google.
+
+It is a strong choice for English-language agents that need solid performance at a moderate cost. Typical latency is in the **700 to 1,200 ms** range, and average cost is around **\$0.15 per minute**.
+
+This option is best suited for use cases such as:
+
+- receptionist agents,
+- appointment booking,
+- simple outbound outreach,
+- and other structured call flows that do not depend on highly complex logic.
+
+### OpenAI Realtime
+
+OpenAI Realtime is a speech-to-speech model built for very fast interactions.
+
+It offers very low latency, typically in the **150 to 500 ms** range, and performs well across multiple languages. This makes it a strong fit for conversations where speed and responsiveness matter most.
+
+It is generally best for:
+
+- FAQ agents,
+- fast inbound conversations,
+- multilingual front-desk use cases,
+- and scenarios where natural responsiveness is a priority.
+
+It is not the best choice for agents that need to follow complex multi-step logic or execute multiple actions with high reliability.
+
+### Custom Stack
+
+The Custom Stack gives you full flexibility to choose your own language model and voice provider.
+
+This is the recommended option for more advanced use cases, especially when the agent needs to handle longer conversations, more complex prompts, or multiple actions during the call. It also supports **18\+ languages** and a wider range of voice and model combinations.
+
+Recommended combinations currently include:
+
+- **Claude Sonnet \+ Cartesia** for complex prompts, higher-quality reasoning, and multi-action workflows, at around **\$0.20 per minute**,
+- **Claude Haiku \+ Cartesia** for more cost-efficient outbound workflows, typically around **15% cheaper** while still keeping latency under **1,000 ms**.
+
+### Which option should you choose?
+
+As a general rule:
+
+- choose **Gemini Studio** for reliable, lower-complexity English agents,
+- choose **OpenAI Realtime** when speed is the main priority,
+- choose **Custom Stack** when you need the most control, flexibility, or workflow complexity.
+
+If you are unsure which stack is right for your use case, the RapidCall team can help you choose and configure the best setup.

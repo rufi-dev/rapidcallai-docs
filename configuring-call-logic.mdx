@@ -2,10 +2,63 @@
 title: "Configuring Call Logic"
 ---
 
-Call logic is the flow: what happens first, what happens next, and what happens when the conversation goes sideways.
+Call logic defines how the conversation moves from start to finish.
 
-Every call has an entry point (inbound pickup or outbound trigger), a flow structure (greeting, qualification, main interaction, closing), conditional logic (interested? proceed — hesitant? handle objection — not relevant? exit gracefully), and actions (schedule, transfer, save data, end call).
+It controls what happens first, what happens next, and what the agent should do when the call does not follow the ideal path. Good call logic keeps the conversation structured, predictable, and focused on the intended outcome.
 
-Keep flows simple. Anticipate the three or four most common paths and build those out properly. Include fallback responses for anything unexpected. A clean flow with good fallbacks outperforms a complicated flow with perfect coverage every time.
+Every call flow usually includes four parts.
 
-\
+### 1. Entry point
+
+The entry point is how the conversation begins.
+
+This may be an inbound call to a connected number or an outbound call triggered from a list, workflow, or CRM. The entry point determines the context the agent starts with and what type of opening it should use.
+
+### 2. Flow structure
+
+The flow structure is the main shape of the conversation.
+
+In most cases, this includes:
+
+- greeting,
+- qualification,
+- main interaction,
+- and closing.
+
+This gives the agent a clear path to follow instead of reacting loosely from one moment to the next.
+
+### 3. Conditional logic
+
+Conditional logic defines what happens based on how the contact responds.
+
+For example:
+
+- if the contact is interested, continue to the next step,
+- if the contact is hesitant, handle the objection,
+- if the conversation is not relevant, exit cleanly,
+- if the contact asks for a human, transfer or offer a callback.
+
+This is what makes the call flow adaptive rather than rigid.
+
+### 4. Actions
+
+Actions are the operational outcomes tied to the call.
+
+These can include:
+
+- booking an appointment,
+- transferring to a human,
+- saving extracted data,
+- updating a CRM,
+- sending a follow-up,
+- or ending the call.
+
+Actions should be tied clearly to specific points in the flow so the agent knows exactly when to trigger them.
+
+### Keep the logic simple
+
+The strongest call flows are usually not the most complicated ones.
+
+Instead of trying to cover every possible edge case in the main flow, focus on the three or four paths that happen most often and build those properly. Then add clean fallback responses for anything unexpected.
+
+A simple flow with strong fallbacks usually performs better than a highly complex flow that tries to account for everything. It is easier to manage, easier to test, and more reliable in production.

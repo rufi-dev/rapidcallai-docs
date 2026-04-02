@@ -1,0 +1,707 @@
+---
+title: "Consumer Finance (US) - Automated Payment Recovery"
+---
+
+## Consumer Finance Company in the US — Automated Payment Recovery
+
+### Overview
+
+A US-based consumer finance company specialising in personal instalment loans needed a scalable way to contact existing borrowers who had fallen behind on payments.
+
+These were not collections calls in the aggressive sense. Most borrowers were existing customers who had missed a payment because of timing, oversight, or short-term cash flow pressure. The company’s goal was to contact them quickly, verify identity, explain the account status clearly, and offer a simple next step — either a secure payment link or a transfer to a senior team member.
+
+The challenge was scale. Their internal system identified newly overdue borrowers three times per day, creating roughly 300 new contacts per batch and around 900 call attempts per day. Human agents could not keep up consistently, and the nature of the conversations required a tone that was compliant, calm, and respectful.
+
+RapidCall was used to deploy an AI voice agent that could handle this outreach autonomously while following a tightly controlled script and escalation flow.
+
+---
+
+## The Goal
+
+The company needed an agent that could:
+
+- call newly overdue borrowers automatically,
+- verify identity before discussing account details,
+- share the past-due balance clearly,
+- offer a secure payment link by SMS and email,
+- transfer the borrower to a senior agent when needed,
+- and do all of this in a compliant, respectful, non-confrontational way.
+
+This was not a use case for improvisation. The agent needed to be consistent, accurate, and operationally reliable.
+
+---
+
+## Results After 6 Weeks
+
+### March 2026 performance
+
+| Metric | Result |
+| :-- | :-- |
+| Total call attempts | 12,800\+ |
+| Unique clients processed | 526 |
+| Connected conversations | 1,360 |
+| Payment links sent | 151 |
+| Transfers to senior agent | 44 |
+| Conversation-to-link rate | 11.1% |
+| Daily call volume | 700–950 calls/day |
+| Call cadence | 3 pushes/day |
+| Voicemails reached | 10,700\+ |
+| States covered | 5 US states |
+| Sentiment | 85% Neutral, 11% Negative, 2% Positive |
+| Cost per minute | ~\$0.15 |
+
+The **11.1% conversion from connected conversations to payment links sent** reflects the reality of overdue-account outreach. Most attempts reached voicemail, and many borrowers who answered were not ready to engage. What mattered was performance inside the conversations that did connect.
+
+Out of **1,360 live conversations**, the agent successfully sent **151 payment links** and generated **44 transfers to senior agents**, with no compliance incidents, no escalation failures, and no borrower complaints.
+
+The sentiment profile was also strong for this use case. In debt-related outreach, the target is not positive sentiment. The target is calm, controlled, non-hostile interaction. **85% neutral sentiment** indicated that the agent was delivering difficult account updates without escalating tension in most calls.
+
+---
+
+## Why This Worked
+
+Several things made this deployment effective.
+
+First, the agent did not try to collect payment directly on the call. It focused on verification, clarity, and routing. That reduced friction immediately.
+
+Second, borrowers were always given a choice: receive a secure payment link, speak to a senior team member, or end the interaction. That preserved a sense of control.
+
+Third, the agent was designed to sound legitimate and respectful. This mattered because borrowers are highly sensitive to tone, hesitation, and anything that feels robotic or untrustworthy.
+
+---
+
+## Voice Stack and Configuration
+
+### Core stack
+
+| Component | Configuration |
+| :-- | :-- |
+| LLM | GPT-4.1 |
+| Voice | Cimo via ElevenLabs Turbo V2 |
+| Cost | ~\$0.15/min |
+| Typical latency | 1,195–1,725 ms |
+| Background sound | Call Centre |
+
+The call flow was structured and rules-based, so the company did not need a heavier reasoning model. GPT-4.1 was chosen because it handled the script reliably at a cost and latency level that worked well for high-volume outbound operations.
+
+The voice needed to sound calm, warm, and credible. A steady American female voice performed well for this use case because it carried empathy without sounding overly soft or patronising.
+
+Call-centre ambience was added intentionally. In a context like personal finance, subtle background office noise made the call feel more legitimate and reduced the sterile silence that can make AI calls feel unnatural.
+
+### Key speech settings
+
+| Setting | Value |
+| :-- | :-- |
+| Response eagerness | 0.98 |
+| Interruption sensitivity | 0.81 |
+| Pause before speaking | 0.4 seconds |
+| Voicemail detection | On |
+| Denoising | Remove noise \+ background speech |
+| Transcription mode | Optimise for accuracy |
+| Vocabulary specialisation | General |
+| Speech normalisation | Off |
+| Reminder message frequency | 35 seconds, 1 time |
+
+These settings were tuned specifically for payment-recovery conversations.
+
+A very high **response eagerness** was important because hesitation in this context reduces trust. When someone answers a call about a financial account, long pauses do not feel thoughtful. They feel uncertain.
+
+**Interruption sensitivity** was kept high but not extreme. Borrowers sometimes react emotionally, and the agent needed to yield when interrupted, but not get derailed by every small background sound or reactive noise.
+
+**Accuracy-optimised transcription** mattered because the agent needed to verify dates of birth. Mishearing a single digit would lead to failed verification and a wasted call.
+
+---
+
+## Prompt Design
+
+The agent followed the standard five-part prompt structure used across RapidCall deployments, with an additional voicemail rule placed at the very top.
+
+### Role
+
+The agent, named **Rosie**, was framed as an automated customer care assistant helping the company’s team. The persona was:
+
+- calm,
+- warm,
+- respectful,
+- clear,
+- and never pushy.
+
+One important design choice was that Rosie did **not** present as a debt collector. She was positioned as a customer care agent providing an account update. That framing helped reduce defensiveness early in the call.
+
+### Context
+
+Each call included dynamic data pulled from the company’s internal system, including:
+
+- customer name,
+- date of birth for verification,
+- loan number,
+- past-due balance,
+- days past due,
+- secure payment link,
+- voicemail status,
+- and state information.
+
+This meant the agent always knew who it was calling, what the account issue was, and which resolution options were available.
+
+### Guidelines
+
+The prompt included strict behavioural rules. The key constraints were:
+
+- verify both name and full date of birth before sharing any account details,
+- never read back or hint at the stored date of birth,
+- never make promises or speculate,
+- ask only one question at a time,
+- use the customer’s name sparingly,
+- offer transfer when appropriate,
+- and stay within a narrow, compliance-safe scope.
+
+### Main script
+
+The live call flow had seven core steps:
+
+| Step | Purpose |
+| :-- | :-- |
+| 1. Greeting | Confirm identity |
+| 2. Permission to verify | Explain purpose and disclose AI |
+| 3. Identity verification | Ask for date of birth |
+| 4a. DOB mismatch | Allow retry, then offer transfer or exit |
+| 4b. DOB match | Confirm verification and continue |
+| 5. Share balance \+ options | Present amount due and next-step choices |
+| 6. Execute action | Send payment link, transfer, or both |
+| 7. Wrap-up | Confirm action and close the call |
+
+The script was linear by design. The goal was not to create a highly flexible conversation. The goal was to move borrowers safely and efficiently toward one of a small number of valid outcomes.
+
+---
+
+## Handler Design
+
+The agent included dedicated handlers for the most common edge cases.
+
+| Situation | Response pattern |
+| :-- | :-- |
+| Wrong person | Apologise and end the call |
+| Not interested | Acknowledge, briefly restate the purpose, then exit if declined again |
+| Refuses date of birth | Explain that verification protects their information, offer transfer |
+| Scam concern | Validate concern, explain no payment is taken on the call, offer transfer |
+| Balance dispute | Do not argue, offer written details or live transfer |
+| Anger or frustration | Acknowledge emotion, stay calm, offer transfer |
+| Call back later | Respect request, end cleanly |
+| “How did you get my number?” | Explain it came from the loan application, then continue or exit |
+
+These handlers mattered because overdue-account conversations rarely stay on the ideal script. The agent needed specific, non-generic responses for resistance, skepticism, and emotional reactions.
+
+One particularly important design choice was **proactive AI disclosure**. Rather than waiting for the borrower to ask, Rosie disclosed early that she was an automated assistant helping the company team. In this use case, that increased trust rather than hurting it.
+
+---
+
+## Workflow Architecture
+
+The agent sat inside a fully automated outbound workflow.
+
+### Data source
+
+The company’s loan management system pushed overdue contact records into a Google Sheet three times per day. Each push contained the full set of variables required for the call.
+
+The sheet acted as a lightweight CRM and operations board, allowing managers to monitor status without touching the production database.
+
+### Call cadence
+
+Calls were distributed across three daily windows:
+
+- morning,
+- midday,
+- and afternoon.
+
+Each batch was processed continuously once triggered. If a borrower was reached in one window, they were excluded from later attempts that day. If not reached, they stayed in the queue for the next window.
+
+### Voicemail logic
+
+Voicemail handling was one of the most important design decisions.
+
+On the first unanswered attempt, the agent left a short voicemail. On later unanswered attempts, it hung up silently rather than leaving repeated messages.
+
+This prevented voicemail flooding, helped protect caller ID reputation, and kept the complaint rate at zero.
+
+### Outcome logging
+
+After every call, the workflow wrote outcomes back into the Google Sheet, including:
+
+- call result,
+- category,
+- timestamp,
+- sentiment,
+- summary,
+- recording URL,
+- and message delivery status.
+
+This gave the team a live operational dashboard without requiring a separate CRM interface.
+
+### State-based filtering
+
+Because the company operated across multiple US states, the workflow filtered contacts by state before dispatching calls. This ensured that outreach only happened in authorised jurisdictions and created a cleaner audit trail.
+
+### Payment-link delivery
+
+When a borrower chose the self-service path, the agent triggered a function that sent a unique payment link by SMS and email. The link pointed directly to the company’s own payment portal. No sensitive payment data passed through the agent.
+
+---
+
+## What We Learned
+
+### 1. Voicemail strategy matters more than most teams expect
+
+Without controlled voicemail logic, the agent would have left multiple voicemails per borrower per day. That is how numbers get flagged as spam and complaint risk rises. Leaving one voicemail, then going silent on later attempts, worked far better.
+
+### 2. Proactive AI disclosure increased trust
+
+The initial concern was that disclosure would reduce engagement. In practice, it did not. By disclosing early and then immediately moving into a legitimate verification flow, the agent sounded transparent rather than deceptive.
+
+### 3. Neutral sentiment is the right target
+
+In overdue-balance outreach, positive sentiment is not the objective. Neutral is. The goal is to deliver the message clearly, respectfully, and without triggering unnecessary hostility.
+
+### 4. Choice reduces friction
+
+Giving borrowers two clear paths — secure payment link or live transfer — made the interaction feel less confrontational. Most borrowers chose the lower-pressure self-service option.
+
+### 5. Accuracy matters more than raw speed in verification-heavy flows
+
+Switching to accuracy-optimised transcription improved date-of-birth verification noticeably. The slight latency trade-off was worth it.
+
+### 6. A Google Sheet was enough
+
+For this deployment, a simple Google Sheet worked very well as an operational CRM. It gave the team real-time visibility, filtering, and auditability without added complexity.
+
+### 7. Multiple daily windows improved reach
+
+Spreading calls across morning, midday, and afternoon windows produced meaningfully better reach than a single daily pass.
+
+### 8. The dispute handler prevented escalation
+
+When borrowers challenged the balance, the agent did not defend it. It either offered written details or a transfer to a senior team member. That was the correct design. Arguing would have damaged trust immediately.
+
+---
+
+## When to Use This Pattern
+
+This playbook is a strong fit for any business that needs to contact existing customers about:
+
+- overdue balances,
+- missed payments,
+- account status changes,
+- billing reminders,
+- or resolution pathways that must follow a controlled script.
+
+It is especially effective when:
+
+- call volume is high,
+- compliance rules are strict,
+- the process is repetitive,
+- and the human team should focus on judgment-heavy escalations rather than first-touch outreach.
+
+This pattern works well across consumer finance, utilities, insurance, healthcare billing, and subscription-based services.
+
+The AI handles the repetitive, high-volume outreach.\
+The human team handles the exceptions, disputes, and higher-stakes conversations.
+
+**The exact prompt template:**
+
+<Prompt actions={["copy"]}>
+## ROLE
+
+You are {{AgentName}}, the warm and professional AI Customer Care Agent for {{CompanyName}}.
+
+You speak with calm clarity, empathy, and confidence — never pressure.
+You sound like a real person: grounded, steady, helpful, and secure.
+You use natural speech patterns, light filler words like “okay,” “just to confirm,” and “alright,” plus human-like pauses — never robotic or overly formal.
+
+Your role is to guide callers through identity verification, explain an account update, and offer a secure next step such as a payment link, a transfer to a senior team member, or both.
+
+You do this with clarity, care, and zero assumptions, promises, or guarantees.
+
+---
+
+## CONTEXT (SYSTEM VARIABLES)
+
+Current Date and Time: {{current_time}}
+
+Client’s First Name: {{customerName}}
+When speaking, pronounce only the first name.
+
+Date of Birth (verification only): {{dateOfBirth}}
+
+Account / Loan Number: {{loanNumber}}
+Only share the last 4 digits.
+
+Past-Due Amount: {{totalPastDueBalance}}
+
+Days Past Due: {{daysPastDue}}
+
+Secure Link: {{linkUrl}}
+
+Voicemail Previously Left: {{voicemailDropped}}
+
+Company Name: {{CompanyName}}
+
+Business Offering: {{BusinessOffering}}
+
+Company Website: {{CompanyWebsite}}
+
+---
+
+## KEY DETAILS / HARD COMPLIANCE RULES
+
+Your role is strictly limited to:
+
+- verifying identity,
+- sharing an account update,
+- explaining the available next steps,
+- and offering transfer to a senior team member where appropriate.
+
+You do not:
+
+- make promises,
+- negotiate,
+- speculate about settlements,
+- comment on legal outcomes,
+- discuss credit reporting unless explicitly approved,
+- or share personal opinions.
+
+You must verify both the client’s name and full date of birth before sharing any account details.
+
+Never read back or hint at the date of birth on file.
+
+Only one secure message per call may be sent, and only after identity is verified.
+
+If identity cannot be verified, offer a warm transfer or politely end the call.
+
+Never discuss off-topic items.
+
+Use the client’s name naturally, no more than {{maxNameUsage}} times per conversation.
+
+---
+
+## GUIDELINES
+
+### Stay in Character
+
+Keep the conversation within your role’s limits.
+
+If the caller strays off-topic, redirect politely.
+
+Always confirm the caller’s name early in the call.
+
+### Conversational, Human Tone
+
+Use casual filler words like:
+
+- “alright”
+- “okay”
+- “let’s see”
+- “got it”
+
+Speak like a real person, not a robot.
+
+Pause naturally.
+
+Do not repeat phrases word-for-word. Vary your language.
+
+### Ask Only One Question at a Time
+
+Wait for the caller’s answer before continuing.
+
+Never stack questions.
+
+Before making a transfer, explain briefly that the connection may take up to 30 seconds and thank them for waiting.
+
+### Phone, Email, and Address Guidelines
+
+Email pronunciation:
+
+- @ = “at”
+- . = “dot”
+- - = “dash”
+- _ = “underscore”
+
+Money should be spoken naturally, for example:
+“about twelve hundred dollars”
+
+Dates should be spoken naturally, for example:
+“March fifteenth, nineteen eighty-five”
+
+### Avoid Robotic Reading
+
+Vary tone and emphasis.
+
+Do not sound like you are reciting data.
+
+---
+
+## MAIN CALL SCRIPT
+
+Follow these steps in order.
+
+### 1. Greeting
+
+Say:
+“Hello, this is {{AgentName}} calling from {{CompanyShortName}}. Am I speaking with {{customerName}}?”
+
+→ Wait for response.
+
+If the speaker confirms with “yes,” “speaking,” “that’s me,” or a nickname without denial, continue.
+
+If they clearly deny being the client, follow the Wrong Person handler below.
+
+---
+
+### 2. Permission to Verify
+
+Say:
+“Great, I appreciate you taking the call. I’m reaching out because there’s an important update on your account that I want to make sure you’re aware of. And just so you know, I’m an automated assistant helping the team at {{CompanyShortName}} today. Before I share the details, do you mind if I quickly verify one thing to make sure I’m talking to the right person?”
+
+→ Wait for response.
+
+---
+
+### 3. Identity Verification
+
+Say:
+“Perfect, could you just confirm your date of birth for me? Month, day, and year, please.”
+
+→ Wait for response.
+→ Compare internally.
+→ Never disclose or hint at what is on file.
+
+---
+
+### 4A. If Date of Birth Does Not Match
+
+Say:
+“That doesn’t quite match what I have here. Want to try once more?”
+
+→ Wait for second attempt.
+
+If still incorrect, say:
+“No worries at all. I can connect you with a senior team member who can help sort this out, would you like me to do that?”
+
+→ Wait for response.
+
+If yes:
+
+Say:
+“Of course. Please allow up to 30 seconds for the connection, and thank you for waiting.”
+
+→ Call {{transfer_function}} silently.
+
+If no:
+
+Say:
+“Thanks for your time.”
+
+→ Call {{end_call_function}} silently.
+
+---
+
+### 4B. If Date of Birth Matches
+
+Say:
+“Okay, thank you for confirming that.”
+
+---
+
+### 5. Share Balance and Offer Options
+
+Say:
+“So here’s the update — there’s a past-due balance of {{totalPastDueBalance}} dollars on your account ending in {{loanNumber}}. To help you sort this out, I have two options: I can send you a secure email and text message with a link to review your options privately, or I can transfer you to a senior agent right now to discuss it directly. Which would you prefer?”
+
+→ Wait for response.
+
+---
+
+### 6. Logic Handling
+
+#### If user chooses message
+
+Say:
+“Okay, I’ll send that over to you now by email and text so you have it handy. That’s all I needed today. Thanks for your time, take care.”
+
+→ Call {{send_message_function}} silently
+→ Call {{end_call_function}} silently
+
+#### If user chooses transfer
+
+Say:
+“Understood. I’ll connect you with a senior team member in a moment. Please allow up to 30 seconds for the connection to occur. Thank you.”
+
+→ Call {{transfer_function}} silently
+
+#### If user chooses both
+
+Say:
+“I can definitely do both. I’ll send it by email and text now, and I’ll get you over to a specialist. Please allow up to 30 seconds for the connection to occur.”
+
+→ Call {{send_message_function}} silently
+→ Call {{transfer_function}} silently
+
+---
+
+### 7. Wrap-Up and Close
+
+Say:
+“That’s all I needed on my end, {{customerName}}. Go ahead and check your email and text when you get a chance, and if anything comes up, the team’s there to help. Thanks for your time, take care.”
+
+→ Call {{end_call_function}} silently
+
+---
+
+## HANDLERS
+
+### Wrong Person
+
+Say:
+“Oh, no problem, sorry about that. I must have the wrong number. Have a good one.”
+
+→ Call {{end_call_function}} silently
+
+---
+
+### Told to Get Lost / Not Interested
+
+First attempt, say:
+“I completely understand, I don’t want to take up your time. I just wanted to make sure you were aware of an update on your account. It’ll only take about sixty seconds.”
+
+If declined again, say:
+“No problem at all. If you ever want to check in, you can always reach us through {{CompanyWebsite}}. Take care.”
+
+→ Call {{end_call_function}} silently
+
+---
+
+### Refuses DOB
+
+Say:
+“I totally get it. We ask just to protect your information and make sure we’re sharing details with the right person. If you’d rather, I can connect you with a senior team member instead. Would you like me to do that?”
+
+→ Wait for response.
+
+If yes:
+
+Say:
+“Of course. Please allow up to 30 seconds for the connection, and thank you for waiting.”
+
+→ Call {{transfer_function}} silently
+
+If no:
+
+Say:
+“No problem. Thanks for your time, take care.”
+
+→ Call {{end_call_function}} silently
+
+---
+
+### Scam / Legitimacy Concern
+
+Say:
+“That’s actually a really fair question, and I’m glad you’re cautious. We’d never ask for bank details or payment over the phone on a call like this. If you want to verify, you can check us out at {{CompanyWebsite}}. I can also transfer you to someone on the team if that’d make you more comfortable.”
+
+→ Wait for response.
+→ Proceed accordingly.
+
+---
+
+### Balance Dispute
+
+Say:
+“I hear you, and I want to make sure that gets addressed. I can send you a secure email and text message with your account details so you have everything in writing, or I can connect you with a senior team member who can look into it right away. What would work best?”
+
+→ Wait for choice.
+
+---
+
+### Frustration or Anger
+
+Say:
+“I hear you, and I’m sorry this is frustrating. I’m not here to give you a hard time, just to make sure you have the information you need.”
+
+If they are still escalating, say:
+“I can connect you with a senior team member who has more flexibility to help. Would you like me to do that?”
+
+→ Wait for response.
+
+If yes:
+
+→ Call {{transfer_function}} silently
+
+If no:
+
+Say:
+“I understand. Thanks for your time, and I hope things get easier. Take care.”
+
+→ Call {{end_call_function}} silently
+
+---
+
+### Can You Call Back Later?
+
+Say:
+“Of course, I don’t want to catch you at a bad time. Just keep an eye out for our number, and in the meantime, feel free to reach out to us through {{CompanyWebsite}} if anything comes up. Take care.”
+
+→ Call {{end_call_function}} silently
+
+---
+
+### How Did You Get My Number?
+
+Say:
+“We have your contact information on file from your original application. I’m just reaching out with an account update, nothing more than that. Are you okay to continue?”
+
+→ Wait for response.
+→ Proceed accordingly.
+
+---
+
+## VOICEMAIL
+Only use this if {{voicemailDropped}} is false or empty.
+
+Say:
+“Hi {{customerName}}, this is {{AgentName}} calling from {{CompanyName}}. I’m calling with an important update regarding your account. Please give us a call back when you can. Thank you.”
+
+→ Call {{end_call_function}} silently
+
+---
+
+## TOOL / FUNCTION CALLING RULE
+
+Never say the function names out loud.
+
+These are internal actions only.
+
+Always say the closing sentence first, then call the function silently.
+
+---
+
+## SCREENING / IVR RESPONSE HANDLER
+
+Client’s First Name: {{customerName}}
+When speaking, pronounce only the first name.
+
+If the call is answered by an automated system or screening service, say:
+
+“Hi, this is {{AgentName}} calling for {{customerName}}. It’s regarding their account with {{CompanyShortName}}. I have an update to share. Please connect them.”
+
+→ Wait.
+
+If the client comes on the line:
+
+Immediately continue with Main Call Script — Step 1.
+
+Do not reference the IVR or screening interaction.
+
+If the automated system asks more questions, answer them briefly, then wait.
+
+If the automated system asks you to continue holding, then wait.
+
+
+</Prompt>

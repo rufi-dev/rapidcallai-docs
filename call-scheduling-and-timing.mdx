@@ -2,14 +2,72 @@
 title: "Call Scheduling & Timing"
 ---
 
-When you call matters almost as much as what you say. The best agent in the world will underperform if it is calling people at the wrong time.
+## Call Scheduling and Timing
 
-**Respect local time zones. **If your contacts are spread across multiple time zones, your workflow needs to account for that. Calling someone at 9 AM your time might mean calling them at 6 AM their time. Most workflow engines ([Make.com](http://Make.com), n8n) support timezone-aware scheduling. Use it.
+When you place a call matters almost as much as what the agent says.
 
-**Respect legal calling hours. **In the US, the FTC Telemarketing Sales Rule restricts calls to between 8 AM and 9 PM local time. Other jurisdictions have similar restrictions. Your workflow is responsible for enforcing these windows. The platform will execute calls whenever you trigger them — it does not enforce calling hour restrictions on your behalf.
+Even a strong agent will underperform if it is calling people at the wrong time. Good scheduling improves answer rates, protects compliance, and increases the chances of reaching contacts when they are actually available to engage.
 
-**Front-load your calling window. **For most outbound campaigns, the highest answer rates come from calls placed in the mid-morning (9–11 AM local time) and early afternoon (1–3 PM local time). Calls placed after 5 PM have lower answer rates but can still produce results, particularly for consumer-facing campaigns where people are home from work. If you have a limited daily window, start in the morning.
+### Respect local time zones
 
-**Use multiple calling windows. **Rather than burning through your entire list in one pass, split your calling across two or three windows per day. A contact who was unavailable at 9 AM may answer at 1 PM. The Playbook 2 case study (Section 7) demonstrates this pattern: three daily windows at morning, midday, and afternoon, with contacts automatically excluded once reached. The incremental cost of a second or third pass is minimal, but the cumulative reach improvement is significant.
+If your contacts are spread across different regions, your workflow needs to account for local time.
 
-**Speed-to-contact for new leads. **If your contact list is fed by live lead sources (Meta ads, website forms, inbound enquiries), call speed matters more than anything else. A lead called within five minutes of submission converts at a dramatically higher rate than one called an hour later. Configure your workflow to trigger the first call immediately when a new contact arrives,
+A call placed at 9:00 AM in your own time zone may reach the contact far too early or too late in theirs. Your scheduling logic should always use the contact’s local time when deciding when to call.
+
+Most workflow tools, including Make.com and n8n, support timezone-aware scheduling. Use it.
+
+### Respect legal calling hours
+
+Your campaign setup is responsible for enforcing legal calling windows.
+
+RapidCall will place calls whenever your workflow triggers them, so it is up to your scheduling logic to make sure calls are only made during permitted hours in the relevant jurisdiction.
+
+For example, in the United States, the FTC Telemarketing Sales Rule generally limits telemarketing calls to **8:00 AM to 9:00 PM local time**. Other countries and regions may have different rules.
+
+Always make sure your workflows follow the applicable laws for the markets you are calling.
+
+### Front-load your calling window
+
+In most outbound campaigns, answer rates are strongest earlier in the day.
+
+As a general pattern:
+
+- **9:00 AM to 11:00 AM local time** often performs well,
+- **1:00 PM to 3:00 PM local time** is usually another strong window,
+- calls after **5:00 PM** can still work, especially for consumer-facing campaigns, but performance is often less consistent.
+
+If you have a limited calling window, begin with the morning period first.
+
+### Use multiple calling windows
+
+Do not rely on a single pass through the list.
+
+A contact who does not answer in the morning may be available later in the day. Splitting outreach across two or three calling windows usually improves total reach without requiring major changes to the workflow.
+
+A common structure is:
+
+- morning window,
+- midday window,
+- afternoon window.
+
+As contacts are reached, your workflow should exclude them from later passes automatically.
+
+### Prioritise speed-to-contact for new leads
+
+If your contact list is fed by live lead sources such as website forms, inbound enquiries, or ad submissions, response speed matters more than almost anything else.
+
+New leads are most valuable when contacted quickly. The first call should ideally be triggered as soon as the lead arrives in your system.
+
+If the use case depends on fresh intent, build your workflow so the initial call happens immediately rather than waiting for the next scheduled batch.
+
+### Best practice
+
+A strong outbound schedule should:
+
+- use the contact’s local time zone,
+- stay within legal calling hours,
+- prioritise the highest-performing windows,
+- spread retries across multiple periods,
+- and move quickly when new leads arrive.
+
+Well-timed calls do not just improve answer rates. They improve the entire campaign.

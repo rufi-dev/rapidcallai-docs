@@ -2,30 +2,75 @@
 title: "Concurrency & Rate Limits"
 ---
 
-Concurrency is the number of calls your account can handle simultaneously. Rate limits control how quickly you can trigger new calls through the API. Both exist to ensure platform stability and call quality across all users.
+Concurrency and rate limits exist to protect call quality and platform stability.
 
-### **Concurrency**
+They determine how many calls your account can run at the same time and how quickly your systems can trigger new calls through the API.
 
-Your account has a concurrency limit that determines the maximum number of live calls that can be in progress at the same time. If you trigger a call when you are already at your concurrency limit, the call will be queued or rejected depending on the current load.
+### Concurrency
 
-For most accounts, the default concurrency limit is sufficient for standard operations. If you are running high-volume campaigns (hundreds of simultaneous calls), contact our team to discuss your requirements. We can adjust limits based on your use case, volume, and infrastructure needs.
+Concurrency is the maximum number of live calls your account can handle simultaneously.
 
-**How to manage concurrency in your workflow. **The simplest approach is to control the number of parallel calls in your workflow engine rather than relying on the platform to manage the queue. For example, if your concurrency limit is 10, configure your [Make.com](http://Make.com) or n8n scenario to trigger a maximum of 10 calls at a time, then wait for some to complete before triggering more. This gives you predictable behaviour and avoids hitting the limit unexpectedly.
+If your account is already at its concurrency limit and you trigger another call, that call may be queued or rejected depending on current platform load and how the request is being processed.
 
-### **API Rate Limits**
+For most accounts, the default concurrency limit is enough for normal day-to-day operations. If you plan to run high-volume campaigns with a large number of simultaneous calls, contact the RapidCall team to discuss expanding your limit based on your expected volume and use case.
 
-The API enforces rate limits to prevent abuse and maintain service quality. Rate limits apply to the number of API requests per unit of time, not to the number of concurrent calls (which is governed by concurrency).
+### How to manage concurrency
 
-If you hit a rate limit, the API returns a standard HTTP 429 (Too Many Requests) response. Your workflow should handle this gracefully — wait briefly, then retry. Most workflow engines have built-in retry logic for 429 responses.
+The best approach is to manage concurrency inside your workflow engine rather than relying on the platform to handle queuing for you.
 
-### **Telephony Considerations at Scale**
+For example, if your account concurrency limit is **10**, configure your Make.com, n8n, or custom workflow to trigger no more than **10 calls at once**, then wait for some of those calls to complete before launching additional ones.
 
-High-volume outbound campaigns introduce telephony-layer challenges that do not exist at low volumes:
+This gives you more predictable behaviour and reduces the risk of hitting limits unexpectedly during live campaigns.
 
-**Caller ID reputation. **If you are making hundreds of calls per day from a single phone number, carriers may flag that number as spam. This is not a platform issue — it is how the telecom ecosystem works. To mitigate: use Verified Caller ID and Branded Caller ID (US only), rotate across multiple originating numbers if volume is high, and monitor your answer rates. A sudden drop in answer rate often indicates your number has been flagged.
+### API rate limits
 
-**Number rotation. **For very high-volume campaigns, use multiple originating numbers and distribute calls across them. This reduces the per-number call density and lowers the risk of spam flagging. Your workflow engine can rotate numbers on a round-robin basis or assign specific numbers to specific segments of your contact list.
+API rate limits control how many requests can be sent to the RapidCall API within a given period of time.
 
-**Country permissions. **Each originating number has country-level permissions. If your campaign spans multiple countries, confirm that every originating number has the relevant countries enabled before you start.
+These limits are separate from concurrency. Concurrency controls how many live calls can be active at once. Rate limits control how fast your systems can send API requests.
 
-\
+If your workflow exceeds the allowed request rate, the API will return an **HTTP 429 - Too Many Requests** response.
+
+Your workflow should handle this gracefully by waiting briefly and retrying the request. Most workflow tools support retry logic for 429 responses.
+
+### Telephony considerations at scale
+
+As call volume increases, telephony-layer issues become more important.
+
+### Caller ID reputation
+
+If you place a high number of outbound calls from a single phone number, carriers may begin to flag that number as spam.
+
+This is not specific to RapidCall. It is part of how the telecom ecosystem works. A flagged number usually leads to lower answer rates, even if the agent and list quality are good.
+
+To reduce this risk:
+
+- use **Verified Caller ID** where available,
+- use **Branded Caller ID** for supported US numbers,
+- monitor answer rates closely,
+- and avoid pushing all volume through a single number.
+
+A sudden drop in answer rate can be an early sign that a number has been flagged.
+
+### Number rotation
+
+For high-volume outbound campaigns, it is often better to spread calls across multiple originating numbers.
+
+This reduces the call density on any single number and lowers the risk of spam detection. Your workflow can rotate numbers automatically using a simple round-robin pattern or assign different numbers to different campaign segments.
+
+### Country permissions
+
+Each originating number has its own country-level calling permissions.
+
+If your campaign covers multiple countries, verify in advance that each number is allowed to place calls to the countries you need. Otherwise, calls may fail even if the rest of the workflow is configured correctly.
+
+### Best practice
+
+For stable high-volume outbound operations:
+
+- control concurrency in your workflow,
+- handle API rate limits with retry logic,
+- spread volume across multiple numbers when needed,
+- monitor answer rates for signs of number reputation problems,
+- and confirm country permissions before launch.
+
+That combination gives you far more control than simply pushing call volume until something breaks.

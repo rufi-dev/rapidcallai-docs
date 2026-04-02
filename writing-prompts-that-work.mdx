@@ -2,18 +2,68 @@
 title: "Writing Prompts That Work"
 ---
 
-The prompt is the difference between an agent that impresses on a demo and one that actually converts on live calls. 
+The prompt is what determines whether an agent sounds impressive in a demo or performs reliably on real calls.
 
-Everything the agent does — what it says, how it decides, when it pushes and when it backs off — comes from the prompt.
+Every part of the conversation comes from the prompt - what the agent says, how it responds, what it prioritises, what it avoids, and how it moves the call toward the intended outcome.
 
-Four principles to keep in mind:
+A weak prompt produces vague, inconsistent behaviour. A strong prompt gives the agent clear direction, clear limits, and a clear goal.
 
-**Clarity. **Be explicit about the agent’s role and objective. If you are vague, the agent will be vague. ‘You are a friendly assistant’ produces generic output. ‘You are a recruitment consultant at AutoSkills UK calling candidates who registered interest in automotive roles to book a callback with a senior recruiter’ produces focused, usable output.
+Four principles matter most.
 
-**Constraints. **Define what the agent should not do. Do not discuss pricing. Do not offer discounts. Do not schedule outside business hours. Do not engage in off-topic conversation. These boundaries prevent the most common failure modes.
+### 1. Clarity
 
-**Direction. **Every section of the prompt should guide the conversation toward the outcome you want. If the goal is a booked appointment, every response the agent gives should move toward that booking — even the objection handlers.
+Be specific about the agent’s role and objective.
 
-**Control. **The more freedom you give the agent to improvise, the more it will hallucinate and go off-script. Provide a skeleton conversation flow. Give it specific lines to say at each stage. Tell it what to do when the contact says yes, when they say no, and when they say something unexpected. Tight scripts outperform loose ones every time.
+If the prompt is vague, the output will be vague. A generic instruction produces generic behaviour. A precise instruction gives the agent something concrete to follow.
 
-\
+Compare:
+
+- **Weak:** “You are a friendly assistant.”
+- **Strong:** “You are a recruitment consultant at AutoSkills UK calling candidates who previously registered interest in automotive roles in order to book a callback with a senior recruiter.”
+
+The more clearly you define the role, the use case, and the purpose of the call, the more focused the agent will be.
+
+### 2. Constraints
+
+Define what the agent must not do.
+
+Constraints reduce failure points and help keep the conversation within safe and useful boundaries. They are especially important in production environments where the cost of going off-script is real.
+
+Examples of useful constraints include:
+
+- do not discuss pricing,
+- do not offer discounts,
+- do not schedule outside business hours,
+- do not guess when information is unavailable,
+- do not engage in off-topic conversation.
+
+Good constraints make the agent more predictable, more controlled, and more reliable.
+
+### 3. Direction
+
+Every part of the prompt should move the conversation toward the intended outcome.
+
+If the goal is to book an appointment, the conversation should consistently work toward that booking. If the goal is to qualify a lead, the prompt should keep steering toward qualification. If the goal is to collect missing information, the agent should stay focused on gathering it.
+
+This applies not only to the main script, but also to objection handling, fallback responses, and edge cases. Every response should support the purpose of the call.
+
+### 4. Control
+
+Do not give the agent more freedom than the use case requires.
+
+The more room the agent has to improvise, the more likely it is to drift, hallucinate, or go off-script. In most business workflows, tighter prompts perform better than loose ones.
+
+Give the agent a structured conversation flow. Define what it should say at each stage. Tell it how to respond when the contact says yes, when they say no, and when they say something unexpected.
+
+The goal is not to make the conversation robotic. The goal is to give the agent enough structure to stay effective while still sounding natural.
+
+### Best practice
+
+A strong production prompt should do four things clearly:
+
+- define the agent’s role,
+- set clear boundaries,
+- point every response toward the desired outcome,
+- and tightly control how the conversation is handled.
+
+That is what turns a prompt from a rough instruction into a reliable operating system for live calls.

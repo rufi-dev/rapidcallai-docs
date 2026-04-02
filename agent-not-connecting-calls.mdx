@@ -2,21 +2,92 @@
 title: "Agent Not Connecting Calls"
 ---
 
-This is the most common issue new users encounter. The agent is configured, you trigger a call, but nothing happens — or the call connects and immediately drops. Work through these checks in order:
+This is one of the most common issues for new users.
 
-**1. Is the agent published? **The most frequent cause. You can save changes to an agent without publishing them. If you have created or modified an agent but have not clicked Publish, the live version is either the previous published version or, for new agents, nothing at all. Check the agent editor — if the Publish button is highlighted, your latest changes are not live yet.
+You trigger a call, but nothing happens, or the call appears to connect and then drops immediately. In most cases, the cause is simple and can be identified quickly by working through the checks below in order.
 
-**2. Is a phone number assigned? **Outbound calls require an originating number. Inbound calls require a number routed to the agent. Go to Phone Numbers and confirm that the correct number is assigned for the correct direction (inbound, outbound, or both). If no number is assigned, calls have nowhere to route.
+### 1. Check whether the agent is published
 
-**3. Is the phone number in E.164 format? **All phone numbers on the platform must be in international E.164 format: \+\[country code\]\[number\] with no spaces, dashes, or brackets. For example, a US number should look like \+14155551234. If the destination number is not in this format, the call will fail to initiate.
+This is the most common cause.
 
-**4. Are country permissions set? **Each phone number has country permissions that control which countries it can call. If you are trying to call a number in a country that is not enabled on your originating number, the call will be blocked. Check the number’s settings and enable the relevant countries.
+Saving an agent and publishing an agent are two separate actions. You can make changes in the editor and save them without pushing those changes live. If the agent has never been published, there may be no live version available to handle calls.
 
-**5. Is the number verified? **For some regions, particularly the US, unverified numbers may be flagged as spam or blocked by carriers. If your calls are being rejected or going straight to voicemail at unusually high rates, consider enabling Verified Caller ID on the number.
+Open the agent editor and check the **Publish** button. If it is still active, your latest changes are not live yet.
 
-**6. Run Check Config. **The Check Config tool on the Phone Numbers page runs a diagnostic on the number’s wiring: SIP trunk status, inbound routing, outbound routing, and agent assignment. If something is misconfigured, it will tell you what is wrong. Run this before contacting support.
+### 2. Check whether a phone number is assigned
 
-**7. Is the call being answered? **If the call connects on your end but the contact never picks up, the issue is on the recipient’s side — not the platform. Check Call History for the call status. “No Answer” means the call rang but was not picked up. “Max Duration” means the call connected but hit the time limit. Both are normal operational outcomes, not errors.
+Calls cannot route without a number.
 
-| 🔧 Quick check: the single most common cause of “agent not working” is an unpublished agent. Save and Publish are separate actions. Always publish after making changes. |
-| :-- |
+For outbound calls, the agent needs an originating number. For inbound calls, the agent needs a number assigned to receive and route incoming traffic.
+
+Go to **Phone Numbers** and confirm that the correct number is assigned to the agent for the correct direction:
+
+- inbound,
+- outbound,
+- or both.
+
+If no number is assigned, the call has nowhere to go.
+
+### 3. Check the destination number format
+
+All phone numbers must be in **E.164 format**.
+
+The correct structure is:
+
+`+[country code][number]`
+
+There should be no spaces, brackets, or dashes.
+
+For example:
+
+`+14155551234`
+
+If the destination number is not formatted correctly, the call may fail before it even starts.
+
+### 4. Check country permissions
+
+Each originating number has country-level calling permissions.
+
+If you are trying to call a country that is not enabled on that number, the platform will block the call. Open the number settings and confirm that the relevant destination country is allowed.
+
+### 5. Check caller verification status
+
+In some regions, especially the United States, unverified numbers may be more likely to be flagged or blocked by carriers.
+
+If calls are failing unusually often, being rejected, or going straight to voicemail at abnormal rates, check whether **Verified Caller ID** should be enabled for that number.
+
+This usually affects answer rate more than raw call initiation, but it is still worth checking.
+
+### 6. Run Check Config
+
+Use the **Check Config** tool on the **Phone Numbers** page.
+
+This tool runs a diagnostic across the number setup and checks things such as:
+
+- SIP trunk status,
+- inbound routing,
+- outbound routing,
+- and agent assignment.
+
+If something is misconfigured, this is often the fastest way to identify it.
+
+### 7. Confirm whether the call is actually failing
+
+Sometimes the issue is not that the platform failed to place the call, but that the recipient did not answer.
+
+Check **Call History** and look at the final call status.
+
+Common outcomes include:
+
+- **No Answer** — the call rang but was not picked up,
+- **Max Duration** — the call connected and reached the configured time limit,
+- **User Hung Up** — the contact ended the call,
+- **Agent Ended** — the agent completed the flow and ended the call.
+
+These are operational outcomes, not platform errors.
+
+### Quick check
+
+The single most common cause of this issue is an unpublished agent.
+
+If the agent looks ready but is not handling calls, check **Save** vs **Publish** first.

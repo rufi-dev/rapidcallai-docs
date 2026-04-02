@@ -2,59 +2,167 @@
 title: "Reading Your Performance Dashboard"
 ---
 
-The Performance section sits under Monitor in the left sidebar. It is the first place you should look every morning.
+The **Performance** section sits under **Monitor** in the left sidebar. It should be one of the first places you check each day.
 
-The dashboard has two views: General (all agents combined) and By Agent (per-agent breakdown). A date filter at the top right lets you narrow the data to any time range — today, last 7 days, this month, or a custom window. 
+It gives you a clear view of how your agents are performing, where issues may be appearing, and which parts of the operation need attention.
 
-### **Top-Line Metrics**
+The dashboard has two views:
 
-The first thing you see is a row of headline numbers across the top. Each one tells you something specific about how your agents are performing at a glance.
+- **General** - performance across all agents combined,
+- **By Agent** - a breakdown for each individual agent.
 
-**Total Calls** — the total number of calls placed or received in the selected period by all agents in your workspace. This is your volume indicator. If this number is lower than expected, check whether your campaigns are running, whether phone numbers are correctly assigned, and whether your contact lists are populated.
+A date filter in the top-right corner lets you narrow the view to any period, including today, the last 7 days, this month, or a custom date range.
 
-**Successful Calls** — the number of calls where the contact / client actually answered and the agent had a conversation. 
+### Top-line metrics
 
-**Answer Rate** — the percentage of calls that were picked up. This is the clearest indicator of list quality and calling hygiene. Low answer rates point to stale contact data, bad calling windows, or caller ID issues. For most outbound campaigns, anything above 50% is healthy. Below 50% means something in the setup needs fixing before you worry about the script. If you are seeing answer rates below 50%, look at your calling hours, caller ID configuration, and whether your number is getting flagged as spam.
+At the top of the dashboard, you will see a row of headline metrics. These give you a quick read on overall performance.
 
-**Unique Numbers** — how many unique phone numbers / clients your agents called during the period. 
+#### Total Calls
 
-**Avg. Duration** — the average length of connected calls. This one is context-dependent. For appointment setting or lead qualification, 45 seconds to 2 minutes is typical. If your average is under 30 seconds, contacts are likely hanging up early — the opening line or the voice may need work. If it is over 3 minutes, the agent might be rambling or getting stuck in loops. Compare this against your best-performing agent to calibrate.
+This is the total number of calls placed or received during the selected period across all agents in the workspace.
 
-### **Operational Metrics**
+This is your main volume metric. If it is lower than expected, check whether campaigns are active, phone numbers are assigned correctly, and contact lists or workflows are populated as expected.
 
-Below the top line, a second row gives you the operational detail.
+#### Successful Calls
 
-**Transfer Rate** — the percentage of calls that were escalated to a human. Some transfer is expected and healthy — it means the agent is routing complex conversations correctly. If transfer rate is high (above 20–25%), the agent is likely hitting edge cases it does not know how to handle, and the prompt or handlers need tightening. If it is near zero, check whether your transfer functions are actually wired up and firing.
+This is the number of calls where the contact answered and the agent was able to have a live conversation.
 
-**Voicemail Rate** — the percentage of calls where the agent reached voicemail. If you have voicemail detection enabled and configured to hang up, this should be very low. If it is high, your detection settings may need adjustment, or you are calling at times when people are unlikely to answer.
+It tells you how many actual interactions took place, not just how many dial attempts were made.
 
-**Avg. Calls/Day** — your daily call volume averaged across the period. Use this to spot trends. A sudden drop means a campaign stopped or a number went down. This is also the number you use when forecasting costs.
+#### Answer Rate
 
-**Avg. Cost/Min** — your blended cost per minute of talk time across all agents and voice stacks. This combines platform fees, LLM inference, and voice provider charges. Use it to compare agents running different voice stacks, or to track whether a configuration change improved cost efficiency. If you are running Claude Sonnet \+ Cartesia on one agent and Gemini Studio on another, this metric will show you the real-world cost difference.
+This is the percentage of calls that were picked up.
 
-### **Call Volume Chart**
+For outbound operations, answer rate is one of the clearest indicators of list quality, calling-window quality, and caller ID health. A low answer rate often points to stale data, poor timing, or numbers being ignored or flagged.
 
-Below the metric cards, a bar chart shows total calls by day across the selected period, with the cumulative total in the top right corner. This is the fastest way to spot patterns: which days of the week produce the most volume, whether there are unexpected gaps (campaigns paused, numbers down, telephony issues), and how volume is trending over time. If you are running multiple campaigns, switch to the By Agent view to see which agent is driving the volume. 
+As a general benchmark, anything above **50%** is usually healthy for many outbound campaigns. If answer rate falls well below that, check:
 
-### **Customer Sentiment**
+- calling hours,
+- number reputation,
+- caller ID configuration,
+- and contact quality.
 
-The platform automatically analyses every completed call transcript and classifies the contact’s sentiment as positive, neutral, or negative. The results are shown as a donut chart with exact counts and percentages.
+Before adjusting the script, make sure people are actually answering.
 
-Sentiment is not a vanity metric. It tells you how your contacts feel about the interaction, which is a leading indicator of conversion and brand risk. If 80%\+ of your calls are landing positive - neutral, the script and voice are doing their job. If negative sentiment starts climbing above 10%, something is off — the tone, the pitch, the timing of calls, or the way objections are being handled. Pull the transcripts from negative calls and read them. The problem is usually obvious once you see the actual conversation.
+#### Unique Numbers
 
-### **Outcomes**
+This shows how many unique phone numbers were called or interacted with during the selected period.
 
-The Outcomes chart breaks down how calls ended. This is where you diagnose conversion and operational issues.
+It helps distinguish between repeated activity on the same contacts and broader reach across your list.
 
-**User Hangup** — the contact ended the call. This is the most common outcome for outbound and not necessarily bad. What matters is when they hung up. If contacts are dropping in the first 10 seconds, the opening line or voice is the problem. If they are dropping after 30–60 seconds, the pitch is not landing. Cross-reference with call duration and listen to a sample of these recordings.
+#### Average Duration
 
-**No Answer** — the call was not picked up. High no-answer rates are a list quality or calling window issue, not an agent issue.
+This is the average length of connected calls.
 
-**Transferred** — the agent routed the call to a human. Compare this against your Transfer Rate metric. 
+The right number depends on the use case. For appointment setting or basic qualification, somewhere between **45 seconds and 2 minutes** is common. If average duration is very short, contacts may be dropping early. If it is unusually long, the agent may be rambling, looping, or struggling to close.
 
-**Agent Hangup** — the agent ended the call according to its script logic. This is the expected outcome when the conversation reaches a natural close — appointment booked, information delivered, contact declined politely. If this number is unusually low, the agent may not be reaching its closing step, which means the call flow has a gap.
+Use this metric in context. The most useful comparison is often against your best-performing agent.
 
-**Other** — catches everything else: max duration reached, telephony errors, dropped connections. If this climbs above 5–10%, investigate. It usually points to a technical issue rather than a script problem.
+### Operational metrics
 
-| 💡 Tip: The most useful habit is to check the Performance dashboard each morning, skim the numbers, and then pull 3–5 random call recordings from the previous day. Numbers tell you what happened. Recordings tell you why. |
-| :-- |
+Below the headline row, you will see more operational performance data.
+
+#### Transfer Rate
+
+This is the percentage of calls that were transferred to a human.
+
+A certain level of transfer is healthy. It means the agent is identifying situations that should be escalated. If transfer rate is unusually high, the agent may be running into too many situations it cannot handle on its own. If it is near zero, check whether transfer logic is actually configured and working.
+
+#### Voicemail Rate
+
+This is the percentage of calls that reached voicemail.
+
+If voicemail detection is enabled and configured to hang up, this should usually stay low. A high voicemail rate can point to poor calling times, incorrect voicemail handling, or detection settings that need adjustment.
+
+#### Average Calls per Day
+
+This is your average daily call volume across the selected time range.
+
+Use it to spot trends and to estimate future usage. A sudden drop may indicate a paused campaign, a routing issue, or a problem with telephony or scheduling.
+
+#### Average Cost per Minute
+
+This is your blended cost per minute of talk time across agents and voice stacks.
+
+It reflects the actual call cost based on platform usage, model usage, and voice provider usage. This is especially useful when comparing different agent configurations or checking whether a stack change improved cost efficiency.
+
+### Call volume chart
+
+Below the metric cards, the dashboard shows a bar chart of call volume by day.
+
+This helps you see:
+
+- which days generate the most activity,
+- whether there are unexpected gaps,
+- whether volume is trending up or down,
+- and which periods may need investigation.
+
+If you are running multiple agents or campaigns, switch to **By Agent** to see which one is driving the volume.
+
+### Customer sentiment
+
+RapidCall analyses completed call transcripts and classifies sentiment as **positive**, **neutral**, or **negative**.
+
+The dashboard displays this in a visual chart with counts and percentages.
+
+Sentiment is useful because it gives you an early signal about how calls are landing. If most calls are coming back positive or neutral, the interaction is probably working as intended. If negative sentiment begins to rise, it usually means something in the experience needs attention.
+
+That could be:
+
+- the opening line,
+- the tone of voice,
+- the timing of calls,
+- objection handling,
+- or the overall structure of the conversation.
+
+If negative sentiment increases, review those call recordings and transcripts directly. The reason is often obvious once you inspect the conversations.
+
+### Outcomes
+
+The **Outcomes** chart shows how calls ended.
+
+This is one of the most useful areas for diagnosing both operational and conversion issues.
+
+#### User Hangup
+
+The contact ended the call.
+
+This is common in outbound calling and is not automatically a problem. What matters is when the hang-up happens. If it happens in the first few seconds, the issue is often the opening or the voice. If it happens later, the issue may be the pitch, the relevance, or the way the conversation is being handled.
+
+#### No Answer
+
+The call was not picked up.
+
+This is usually not a script problem. It is more often tied to list quality, timing, or caller ID trust.
+
+#### Transferred
+
+The agent routed the call to a human.
+
+Review this together with **Transfer Rate** to understand how often the agent is escalating and whether that level is appropriate for the workflow.
+
+#### Agent Hangup
+
+The agent ended the call according to its configured logic.
+
+This is usually the expected outcome when the conversation reaches a natural end, such as a booking being completed, information being delivered, or the contact declining politely.
+
+If this number is unusually low, the agent may not be reaching its final step consistently.
+
+#### Other
+
+This includes outcomes such as:
+
+- maximum duration reached,
+- telephony issues,
+- dropped connections,
+- or other technical exceptions.
+
+If this category starts to rise meaningfully, it usually points to a technical issue rather than a script issue.
+
+### Best practice
+
+The most useful habit is to check the Performance dashboard daily, review the main numbers, and then listen to a small sample of recent calls.
+
+The metrics tell you what happened.\
+The recordings and transcripts tell you why.

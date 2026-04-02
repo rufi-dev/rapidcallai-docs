@@ -2,6 +2,34 @@
 title: "Security & Fallback"
 ---
 
-A reliability layer that keeps agents running when things go sideways. Dynamic Variable Defaults provide fallback values when a data field arrives empty — the agent uses the fallback instead of reading a blank. Fallback LLM activates automatically if the primary AI provider goes down. Fallback Voice takes over if the primary voice service fails. Calls never drop because of a provider outage.
+Security and fallback settings help keep your agents reliable when something does not go to plan.
 
-\
+These features are designed to protect call quality, reduce failure risk, and keep agents operational even when data is missing or an upstream provider has an issue.
+
+### Dynamic Variable Defaults
+
+Dynamic Variable Defaults provide fallback values when expected data arrives empty or is missing.
+
+For example, if a field such as contact name, company, or appointment time is not passed in correctly, the agent can use a predefined fallback value instead of reading a blank or responding awkwardly.
+
+This helps maintain a smooth conversation even when the input data is incomplete.
+
+### Fallback LLM
+
+Fallback LLM protects the agent if the primary model provider becomes unavailable.
+
+If the main AI model fails or experiences downtime, RapidCall can automatically switch to a backup model so calls can continue without interruption.
+
+This reduces the risk of failed conversations caused by external provider outages.
+
+### Fallback Voice
+
+Fallback Voice works the same way at the voice layer.
+
+If the primary voice provider has an issue, the platform can switch to a backup voice service automatically. This helps keep calls active and prevents interruptions caused by audio provider failures.
+
+### Why it matters
+
+Live calling systems need more than good prompts and strong voices. They also need resilience.
+
+Fallback settings help ensure that temporary provider issues or missing input data do not break the experience. The goal is simple: keep your agent running reliably and keep calls from failing for avoidable reasons.

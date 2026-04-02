@@ -2,16 +2,92 @@
 title: "How Outbound Campaigns Work"
 ---
 
-An outbound campaign is any operation where your AI agent calls a list of contacts systematically rather than one at a time. The platform does not have a built-in campaign manager with a “start campaign” button — instead, campaigns are driven by external workflows that call the RapidCall API to trigger calls. This is by design: it gives you complete control over timing, sequencing, retry logic, and data flow, and it means the platform integrates cleanly with whatever tools you already use.
+An outbound campaign is any workflow where your AI agent systematically calls a list of contacts rather than placing one-off calls manually.
 
-The typical campaign architecture has four components:
+RapidCall does not use a built-in campaign manager with a single “start campaign” button. Instead, outbound campaigns are driven through external workflows that trigger calls using the RapidCall API.
 
-**1. A contact list. **This is where your leads or contacts live. It can be a Google Sheet, an Excel file, a CRM export, a database table, or any structured data source that contains the contact’s name, phone number, and any dynamic variables your agent needs (email, account number, appointment time, lead type, notes). The contact list is the source of truth for who gets called and what information the agent has when the call connects.
+This is intentional. It gives you full control over how campaigns run, including timing, sequencing, retry logic, concurrency, and how data moves between systems.
 
-**2. A workflow engine. **This is the orchestration layer that reads contacts from the list and triggers calls via the API. Common choices include [Make.com](http://Make.com), n8n (self-hosted or cloud), Zapier, or a custom script. The workflow engine controls when calls are made, how many are made simultaneously, what happens when a call is not answered, and how outcomes are written back to the contact list.
+In most cases, an outbound campaign has four core components.
 
-**3. The RapidCall API. **The workflow calls the API to initiate each outbound call, passing the agent ID, the originating phone number, the destination number, and any dynamic variables. The API returns a call ID that you can use to track the call’s progress and retrieve results.
+### 1. Contact list
 
-**4. Outcome logging. **After each call, the platform fires a webhook with the call outcome, transcript, recording URL, sentiment, extracted data, and any other fields you have configured. The workflow engine catches this webhook and writes the results back to the contact list, CRM, or database — closing the loop.
+The contact list is the source of truth for who gets called and what information the agent receives when the call begins.
 
-This four-part architecture is the same whether you are calling 10 contacts or 10,000. The difference at scale is how you configure the timing, concurrency, and retry logic.
+This can be:
+
+- a Google Sheet,
+- an Excel file,
+- a CRM export,
+- a database table,
+- or any structured data source.
+
+At minimum, it should contain the contact’s phone number and any other data the agent needs to personalise the call, such as:
+
+- name,
+- email,
+- account number,
+- appointment time,
+- lead type,
+- notes,
+- or other dynamic variables.
+
+### 2. Workflow engine
+
+The workflow engine is the orchestration layer that reads contacts from the list and tells RapidCall when to place calls.
+
+Common options include:
+
+- [**Make.com**](http://Make.com)
+- **n8n**
+- **Zapier**
+- or a custom-built script
+
+This layer controls:
+
+- when calls are triggered,
+- how many calls run at once,
+- what happens when a call is not answered,
+- how retries are handled,
+- and how outcomes are written back into your system.
+
+### 3. RapidCall API
+
+The workflow engine uses the RapidCall API to initiate each outbound call.
+
+For each call, it sends the required information such as:
+
+- agent ID,
+- originating phone number,
+- destination number,
+- and any dynamic variables needed for the conversation.
+
+Once the call is created, the API returns a call ID, which can be used to track the call and connect later results back to the original record.
+
+### 4. Outcome logging
+
+After the call ends, RapidCall sends the result back through webhooks.
+
+These webhook events can include:
+
+- call outcome,
+- transcript,
+- recording URL,
+- sentiment,
+- extracted data,
+- and other configured fields.
+
+Your workflow engine receives this data and writes it back to the contact list, CRM, or database. This closes the loop and keeps your records updated automatically.
+
+### Same architecture at any scale
+
+This four-part structure works whether you are calling 10 contacts or 10,000.
+
+What changes at scale is not the basic architecture, but how you configure:
+
+- timing,
+- concurrency,
+- retry logic,
+- and data handling.
+
+That is what lets outbound campaigns remain flexible while still fitting into the tools and workflows your business already uses.

@@ -2,68 +2,151 @@
 title: "GDPR Compliance"
 ---
 
-### **How Responsibilities Are Structured**
+## GDPR Compliance
 
-Under the General Data Protection Regulation (GDPR), there are two distinct roles in data processing: the data controller (the entity that decides why and how personal data is processed) and the data processor (the entity that processes data on the controller’s behalf).
+### How responsibilities are structured
 
-When you use [RapidCall.ai](http://RapidCall.ai) to call people, you are the data controller. You decide who to contact, what data to collect, what the purpose of the call is, and what legal basis applies. [RapidCall.ai](http://RapidCall.ai) is the data processor — we provide the technical infrastructure that executes your instructions, but we do not determine the content of your communications, the individuals you contact, or the purposes for which their data is processed.
+Under the General Data Protection Regulation (GDPR), there are two distinct roles in data processing:
 
-This distinction matters because it determines who is responsible for what:
+- **Data controller** - the entity that decides why and how personal data is processed
+- **Data processor** - the entity that processes personal data on the controller’s behalf
 
-| **Responsibility** | **Who Owns It** |
+When you use RapidCall to contact individuals, **you are the data controller**. You decide who to contact, what data to use, what the purpose of the call is, and which legal basis applies.
+
+**RapidCall is the data processor.** We provide the technical infrastructure that executes your instructions, but we do not decide who you contact, what you say, or why the data is being processed.
+
+This distinction matters because it defines who is responsible for what.
+
+### Responsibility split
+
+| Responsibility | Who is responsible |
 | :-- | :-- |
-| Determining the lawful basis for processing personal data | You (the customer) |
-| Informing call recipients that the call is AI-powered | You (the customer) |
-| Informing call recipients that the call may be recorded | You (the customer) |
-| Obtaining consent where required before initiating calls | You (the customer) |
-| Honouring data subject rights (access, erasure, portability) | You (the customer) |
-| Maintaining records of consent | You (the customer) |
-| Scrubbing contact lists against Do-Not-Call registries | You (the customer) |
-| Providing secure infrastructure for data processing | [RapidCall.ai](http://RapidCall.ai) |
-| Processing data only as instructed by the customer | [RapidCall.ai](http://RapidCall.ai) |
-| Maintaining sub-processor transparency | [RapidCall.ai](http://RapidCall.ai) |
-| Supporting international data transfer safeguards | [RapidCall.ai](http://RapidCall.ai) |
+| Determining the lawful basis for processing personal data | You |
+| Informing call recipients that the call is AI-powered | You |
+| Informing call recipients that the call may be recorded | You |
+| Obtaining consent where required before initiating calls | You |
+| Honouring data subject rights, including access, erasure, and portability | You |
+| Maintaining records of consent | You |
+| Scrubbing contact lists against Do-Not-Call registries where applicable | You |
+| Providing secure infrastructure for data processing | RapidCall |
+| Processing data only on the customer’s instructions | RapidCall |
+| Maintaining sub-processor transparency | RapidCall |
+| Supporting lawful international data transfer mechanisms | RapidCall |
 
-\
+### Data Processing Agreement
 
-### **Data Processing Agreement**
+A Data Processing Agreement between you and **ALEPI Organization OÜ**, the company behind RapidCall, is incorporated into the platform’s **Terms & Conditions** under **Section 7**.
 
-A Data Processing Agreement (DPA) between you and ALEPI Organization OÜ (the company behind [RapidCall.ai](http://RapidCall.ai)) is built into the platform’s Terms & Conditions under Section 7. It covers the scope of processing (call recordings, transcripts, caller information), your obligations as data controller, our obligations as data processor, and sub-processor authorisation. You do not need to sign a separate DPA — it is effective the moment you accept the Terms.
+It covers:
 
-### **Sub-Processors**
+- the scope of processing,
+- the categories of data involved,
+- your obligations as data controller,
+- our obligations as data processor,
+- and the use of authorised sub-processors.
 
-The platform relies on third-party services to deliver different parts of the voice agent experience. These sub-processors handle specific functions:
+A separate DPA does not need to be signed separately if the Terms have been accepted.
 
-| **Sub-Processor Category** | **Function** |
+### Sub-processors
+
+RapidCall uses third-party providers to deliver different parts of the platform. These providers act as sub-processors for specific technical functions.
+
+| Sub-Processor Category | Function |
 | :-- | :-- |
-| Cloud infrastructure (AWS) | Data storage, compute, call recording storage (S3) |
-| Telephony (Twilio) | Call routing, SIP trunking, phone number provisioning |
-| Voice engine (ElevenLabs, Cartesia, OpenAI Realtime, Gemini) | Text-to-speech audio generation |
-| Speech recognition (Deepgram) | Speech-to-text transcription |
-| Language models (Anthropic, OpenAI, Google) | AI conversation inference |
-| Real-time communication (LiveKit) | WebRTC voice processing and room management |
-| Payments (Stripe) | Billing and payment processing |
+| Cloud infrastructure | Data storage, compute, recording storage |
+| Telephony | Call routing, SIP trunking, phone number provisioning |
+| Voice engines | Text-to-speech audio generation |
+| Speech recognition | Speech-to-text transcription |
+| Language models | AI conversation generation |
+| Real-time communication | WebRTC voice processing and session management |
+| Payments | Billing and payment processing |
 
-\
+The current sub-processor list is maintained in the platform’s Privacy Policy. It may be updated from time to time as providers are added, removed, or changed.
 
-The sub-processor list is maintained in the Privacy Policy at rapidcall.ai/privacy. We may update this list as we add or change providers. By using the platform, you grant general authorisation for sub-processor engagement as outlined in the Terms.
+### International data transfers
 
-### **International Data Transfers**
+ALEPI Organization OÜ is registered in Estonia, within the EU/EEA.
 
-ALEPI Organization OÜ is registered in Estonia, within the EU/EEA. Primary data processing occurs within the EEA. However, some sub-processors — including AI model providers and certain cloud services — may process data in the United States or other countries outside the EEA.
+Primary platform operations are structured to support GDPR-compliant processing. However, some sub-processors, including AI model providers and cloud services, may process data outside the EEA, including in the United States.
 
-Where data is transferred outside the EEA, the platform relies on Standard Contractual Clauses (SCCs) approved by the European Commission and other lawful transfer mechanisms under Chapter V of the GDPR. If your business operates under GDPR and your contacts are EU/EEA residents, you should be aware that some call data may be processed outside the EEA in the course of generating AI responses and speech audio.
+Where personal data is transferred outside the EEA, appropriate transfer mechanisms such as **Standard Contractual Clauses (SCCs)** and other lawful safeguards under **Chapter V of the GDPR** are used.
 
-### **What You Need to Do**
+If your organisation processes data relating to EU or EEA residents, you should be aware that some call-related data may be processed outside the EEA as part of speech generation, transcription, or language-model inference.
 
-If you operate in the EU/EEA or process data of EU/EEA residents, here is a practical checklist:
+### What you need to do
 
-**Establish a lawful basis. **For most outbound AI call use cases, this will be either legitimate interest (Article 6(1)(f)) or consent (Article 6(1)(a)), depending on the nature of the call and your relationship with the contact. If you are calling existing customers about their account, legitimate interest is typically sufficient. If you are calling cold leads or running marketing campaigns, you may need prior consent. Consult your legal advisor if you are unsure.
+If you operate in the EU/EEA or process personal data relating to EU/EEA residents, the practical responsibilities remain yours as the data controller.
 
-**Disclose AI use. **Where required by law, inform the call recipient at the start of the call that they are speaking with an AI system. The simplest way to do this is to include the disclosure in the agent’s opening script. Several jurisdictions now require this, and it is increasingly considered best practice even where not yet legally mandated.
+### 1. Establish a lawful basis
 
-**Disclose recording. **If call recording is enabled, inform the recipient that the call is being recorded. Again, the most reliable approach is to include this in the agent’s script or as an automated pre-call message.
+Before using RapidCall to process personal data, determine the lawful basis that applies to your use case.
 
-**Honour data subject rights. **If a contact asks you to delete their data, provide a copy of it, or stop processing it, you are responsible for fulfilling that request. [RapidCall.ai](http://RapidCall.ai) gives you the tools to do this — call records can be deleted from Call History, recordings can be removed, and recording can be disabled entirely at the agent level.
+Depending on the context, this may include:
 
-**Maintain consent records. **For regulated calls (telemarketing, automated outreach), retain records of how and when consent was obtained. The recommended retention period is five years, consistent with most telemarketing regulatory frameworks.
+- **consent**,
+- **legitimate interest**,
+- or another lawful basis available under Article 6 of the GDPR.
+
+For example:
+
+- calls to existing customers about an active account may often rely on legitimate interest,
+- cold outreach or marketing-related calls may require prior consent, depending on the jurisdiction and use case.
+
+If you are unsure, take legal advice before launching the campaign.
+
+### 2. Disclose AI use where required
+
+If the applicable law or regulatory framework requires it, you must inform the recipient that they are speaking with an AI system.
+
+The most reliable way to do this is to include a short disclosure in the opening lines of the agent’s script.
+
+Even where not yet strictly required, this is increasingly becoming best practice.
+
+### 3. Disclose recording where required
+
+If call recording is enabled, you are responsible for informing the recipient where required by law.
+
+This can be handled through:
+
+- an opening disclosure in the script,
+- or an automated pre-call announcement.
+
+### 4. Honour data subject rights
+
+If a contact asks to:
+
+- access their data,
+- delete their data,
+- stop further processing,
+- or receive a copy of their data,
+
+you are responsible for handling that request.
+
+RapidCall provides the tools to support this, including deletion of call records, removal of recordings, export options, and the ability to disable recording at the agent level.
+
+### 5. Maintain consent records where required
+
+If your use case depends on consent, you should retain a clear record of:
+
+- how consent was obtained,
+- when it was obtained,
+- and what the individual consented to.
+
+For regulated outreach use cases, maintaining a reliable audit trail is essential.
+
+### Practical takeaway
+
+RapidCall provides the infrastructure to run AI phone operations securely, but GDPR compliance depends primarily on how **you** use the platform.
+
+In practical terms, you are responsible for:
+
+- choosing the lawful basis,
+- making the required disclosures,
+- managing consent where needed,
+- and handling the rights of the individuals you contact.
+
+RapidCall is responsible for:
+
+- processing data only on your instructions,
+- securing the platform,
+- and maintaining the processor-side safeguards needed to support compliant use.

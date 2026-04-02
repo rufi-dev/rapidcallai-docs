@@ -2,8 +2,66 @@
 title: "Agent prompt"
 ---
 
-The prompt is the single most important part of your agent. Written in plain language, it defines the agent’s identity, objective, how it handles common responses, how it handles edge cases, and when to end the call. Time spent here pays off directly in call quality and conversion rates.
+The prompt is the most important part of your agent.
 
-A complete prompt has five sections. Role defines the agent’s persona, tone, and core objective. Context covers dynamic data the agent uses to personalise each call — contact name, callback time, product interest — passed in from your CRM or contact list. Availability sets business hours and booking rules if the agent schedules appointments. Guidelines define ongoing behaviour: staying on topic, handling objections, keeping responses tight, managing transfers. Main Script is the step-by-step conversation flow from introduction to close, with branching logic at each stage.
+It defines who the agent is, what it is trying to achieve, how it should respond during the conversation, how it should handle edge cases, and when it should end the call. In most cases, prompt quality has a direct impact on call quality, consistency, and conversion performance.
 
-Optionally, you can add Handlers — named fallback responses for specific situations like the contact being busy, hostile, already dealt with elsewhere, or a booking action failing. Not mandatory, but highly effective for production agents.
+RapidCall prompts are written in plain language. You do not need to write code. You are simply giving the agent clear instructions on how to behave.
+
+A strong prompt is usually built from five core sections.
+
+### 1. Role
+
+The Role section defines the agent’s identity.
+
+This is where you describe who the agent is, how it should sound, what tone it should use, and what its primary objective is. A well-defined role helps the agent stay consistent throughout the call.
+
+### 2. Context
+
+The Context section provides the dynamic information the agent uses to personalise the conversation.
+
+This can include details such as the contact’s name, company, product interest, callback time, account status, or any other variable passed in from your CRM, contact list, or workflow.
+
+Context helps the agent sound relevant and informed instead of generic.
+
+### 3. Availability
+
+The Availability section is used when the agent needs to book appointments or operate within specific business rules.
+
+This is where you define working hours, booking windows, calendar constraints, or scheduling logic. If the agent is involved in appointment setting, this section helps make sure it only offers valid times and follows your availability rules.
+
+### 4. Guidelines
+
+The Guidelines section defines the behavioural rules the agent should follow throughout the call.
+
+This can include instructions such as staying on topic, keeping answers concise, handling objections in a certain way, avoiding specific wording, escalating when needed, or managing transfers correctly.
+
+Guidelines help keep the agent controlled, consistent, and aligned with the intended call style.
+
+### 5. Main Script
+
+The Main Script is the core conversation flow.
+
+This is where you define the call from opening to close, including the sequence of steps, key talking points, and expected branches based on how the contact responds.
+
+A strong script gives the agent structure while still allowing it to respond naturally within that structure.
+
+### Optional: Handlers
+
+Handlers are additional prompt sections used for specific situations.
+
+They are not required, but they are highly useful for production agents. Handlers let you define fallback behaviour for cases such as:
+
+- the contact being busy,
+- the contact sounding hostile,
+- the issue already being resolved elsewhere,
+- a failed booking attempt,
+- or another scenario that needs a specific response pattern.
+
+Adding handlers helps the agent stay stable and effective when conversations do not follow the ideal path.
+
+### Why prompt quality matters
+
+A prompt is not just a script. It is the operating logic behind the conversation.
+
+The more clearly the prompt defines the agent’s role, context, rules, and flow, the better the agent will perform in live calls. Well-structured prompts usually lead to more natural conversations, better handling of objections and edge cases, and stronger overall results.

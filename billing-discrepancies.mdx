@@ -2,17 +2,76 @@
 title: "Billing Discrepancies"
 ---
 
-If your bill looks higher than expected or you see charges you do not recognise, here is how to investigate:
+If your bill looks higher than expected or includes charges you do not recognise, the fastest way to investigate is to break the total down into its component parts and trace the spend back to actual usage.
 
-**Check the Usage tab. **The Usage tab on the Billing page breaks down every charge by component: platform minutes, each voice provider, each language model. This tells you exactly where your spend went. If one component is disproportionately high, it is usually because you are running an expensive voice or model configuration at high volume.
+### Check the Usage tab first
 
-**Multiple providers on the same invoice. **If you see charges for several voice providers or LLMs, it means you tested or ran different configurations during the billing period. Every provider and model you used will appear as a separate line item. This is normal — the platform tracks each component independently.
+Start with the **Usage** tab in the **Billing** section.
 
-**Phone number charges appearing when no calls were made. **Phone numbers carry a fixed monthly rental fee regardless of call volume. If you have numbers assigned to your account that you are not actively using, you are still being charged for them. Release unused numbers from the Phone Numbers page to stop the recurring charge.
+This gives you a component-level breakdown of charges, including:
 
-**Test calls adding up. **Every call — including test calls from the built-in Test Call tool and internal debugging calls — is billed at the same rate as production calls. If you ran multiple rounds of testing with an expensive voice and model stack, those minutes accumulate. During development, test on lighter configurations where possible (see Section 8 for cost management tips).
+- platform minutes,
+- each voice provider,
+- each language model,
+- and recurring fees.
 
-**Charges do not match your call count. **Billing is per minute of active call time, not per call. A single call that lasts three minutes generates three minutes of charges across all components. If your calls are averaging longer durations than expected, your total bill will be higher than a simple call count would suggest. Check the average duration metric in the Performance dashboard.
+This is usually the fastest way to see where the spend came from. If one line item is much higher than expected, it often means that a more expensive voice or model configuration was used more heavily than intended.
 
-| 💳 If you have reviewed the Usage tab and still cannot explain a charge, contact support with the specific line item and date range. We can trace it to the exact calls that generated it. |
-| :-- |
+### Multiple providers on the same invoice
+
+If you see charges for several voice providers or several language models on the same invoice, that usually means different stacks were used during the billing period.
+
+This can happen when:
+
+- you tested multiple configurations,
+- different agents used different providers,
+- or one agent was changed during the billing cycle.
+
+This is normal. RapidCall tracks each provider and model separately so you can see exactly what was used.
+
+### Phone number charges with no calls
+
+Phone numbers have recurring monthly rental fees whether or not they are actively making calls.
+
+So if you have active numbers in the account but did not place many calls, you may still see charges for those numbers. If a number is no longer needed, release it from the **Phone Numbers** section to stop the recurring charge.
+
+### Test calls can add up
+
+Test calls are billed the same way as production calls.
+
+That includes:
+
+- calls from the built-in **Test Call** tool,
+- internal testing calls,
+- and repeated debug sessions.
+
+If you ran a lot of testing using a more expensive stack, those minutes can accumulate faster than expected. During development, it is usually better to test on a lighter configuration until the prompt and logic are stable.
+
+### Charges do not match the call count
+
+Billing is based on **active call time**, not just number of calls.
+
+That means one three-minute call generates roughly three times the usage of a one-minute call across the relevant billing components.
+
+If your bill feels high relative to call count, check the **average duration** metric in the **Performance** dashboard. Longer average call times usually explain the difference.
+
+### Best way to investigate
+
+If something looks off, review it in this order:
+
+1. open the **Usage** tab,
+2. identify which component is higher than expected,
+3. check whether multiple providers or models were used,
+4. check whether unused phone numbers are still active,
+5. check whether testing volume was higher than expected,
+6. compare total spend against average call duration, not just call count.
+
+### If the charge still does not make sense
+
+If you have reviewed the Usage tab and still cannot explain a charge, contact support with:
+
+- the specific line item,
+- the relevant date range,
+- and the workspace involved.
+
+That makes it much easier to trace the charge back to the underlying calls or recurring items.

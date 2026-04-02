@@ -2,55 +2,81 @@
 title: "Security Infrastructure"
 ---
 
-The platform is built on enterprise-grade infrastructure designed to protect data at every stage of the call lifecycle — from the moment a call connects to the moment the recording is stored.
+RapidCall is built on a layered infrastructure designed to protect data across the full call lifecycle, from live call processing through storage and workspace access control.
 
-### **Architecture**
+### Architecture
 
-The platform consists of three core components: a backend API (Node.js/Express) running on AWS EC2 with PostgreSQL on AWS RDS for all persistent data, a React-based dashboard served via Nginx, and a real-time voice agent engine (Python) running on LiveKit. All components are containerised with Docker and sit behind Caddy for reverse proxy and TLS termination.
+The platform is structured across separate application layers rather than as a single monolithic system.
 
-This separation means that the dashboard, the API, and the voice processing layer are isolated from each other. A compromise of one component does not automatically expose the others.
+At a high level, this includes:
 
-### **Encryption**
+- a backend API layer,
+- a web dashboard layer,
+- and a real-time voice processing layer.
 
-All data in transit between your browser and the platform is encrypted via TLS (HTTPS). API calls between platform components use the same standard. Call recordings stored in AWS S3 benefit from server-side encryption at rest. Database connections to PostgreSQL on AWS RDS are encrypted in transit. Payment data is handled exclusively by Stripe and never stored on [RapidCall.ai](http://RapidCall.ai) servers.
+Those layers are isolated from each other so that the dashboard, API, and voice engine do not all sit in the same runtime surface. This separation reduces the blast radius of a single-component failure or compromise and makes operational access control cleaner. This architecture description reflects the platform design you provided; the underlying cloud and provider security posture is supported by the vendor documentation cited below. ([Amazon Web Services, Inc.](https://aws.amazon.com/compliance/soc-faqs/?utm_source=chatgpt.com "SOC Compliance - Amazon Web Services (AWS)"))
 
-### **Authentication & Workspace Isolation**
+### Encryption
 
-Authentication is JWT-based, with session tokens scoped to individual workspaces. Each workspace is fully isolated — its agents, phone numbers, call history, recordings, billing, and team members are completely separate from every other workspace on the platform. There is no data overlap between workspaces, even when they belong to the same parent account. This is by design: agencies managing multiple clients can give each client their own workspace with zero risk of cross-contamination.
+Data in transit should be encrypted using TLS across browser sessions, API traffic, and internal service communication. For cloud storage and database infrastructure, AWS documents encryption support for services such as S3 and RDS and positions AWS services for GDPR-compliant use when configured appropriately. Payment data is handled by Stripe rather than being stored directly on RapidCall infrastructure. ([Amazon Web Services, Inc.](https://aws.amazon.com/compliance/gdpr-center/?utm_source=chatgpt.com "General Data Protection Regulation (GDPR) Center"))
 
-### **Voice Processing**
+### Authentication and workspace isolation
 
-Real-time voice processing runs on LiveKit, an open-source WebRTC framework. Voice data is streamed in real time between the caller, the speech recognition engine (Deepgram), the language model, and the text-to-speech engine. This streaming architecture means audio is processed as it arrives — it is not stored in intermediate buffers or temporary files during the conversation. Once the call ends, the final recording (if enabled) is written to S3, and the transcript is persisted to the database.
+Authentication should be scoped at the workspace level so that access is limited to the environment a user is authorised to manage.
 
-### **Third-Party Provider Security**
+Each workspace is designed to operate as a separate environment, with its own agents, phone numbers, call history, recordings, billing context, and team access. This matters especially for agencies and multi-client operators, because it reduces the risk of cross-workspace data exposure and keeps client environments operationally separated.
 
-The platform’s voice stack relies on leading infrastructure providers, each with their own security posture:
+### Voice processing
 
-| **Provider** | **Role** |
+RapidCall uses a real-time streaming architecture for live voice interactions.
+
+LiveKit positions its platform as real-time infrastructure for voice and multimodal applications, and its security materials state that LiveKit Cloud maintains **SOC 2 Type II** certification. Deepgram states that it has achieved **SOC 2 Type I and Type II** certification for its speech services. This is relevant because real-time call processing depends on low-latency streaming between telephony, speech recognition, model inference, and voice generation providers. ([LiveKit](https://livekit.io/legal/security?utm_source=chatgpt.com "Security Overview"))
+
+### Third-party provider security
+
+RapidCall relies on established infrastructure providers for core parts of the system. Their published security and compliance materials support the baseline security posture of the platform stack.
+
+| Provider Category | Role |
 | :-- | :-- |
-| AWS (EC2, RDS, S3) | Compute, database, and object storage. SOC 2, ISO 27001, and GDPR-compliant infrastructure. |
-| Twilio | Telephony and SIP trunking. SOC 2 Type II certified. GDPR Data Processing Addendum available. |
-| LiveKit | Real-time WebRTC voice processing. Open-source, SOC 2 Type II certified (Cloud). |
-| Deepgram | Speech-to-text. SOC 2 Type II certified. Processes audio in real time without persistent storage. |
-| Stripe | Payment processing. PCI DSS Level 1 certified. No payment data touches [RapidCall.ai](http://RapidCall.ai) servers. |
-| ElevenLabs / Cartesia | Text-to-speech. Audio is generated in real time and streamed to the caller. |
-| Anthropic / OpenAI / Google | Language model inference. Inputs are processed for response generation. |
+| AWS | Compute, database, and object storage infrastructure |
+| Twilio | Telephony, SIP, and number provisioning |
+| LiveKit | Real-time voice and WebRTC infrastructure |
+| Deepgram | Speech-to-text transcription |
+| Stripe | Payment processing |
+| Voice providers | Text-to-speech generation |
+| Model providers | Language model inference |
 
-\
+A few important provider-side notes:
 
-We select providers based on a combination of performance, reliability, and security posture. The infrastructure underpinning your calls — from AWS and Twilio to LiveKit and Deepgram — is the same enterprise-grade stack used by organisations that operate under strict regulatory requirements. We build on top of it so that the security baseline is high before any platform-specific measures are applied.
+- **AWS** publishes SOC reports, ISO/IEC 27001 certification information, and GDPR compliance resources. ([Amazon Web Services, Inc.](https://aws.amazon.com/compliance/soc-faqs/?utm_source=chatgpt.com "SOC Compliance - Amazon Web Services (AWS)"))
+- **Twilio** publishes a security overview, GDPR information, and states that its SOC 2 Type II certification applies across its services. ([Twilio](https://www.twilio.com/en-us/gdpr?utm_source=chatgpt.com "Twilio GDPR Program"))
+- **LiveKit** states that LiveKit Cloud maintains SOC 2 Type II certification. ([LiveKit](https://livekit.io/legal/security?utm_source=chatgpt.com "Security Overview"))
+- **Deepgram** states that it has SOC 2 Type I and Type II certification. ([Deepgram](https://deepgram.com/learn/deepgram-reached-soc-2-type-1-certification?utm_source=chatgpt.com "Deepgram Has Received SOC 2 Type II Certification"))
 
-### **Account Security Best Practices**
+Because provider certifications and trust documentation can change over time, it is better to describe the platform as being built on leading cloud, telephony, real-time, transcription, and payment providers, rather than hard-coding every certification claim unless you plan to maintain that section regularly.
 
-A few practical steps to keep your account secure:
+### Account security best practices
 
-**Use strong, unique credentials. **Your login credentials protect access to your agents, call recordings, contact data, and billing. Treat them accordingly.
+A few practical steps materially improve account security:
 
-**Use team roles instead of shared logins. **The platform supports Owner and Member roles. Add team members with individual accounts rather than sharing a single set of credentials. This gives you visibility into who accessed what and makes it easy to revoke access when someone leaves the team.
+**Use strong, unique credentials**\
+Your login protects access to agents, call records, contact data, and billing controls. Treat it accordingly.
 
-**Rotate API keys periodically. **If you are using the API for custom integrations, rotate your keys on a regular schedule. Revoke any keys that are no longer in use.
+**Use team roles instead of shared logins**\
+Assign access through individual team accounts rather than sharing credentials. This improves accountability and makes it easier to revoke access cleanly.
 
-**Review your workspace access. **Periodically check who has access to each workspace, particularly if you manage multiple workspaces for different clients. Remove access for anyone who no longer needs it.
+**Rotate API keys periodically**\
+If you use the API for custom workflows, rotate keys on a regular schedule and revoke any that are no longer needed.
 
-| 📬 Questions about compliance, security, or data handling? Reach out via the Help button in the platform, email [hello@rapidcall.ai](mailto:hello@rapidcall.ai), or call \+44 330 027 1520 (UK) / \+1 (888) 380-8407 (US). |
-| :-- |
+**Review workspace access regularly**\
+If you manage multiple workspaces, periodically confirm who still needs access to each one and remove stale access promptly.
+
+### Recommended wording for docs
+
+If you want a tighter, safer version for the public docs, use this:
+
+RapidCall is built on a layered infrastructure designed to protect data throughout the call lifecycle. The platform separates the dashboard, backend API, and real-time voice processing layers, helping reduce cross-system exposure and improve operational isolation.
+
+Data in transit is protected using encrypted transport, while cloud storage and database infrastructure are built on enterprise-grade providers. Payment data is handled by Stripe and is not stored directly on RapidCall servers. RapidCall also uses workspace-level isolation so each workspace’s agents, call data, phone numbers, billing context, and team access remain separated from other workspaces.
+
+The platform relies on established infrastructure providers for cloud hosting, telephony, real-time communications, speech processing, and payments, including AWS, Twilio, LiveKit, Deepgram, and Stripe. These providers publish their own security and compliance documentation, and RapidCall builds on that foundation with platform-level access control and workspace separation. ([Amazon Web Services, Inc.](https://aws.amazon.com/compliance/soc-faqs/?utm_source=chatgpt.com "SOC Compliance - Amazon Web Services (AWS)"))

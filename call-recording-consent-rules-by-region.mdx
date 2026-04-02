@@ -2,50 +2,65 @@
 title: "Call Recording Consent Rules by Region"
 ---
 
-Call recording laws vary significantly by jurisdiction. The core question in every region is the same: do you need the consent of one party to the call, or all parties?
+Call recording rules vary by jurisdiction, but the basic question is consistent everywhere: **is one-party consent enough, or must all parties be informed and agree?**
 
-[RapidCall.ai](http://RapidCall.ai) provides the technical capability to record calls. Whether recording is enabled, and whether required consent has been obtained, is entirely your responsibility. The platform does not enforce consent collection — it is a tool, and how you use it must comply with the laws of the jurisdictions where your contacts are located.
+RapidCall provides the technical ability to record calls. Whether recording is enabled, whether notice is required, and whether valid consent has been obtained are your responsibilities as the caller. The platform does not collect or enforce recording consent on your behalf. ([European Commission](https://ec.europa.eu/info/funding-tenders/opportunities/docs/2021-2027/horizon/guidance/ethics-and-data-protection_he_en.pdf?utm_source=chatgpt.com "Ethics and data protection - European Commission"))
 
-Here is a practical overview of the major frameworks:
+### Core principle
 
-### **United States**
+When in doubt, disclose.
 
-The US has a patchwork of federal and state laws. At the federal level, the Wiretap Act requires one-party consent — meaning at least one party to the call must consent to the recording. Since your AI agent is acting on your behalf, your authorisation typically satisfies this requirement.
+A short recording notice at the start of the call is usually the safest operational approach. It reduces legal risk, avoids state-by-state or country-by-country ambiguity in live campaigns, and creates a cleaner audit trail for compliance. This is especially important if you are calling across multiple jurisdictions or if your call flows are automated. ([ICO](https://ico.org.uk/for-organisations/direct-marketing-and-privacy-and-electronic-communications/guide-to-pecr/electronic-and-telephone-marketing/?utm_source=chatgpt.com "Electronic and telephone marketing | ICO"))
 
-However, several states require all-party consent, meaning every person on the call must be informed and agree to the recording. The states with all-party (or two-party) consent laws include California, Connecticut, Florida, Illinois, Maryland, Massachusetts, Michigan, Montana, New Hampshire, Oregon, Pennsylvania, and Washington. If your contacts are in any of these states, you must disclose recording at the start of the call.
+### United States
 
-| ⚠️ Practical recommendation: Regardless of which states you are calling, include a recording disclosure in your agent’s opening script. It takes a few seconds, it satisfies all-party consent requirements everywhere, and it eliminates the need to maintain state-by-state logic. The simplest approach: have the agent say “this call may be recorded for quality purposes” before the conversation begins. |
-| :-- |
+In the US, call recording and outbound calling rules sit across multiple layers of law.
 
-\
+At the federal level, the TCPA and FCC rules regulate certain artificial or prerecorded calls, especially to mobile phones, and require prior consent in many cases. For telemarketing calls using an artificial or prerecorded voice, prior express written consent is generally required. ([Federal Communications Commission](https://www.fcc.gov/sites/default/files/tcpa-rules.pdf?utm_source=chatgpt.com "Telephone Consumer Protection Act 47 USC § 227"))
 
-Additional US regulations to be aware of:
+Separately, the FTC’s Telemarketing Sales Rule restricts calling hours to **8:00 AM to 9:00 PM local time at the called person’s location**, requires caller identification and disclosures, and requires telemarketers to honour do-not-call requests. ([Federal Trade Commission](https://www.ftc.gov/business-guidance/resources/complying-telemarketing-sales-rule?utm_source=chatgpt.com "Complying with the Telemarketing Sales Rule"))
 
-| **Regulation** | **What It Requires** |
-| :-- | :-- |
-| TCPA (Telephone Consumer Protection Act) | Prior express consent for autodialled or prerecorded calls to mobile phones. Prior express written consent for telemarketing calls. Maintain an internal Do-Not-Call list. Honour the National DNC Registry. |
-| FTC Telemarketing Sales Rule | Restrictions on calling hours (8am–9pm local time). Caller identification requirements. Prohibition on deceptive practices. |
-| State-level telemarketing laws | Many states have additional registration, licensing, or disclosure requirements for telemarketing. Check the laws of every state you are calling into. |
+Because US recording laws also vary by state, the safest practical approach is to include a recording disclosure at the start of every recorded call. That avoids relying on a fragmented state-by-state logic layer inside the campaign. This is a compliance recommendation rather than a platform rule. ([Federal Communications Commission](https://www.fcc.gov/sites/default/files/tcpa-rules.pdf?utm_source=chatgpt.com "Telephone Consumer Protection Act 47 USC § 227"))
 
-\
+A simple example is:
 
-### **European Union / EEA / United Kingdom**
+“This call may be recorded for quality and training purposes.”
 
-The GDPR applies to any processing of personal data of individuals in the EU/EEA. Call recordings and transcripts that contain personal data (names, phone numbers, account details) are personal data under the GDPR.
+### European Union / EEA
 
-In addition to the GDPR, the ePrivacy Directive (and its national implementations) governs electronic communications, including automated calls. Most EU member states require consent for automated outbound calls to individuals, particularly for marketing purposes. The UK’s Privacy and Electronic Communications Regulations (PECR) impose similar requirements.
+In the EU and EEA, call recordings and transcripts that identify a person are personal data, so GDPR applies. That means you need a valid legal basis for the processing and must be able to explain why the recording is necessary and how it will be used. ([European Commission](https://ec.europa.eu/info/funding-tenders/opportunities/docs/2021-2027/horizon/guidance/ethics-and-data-protection_he_en.pdf?utm_source=chatgpt.com "Ethics and data protection - European Commission"))
 
-For call recording specifically, most EU/EEA jurisdictions require that the caller informs the recipient that the call is being recorded and provides a valid legal basis. In practice, for business-to-customer calls, this means either explicit consent or a demonstrable legitimate interest with appropriate safeguards.
+For outbound marketing calls, separate electronic communications rules also apply at national level under the ePrivacy framework, and these rules are often stricter than general GDPR lawful-basis analysis. In practice, many outbound automated marketing call scenarios require consent. ([ICO](https://ico.org.uk/for-organisations/direct-marketing-and-privacy-and-electronic-communications/guide-to-pecr/electronic-and-telephone-marketing/?utm_source=chatgpt.com "Electronic and telephone marketing | ICO"))
 
-| 📋 Practical recommendation: For EU/EEA operations, include both an AI disclosure and a recording disclosure in the agent’s script. Maintain records of the legal basis for each call campaign. Ensure your privacy notice covers AI-assisted communications and call recording. |
-| :-- |
+The safest practical approach for EU/EEA operations is to include both:
 
-\
+- an **AI-use disclosure**, and
+- a **recording disclosure**,
 
-### **Other Regions**
+at the start of the call, while also documenting the lawful basis for the campaign and making sure your privacy notice covers AI-assisted calls and call recording. ([European Commission](https://ec.europa.eu/info/funding-tenders/opportunities/docs/2021-2027/horizon/guidance/ethics-and-data-protection_he_en.pdf?utm_source=chatgpt.com "Ethics and data protection - European Commission"))
 
-Australia’s Telecommunications (Interception and Access) Act requires one-party consent at the federal level, though state laws vary. Canada’s PIPEDA and CASL impose consent requirements for both recording and commercial electronic messages, including calls. The Middle East, Asia-Pacific, and Latin America have varying frameworks — if you are operating in these regions, consult a local legal advisor.
+### United Kingdom
 
-The general principle across all regions: when in doubt, disclose. Telling people the call is recorded and AI-powered costs you a few seconds per call. Not telling them can cost you significantly more.
+In the UK, PECR places strict rules on automated marketing calls. The ICO states that automated calls for direct marketing require consent, and such calls must include your name and a contact address or freephone number, while also allowing caller ID display. ([ICO](https://ico.org.uk/for-organisations/direct-marketing-and-privacy-and-electronic-communications/guide-to-pecr/electronic-and-telephone-marketing/telephone-marketing/?utm_source=chatgpt.com "Telephone marketing | ICO"))
 
-\
+If recording is enabled, the safer operational approach is again to disclose that at the start of the call. For UK campaigns, this should sit alongside any required AI-use disclosure and your broader PECR and data-protection compliance process. ([ICO](https://ico.org.uk/for-organisations/direct-marketing-and-privacy-and-electronic-communications/guide-to-pecr/electronic-and-telephone-marketing/?utm_source=chatgpt.com "Electronic and telephone marketing | ICO"))
+
+### Other regions
+
+Outside the US, EU, and UK, the legal position varies significantly. Recording and automated-calling rules can differ materially across Canada, Australia, the Middle East, Asia-Pacific, and Latin America. If you are operating in those regions, you should validate the local requirements before launching campaigns. ([European Commission](https://ec.europa.eu/info/funding-tenders/opportunities/docs/2021-2027/horizon/guidance/ethics-and-data-protection_he_en.pdf?utm_source=chatgpt.com "Ethics and data protection - European Commission"))
+
+### Practical recommendation
+
+For most teams, the cleanest operating standard is:
+
+- disclose that the call is AI-assisted where required,
+- disclose that the call may be recorded if recording is enabled,
+- stay within lawful calling hours,
+- maintain consent records where consent is required,
+- and suppress numbers that should not be called again.
+
+That adds a few seconds to the opening, but materially reduces compliance risk across jurisdictions. (Federal Trade Commission)
+
+### Suggested opening line
+
+“Hi, this is {{AgentName}} calling from {{CompanyName}}. This call may be recorded, and I’m an AI assistant helping the team today.”

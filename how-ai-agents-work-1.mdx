@@ -2,16 +2,59 @@
 title: "How AI agents work"
 ---
 
-An AI voice agent is a software-based employee that answers or places phone calls, converses in natural language, and takes action based on how the conversation unfolds — without human involvement.
+An AI voice agent is a software-based phone representative that can make or receive calls, speak naturally, and take action based on how the conversation unfolds.
 
-RapidCall supports two agent modes:
+It operates without human involvement during the call, while still following the rules, workflows, and goals you define in advance.
 
-**Inbound** — the agent receives calls on an assigned phone number. The moment a caller connects, the AI picks up instantly, identifies the purpose of the call, and handles it end-to-end: answering questions, qualifying leads, booking appointments, escalating to a human, or any combination of flows you define.
+RapidCall supports two core agent types: **inbound** and **outbound**.
 
-**Outbound** — the agent works through a contact list you upload / connect or sync via CRM. It dials each number on a schedule you set, delivers its opening, and adapts the conversation in real time based on how the contact responds — handling objections, collecting data, or pushing toward the defined / desired outcome.
+### Inbound agents
 
-From your side, setup is the same either way. You configure the agent once — its voice, prompt, behaviour logic, and connected systems. After that, the platform handles execution.
+Inbound agents answer calls placed to a phone number connected to your workspace.
 
-Call audio travels through your telephony infrastructure. Response latency is sub-second. The agent runs concurrently across as many active calls as your account allows, around the clock, with no degradation in consistency.
+As soon as a caller connects, the agent responds immediately and handles the conversation based on the purpose of the call. Depending on how you configure it, the agent can answer questions, qualify leads, book appointments, collect information, route calls, or escalate to a human when needed.
 
-When a call ends, the outcome is logged, transcripts are stored, CRM records update, and any downstream actions you've configured — emails, SMS, calendar bookings, webhook triggers — fire automatically.
+### Outbound agents
+
+Outbound agents place calls to contacts from a list or connected system.
+
+They can work through uploaded data, synced records, or CRM-driven workflows. Once a call connects, the agent delivers its opening, listens to the response, and adapts the conversation in real time.
+
+Depending on the use case, the agent can re-engage leads, handle follow-ups, collect information, overcome common objections, book appointments, or drive another defined outcome.
+
+### One setup, two directions
+
+From your side, the setup process is the same for both inbound and outbound use cases.
+
+You configure the agent once by defining its voice, prompt, behaviour, and connected systems. After that, RapidCall handles the call execution.
+
+### What happens during a call
+
+When a call is live, the platform processes the conversation in real time.
+
+The contact speaks, the system transcribes the audio, the configured model generates the response, and the selected voice delivers it back naturally. This happens continuously throughout the call, allowing the agent to respond dynamically as the conversation develops.
+
+The agent can also trigger actions during or after the call, depending on how it has been configured.
+
+### What happens after a call
+
+When the call ends, RapidCall automatically logs the outcome and stores the key call data.
+
+This can include:
+
+- call transcript,
+- recording,
+- summary,
+- extracted fields,
+- CRM updates,
+- appointment bookings,
+- emails or SMS,
+- and webhook-triggered actions.
+
+This allows the agent not only to hold the conversation, but also to complete the operational work that follows it.
+
+### Built for scale
+
+AI agents do not work like human call handlers. They can operate continuously, handle multiple calls at the same time, and maintain the same logic and behaviour across every conversation.
+
+That makes them useful for businesses that need more than just automation. It gives them a way to run phone-based workflows with consistency, speed, and scale.

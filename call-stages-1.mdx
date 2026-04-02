@@ -2,10 +2,36 @@
 title: "Call stages"
 ---
 
-Every call moves through five stages.
+Every call in RapidCall moves through a defined sequence of stages.
 
-1. Initiated: the platform dials.
-2. Connected: the contact answers and the AI begins.
-3. In Progress: the agent manages the conversation and executes any triggered actions in real time.
-4. Completed: the call ends (by agent, contact, timeout, or no answer); transcript and recording are saved; post-call extraction runs; webhooks fire.
-5. Logged: the call appears in Call History with full detail, ready for review and export.
+These stages help you understand where the call is in its lifecycle and what the platform is doing at each step.
+
+### 1. Initiated
+
+The platform places the call.
+
+At this stage, RapidCall has started the outbound dial attempt or begun processing the inbound connection.
+
+### 2. Connected
+
+The other party answers, and the AI agent begins the conversation.
+
+Once the call is connected, the agent starts speaking based on its configured prompt, voice, and call logic.
+
+### 3. In Progress
+
+The conversation is active.
+
+During this stage, the agent listens, responds in real time, and executes any functions or actions triggered by the flow of the call. This can include tasks such as collecting data, booking appointments, transferring the call, or updating connected systems.
+
+### 4. Completed
+
+The call ends.
+
+This can happen because the contact ends the call, the agent reaches the intended end of the conversation, the maximum duration is reached, or the call is not answered. Once the call is complete, RapidCall stores the transcript and recording, runs post-call extraction, and sends any configured webhook events.
+
+### 5. Logged
+
+The call is fully recorded in the platform.
+
+It appears in **Call History** with all relevant details available for review, filtering, analysis, and export. This includes the transcript, recording, extracted fields, metrics, and technical information tied to the call.

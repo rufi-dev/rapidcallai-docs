@@ -2,18 +2,44 @@
 title: "How the Platform Works"
 ---
 
-RapidCall sits between the world’s leading AI models and the global telephone network.
+## How the Platform Works
 
-It is an orchestration layer — the brain that translates your business instructions into real phone conversations.
+RapidCall turns your business instructions into real phone conversations.
 
-Every call follows three stages.
+At a high level, the platform connects your call logic, knowledge, and actions to the models and telephony infrastructure needed to run AI agents in production.
 
-1. First, you provide the inputs: a prompt (the script and behaviour), a knowledge base (product and service information the agent can reference), and functions (actions the agent can take during or after the call).
-2. Second, when a call connects, the engine processes the caller’s speech in real time, generates a response using your configured AI model, and delivers it back as natural-sounding voice — all within milliseconds.
-3. Third, the output: every transcript, recording, extracted data field, and triggered action is logged automatically and visible in your dashboard.
+Each agent works through three core layers.
 
-No coding knowledge is required to build and deploy an agent.
+### 1. You define the agent
 
-The entire platform is configured in plain language.
+You start by setting up the inputs that shape how the agent behaves.
 
-Technical integrations like CRM connections, webhooks, and API access are available but optional.
+This includes:
+
+- the prompt, which defines how the agent should speak, respond, and handle the conversation,
+- the knowledge base, which gives it access to the information it needs during calls,
+- and the functions, which define what actions it can take during or after a conversation.
+
+These actions can include things like booking appointments, updating a CRM, triggering a webhook, logging call outcomes, or sending follow-up messages.
+
+### 2. RapidCall runs the conversation
+
+When a call starts, RapidCall processes the conversation in real time.
+
+The caller’s speech is transcribed, passed through the configured AI model, and turned into a natural voice response based on the prompt, available knowledge, and enabled actions.
+
+This all happens continuously throughout the call, allowing the agent to listen, respond, and act in real time.
+
+### 3. Everything is logged and available in the dashboard
+
+After and during each call, RapidCall automatically records the key outputs of the conversation.
+
+This includes transcripts, recordings, extracted data, call outcomes, and any actions triggered by the agent. Everything is logged and made visible in your dashboard so your team can review performance, track activity, and improve the system over time.
+
+### Built to be simple
+
+You do not need coding knowledge to build and launch an agent on RapidCall.
+
+The platform is designed to be configured in plain language, so non-technical teams can get started without needing to build custom infrastructure.
+
+For businesses that need deeper system connectivity, RapidCall also supports CRM integrations, webhooks, and API-based workflows. Those options are available when needed, but they are not required to launch your first agent.

@@ -2,36 +2,144 @@
 title: "Your Dashboard"
 ---
 
-The dashboard is your control room. Everything lives in the left sidebar, and the navigation follows a simple logic: Build, Deploy, Monitor, System.
+## Your Dashboard
+
+The dashboard is the central control area for your RapidCall workspace.
+
+Everything is organised through the left-hand sidebar and follows a simple structure: **Build, Deploy, Monitor, and System**.
 
 ### **Build**
 
-**Agents** — where you create and manage your AI agents. Each agent card shows its connected phone numbers, total call count, and when it was last active. You can import agents from other platforms via JSON, export any agent for backup or review, and access per-agent performance reports. Clicking an agent opens the editor where you configure the prompt, voice stack, settings, knowledge base, functions, webhooks, and security layers.
+#### Agents
 
-**Knowledge Base** — the reference library your agents draw from during calls. Upload documents (PDF, DOC, TXT) or paste text directly. Connect a knowledge base to any agent, and it gains access to that information without you having to put it all inside the prompt.
+The Agents section is where you create, manage, and review your AI agents.
+
+Each agent card gives you a quick overview, including connected phone numbers, total call volume, and last activity. From here, you can also import agents from other platforms using JSON, export agents for backup or review, and access agent-level performance reports.
+
+When you open an agent, you enter the full configuration area where you can define:
+
+- prompt and behaviour,
+- voice and model stack,
+- call settings,
+- knowledge base,
+- functions and actions,
+- webhooks,
+- and security settings.
+
+#### Knowledge Base
+
+The Knowledge Base is the information library your agents use during calls.
+
+You can upload documents such as PDF, DOC, or TXT files, or paste text directly into the platform. Once connected to an agent, that knowledge becomes available during conversations without needing to place everything inside the prompt itself.
+
+This helps keep prompts cleaner while giving agents access to the information they need.
 
 ### **Deploy**
 
-**Phone Numbers** — manage the numbers connected to your account. For each number you configure inbound routing (which agent answers), outbound routing (which agent calls from), country permissions, and optional trust and verification features. The Check Config tool confirms everything is wired correctly before you go live.
+#### Phone Numbers
 
-**Outbound Calls** — trigger individual calls manually. Select the agent, choose the originating number, enter the destination in E.164 format (\+\[country code\]\[number\]), and optionally enable recording. A jobs table below the dialler logs all recent attempts with status and outcome.
+The Phone Numbers section is where you manage all numbers connected to your workspace.
+
+For each number, you can configure:
+
+- inbound routing, which determines which agent answers incoming calls,
+- outbound routing, which determines which agent places calls from that number,
+- allowed country permissions,
+- and optional trust or verification settings.
+
+Before going live, the **Check Config** tool lets you confirm that the number and routing are set up correctly.
+
+#### Outbound Calls
+
+The Outbound Calls section lets you trigger individual calls manually.
+
+To place a call, select the agent, choose the number the call should come from, and enter the destination in E.164 format using `+[country code][number]`. You can also choose whether to enable call recording.
+
+Below the dialler, the jobs table shows recent outbound call attempts along with their status and result.
 
 ### **Monitor**
 
-**Call History** — a full log of every call across all agents. Filter by date, agent, or number. Each row shows time, origin, destination, status, recording, cost, direction, duration, and latency. Click any call to open the detail panel: playable recording with download, core metrics (cost, latency, sentiment, token usage), auto-generated summary, timestamped transcript, extracted data fields, and technical logs.
+#### Call History
 
-Call statuses you will see: User Hung Up (the contact ended it), Agent Ended (the agent completed the script), No Answer (nobody picked up), and Max Duration (the call hit your configured time limit).
+Call History provides a complete log of calls across all agents in the workspace.
 
-**Performance** — analytics across two views: General (all agents combined) and By Agent (per-agent breakdown). Key metrics include total calls, answer rate, average duration, transfer rate, voicemail rate, cost per minute, and customer sentiment. Call volume is shown as a daily bar chart.
+You can filter calls by date, agent, or phone number. Each row includes key call details such as time, origin, destination, status, recording availability, cost, direction, duration, and latency.
+
+Clicking into a call opens the detail view, where you can access:
+
+- a playable recording with download option,
+- call metrics such as cost, latency, sentiment, and token usage,
+- an auto-generated summary,
+- a timestamped transcript,
+- extracted data fields,
+- and technical logs.
+
+Common call statuses include:
+
+- **User Hung Up** - the contact ended the call,
+- **Agent Ended** - the agent completed the call flow and ended the conversation,
+- **No Answer** - the call was not picked up,
+- **Max Duration** - the call reached the maximum time limit configured for the agent.
+
+#### Performance
+
+The Performance section gives you analytics across your calling activity.
+
+You can view data in two modes:
+
+- **General** - performance across all agents combined,
+- **By Agent** - a breakdown for individual agents.
+
+Metrics include:
+
+- total calls,
+- answer rate,
+- average duration,
+- transfer rate,
+- voicemail rate,
+- cost per minute,
+- and customer sentiment.
+
+Call volume is also displayed in a daily chart so you can track activity over time.
 
 ### **System**
 
-**Billing** — real-time view of your usage and payment history. The Usage tab breaks down charges by component: platform minutes, voice provider (ElevenLabs, Cartesia, Gemini), and language model (Claude, GPT, Gemini). Past invoices are listed with download links.
+#### Billing
 
-**Settings** — workspace identity, team access, API keys, webhooks, and usage limits. Add team members with Owner or Member roles — no shared logins. Generate API keys for custom integrations. Set maximum spend or call volume caps to prevent surprises.
+The Billing section gives you a real-time view of usage and payment history.
 
-The Workspace Switcher at the top of the sidebar lets you jump between isolated workspaces. Each workspace has its own agents, phone numbers, billing, and team. This is designed for agencies — every client gets a fully separated environment with zero data overlap.
+The **Usage** tab breaks down costs by billing component, including:
 
-### **Help & Support**
+- platform minutes,
+- voice provider usage,
+- and language model usage.
 
-The Help button at the bottom of the sidebar connects you directly to our team. Online chat is the fastest route for quick questions. Phone lines are available at \+44 330 027 1520 (UK) and \+1 (888) 380-8407 (US). You can also book a meeting for onboarding sessions, agent review, or anything that needs a longer conversation.
+The **Invoices** area stores past invoices and allows you to download them when needed.
+
+#### Settings
+
+The Settings section controls workspace-wide configuration.
+
+This includes:
+
+- workspace identity,
+- team access,
+- API keys,
+- webhooks,
+- and usage limits.
+
+You can invite team members with role-based access such as **Owner** or **Member**, generate API keys for custom integrations, and set spend or call-volume limits to keep usage under control.
+
+### **Workspace Switcher**
+
+At the top of the sidebar, the Workspace Switcher lets you move between fully isolated workspaces.
+
+Each workspace has its own agents, phone numbers, billing, and team settings. This is especially useful for agencies or multi-brand businesses that need to keep environments completely separated.
+
+### **Help and Support**
+
+The Help button at the bottom of the sidebar connects you directly to the RapidCall team.
+
+Live chat is the fastest option for quick questions. You can also reach support by phone at toll free numbers **\+44 330 027 1520** for the UK or **\+1 (888) 380-8407** for the US.
+
+For onboarding, strategy, or agent review sessions, you can also book a meeting with the team.

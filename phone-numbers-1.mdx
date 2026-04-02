@@ -2,11 +2,33 @@
 title: "Phone numbers"
 ---
 
-Every outbound call needs an originating number, and every inbound agent needs a number to route calls to.
+Phone numbers are required for both inbound and outbound calling.
 
-Two options:
+Every outbound call needs an originating number, and every inbound agent needs a number that incoming calls can be routed to.
 
-1. buy a new number directly through the Rapidcall platform (provisioned via Twilio, available in most countries), or
-2. connect an existing business number via SIP trunk (requires E.164 format, termination URI, and optionally authentication credentials).
+RapidCall supports two ways to set this up.
 
-For US numbers, optional add-ons include Verified Phone Number (\$10/month, reduces spam flagging) and Branded Caller ID (\$0.10/call, shows your business name on the contact’s screen).
+### Buy a new number
+
+You can buy a new phone number directly through the RapidCall platform.
+
+Numbers are provisioned through Twilio and are available in most countries. This is the simplest option for getting started, especially if you do not need to use an existing business line.
+
+### Connect an existing number
+
+You can also connect an existing business number through SIP trunking.
+
+This option is useful if you want your agents to operate through your current telephony setup or continue using numbers your customers already recognise. To connect a number this way, you will need:
+
+- the number in **E.164** format,
+- a **termination URI**,
+- and, if required, **authentication credentials**.
+
+### Optional features for US numbers
+
+For US numbers, RapidCall also supports optional trust and identity features:
+
+- **Verified Phone Number** - **\$10/month**, designed to reduce spam flagging and improve answer rates,
+- **Branded Caller ID** - **\$0.10 per call**, designed to display your business name on the contact’s screen when supported.
+
+These add-ons can help improve trust and outbound call performance, especially in higher-volume campaigns.

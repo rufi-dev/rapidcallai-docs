@@ -3,10 +3,11 @@
   "theme": "aspen",
   "name": "RapidCall AI",
   "appearance": {
-    "default": "system",
+    "default": "light",
     "background": {
       "decoration": "grid"
-    }
+    },
+    "strict": true
   },
   "colors": {
     "primary": "#3b82f6",
@@ -151,6 +152,12 @@
             ]
           }
         ]
+      },
+      {
+        "tab": "SUPPORT",
+        "pages": [
+          "untitled-page"
+        ]
       }
     ]
   },
@@ -170,5 +177,6 @@
       }
     ]
   },
-  "favicon": "/images/rapidcall.logo.small.png"
+  "favicon": "/images/rapidcall.logo.small.png",
+  "description": "A production-focused RapidCall.ai docs draft covering setup, deployment, campaigns, analytics, billing, compliance, security, and troubleshooting."
 }

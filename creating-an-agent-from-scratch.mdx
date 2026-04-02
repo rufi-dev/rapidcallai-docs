@@ -1,30 +1,138 @@
 ---
-title: "Creating an Agent from Scratch"
+title: "Quickstart: Create Your First Agent"
 ---
 
-Every agent starts with three things:
+## Quickstart: Create Your First Agent
 
-- a system prompt (behaviour)
-- a voice (delivery)
-- call logic / workflow (flow and actions).
+This guide walks you through the fastest way to get your first RapidCall agent live.
 
-**Follow these eight steps in order. By the end, you will have a working agent ready for test calls.**
+Follow these eight steps in order. By the end, you will have a working agent ready for test calls.
 
-**Step 1 — Create your agent. **Go to Agents, click Create Agent, and give it a descriptive name (something like ‘Sarah — Appointment Setter’ or ‘Tom — Recruitment Outreach’). Pick your agent type: Single Prompt for most use cases, or Conversation Flow if you need precise branching control. When in doubt, start with Single Prompt — you can always migrate later.
+### Step 1 - Create your agent
 
-**Step 2 — Write the prompt. **This is the brain of your agent. It defines who the agent is, what it is trying to do, how it handles different responses, and when to end the call. If you are starting from scratch, gather your company overview, product info, and any existing call scripts, paste them into ChatGPT or Claude, and ask it to create a voice agent prompt using that material. To accelerate further, grab one of the prompt templates from Section 3 of this manual and use it as a structural guide. A complete prompt covers five sections: Role, Context, Availability, Guidelines, and Main Script. Section 3 has full detail.
+Go to **Agents** and click **Create Agent**.
 
-**Step 3 — Select a voice stack. **Three options, each with different trade-offs. Gemini Studio is solid for English-only agents at a moderate cost (\$0.15/min, latency 700–1,200 ms). OpenAI Realtime gives ultra-low latency (150–500 ms) and strong multilingual support, but struggles with complex multi-step logic. Custom Stack is maximum flexibility — choose your own LLM and voice engine. Our current recommendations for Custom Stack: Claude Sonnet \+ Cartesia for complex agents (~\$0.20/min), or Claude Haiku \+ Cartesia for leaner outreach and receptionist use cases (~15% cheaper).
+Give the agent a clear, descriptive name such as **Sarah - Appointment Setter** or **Tom - Recruitment Outreach**.
 
-**Step 4 — Pick a voice. **Browse the Voice Gallery, listen to previews, and match the voice to your use case. A British-accented female voice for a UK recruitment firm, a warm male voice for a healthcare outreach campaign — use your judgement. If you need multiple languages, separate agents per language generally perform better than one multilingual agent.
+You will then choose the agent type:
 
-**Step 5 — Set up a knowledge base. **Upload files (PDF, DOC, TXT — up to 10 files, 100 MB each) or paste content directly. Connect it to your agent in the editor. Keep the knowledge base for factual reference only — product details, pricing, FAQs, policies. All behavioural instructions belong in the prompt. Mixing the two creates conflicting signals.
+- **Single Prompt** - recommended for most use cases,
+- **Conversation Flow** - better when you need tightly controlled branching logic.
 
-**Step 6 — Configure call settings. **Set who speaks first, end-call-on-silence timing, max call duration, ring duration, voicemail detection, background sound (office, call centre, café), and the speech controls — response eagerness, interruption sensitivity, backchannel sounds. These details matter more than most people expect.
+If you are unsure, start with **Single Prompt**. It is the simplest option and works well for most first builds.
 
-**Step 7 — Test your agent. **Click the microphone icon and have a real voice conversation with it. Try to break it — ask unexpected questions, push back, test the edges. Every test call is logged with a full transcript and recording. Most agents need two to five iterations before they are production-ready. That is normal.
+### Step 2 - Write the prompt
 
-**Step 8 — Connect a phone number. **Go to Phone Numbers and either buy a new one directly (provisioned via Twilio, available in most countries) or connect an existing business number via SIP trunk. Assign it to your agent for inbound and/or outbound calls, set country permissions, and optionally enable Verified Caller ID to reduce spam flagging.
+The prompt is the core instruction set behind your agent.
+
+It defines who the agent is, what it is trying to achieve, how it should respond, and when the call should end.
+
+If you are starting from scratch, gather the materials your team already has, such as:
+
+- company overview,
+- product or service information,
+- existing call scripts,
+- FAQs,
+- and objection-handling notes.
+
+You can then use those materials to draft a first prompt. A strong prompt typically includes five sections:
+
+- **Role**
+- **Context**
+- **Availability**
+- **Guidelines**
+- **Main Script**
+
+For a full breakdown of how to structure this, see the **Agent Prompt** section.
+
+### Step 3 - Select a voice stack
+
+Next, choose how your agent will listen, think, and speak.
+
+RapidCall supports three main voice stack options:
+
+- **Gemini Studio** - a strong option for English-language agents with moderate cost and reliable performance,
+- **OpenAI Realtime** - best when very low latency is the top priority,
+- **Custom Stack** - best for more advanced use cases that need greater flexibility or more complex logic.
+
+As a general rule:
+
+- use **Gemini Studio** for simpler English-language workflows,
+- use **OpenAI Realtime** for speed-sensitive use cases,
+- use **Custom Stack** for more complex production agents.
+
+For deeper guidance, see the **Voice Stack** section.
+
+### Step 4 - Pick a voice
+
+Open the **Voice Gallery** and listen to the available voice previews.
+
+Choose a voice that fits your use case, target audience, and region. Accent, tone, and delivery matter. A voice that works for a healthcare receptionist may not suit recruitment, collections, or real estate outreach.
+
+If you need to operate in multiple languages, it is usually better to create one agent per language rather than rely on a single multilingual setup.
+
+### Step 5 - Set up the knowledge base
+
+Add the factual information your agent may need during calls.
+
+You can upload up to **10 files** in **PDF, DOC, or TXT** format, with a maximum size of **100 MB per file**, or paste content directly into the platform.
+
+Use the knowledge base for content such as:
+
+- product details,
+- pricing,
+- policies,
+- FAQs,
+- and opening hours.
+
+Do not place behavioural instructions or scripts in the knowledge base. Those belong in the prompt. Keeping those two layers separate leads to better performance.
+
+### Step 6 - Configure call settings
+
+Set the operational and conversational behaviour of the agent.
+
+This includes settings such as:
+
+- who speaks first,
+- first-message timing,
+- silence handling,
+- maximum call duration,
+- ring duration,
+- voicemail detection,
+- voice speed,
+- response eagerness,
+- interruption sensitivity,
+- backchannel behaviour,
+- and optional background sound.
+
+These settings have a direct effect on how natural the agent feels in live calls, so they are worth tuning carefully.
+
+### Step 7 - Test the agent
+
+Before connecting the agent to live phone traffic, test it thoroughly.
+
+Use the microphone or available test tools to hold real conversations with the agent. Try normal scenarios, but also try to break it. Ask unexpected questions, interrupt it, challenge the flow, and test edge cases.
+
+Most agents need several rounds of refinement before they are ready for production. That is normal.
+
+Each test call is logged, so you can review transcripts, recordings, and outcomes to improve the build.
+
+### Step 8 - Connect a phone number
+
+Go to **Phone Numbers** and connect a number to the agent.
+
+You can either:
+
+- buy a new number directly through RapidCall,
+- or connect an existing business number through SIP trunking.
+
+Once connected, assign the number to the agent for inbound and/or outbound use, configure routing, and set any relevant country permissions or caller identity options.
+
+### Need help?
+
+The most technical parts of setup are usually telephony, CRM connectivity, and webhook configuration.
+
+If you want to move faster or avoid handling the first build alone, the RapidCall team can help scope, configure, and deploy your first agent with you.
 
 | 🙋 Need help? Telephony, CRM connections, and webhooks are the most involved parts of setup. Reach out directly — we set these up with clients regularly and can get you live faster. |
 | :-- |

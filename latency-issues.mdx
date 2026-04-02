@@ -2,32 +2,73 @@
 title: "Latency Issues"
 ---
 
-Latency is the time between the contact finishing speaking and the agent starting its response. The platform displays latency metrics for every call in the Call Detail Panel. If your agent feels slow or the conversation has unnatural pauses, here is how to diagnose and fix it.
+Latency is the time between the contact finishing their sentence and the agent beginning its response.
 
-### **Understanding What Drives Latency**
+If the conversation feels slow, hesitant, or full of unnatural pauses, latency is usually the reason. RapidCall shows latency metrics for each call inside the **Call Detail Panel**, which makes it possible to diagnose the issue directly from live or test calls.
 
-Total response latency is the sum of three stages: speech-to-text (converting the contact’s audio to text), LLM inference (generating the response), and text-to-speech (converting the response back to audio). Each stage is handled by a different provider, and each contributes to the total.
+### What drives latency
 
-| **Stage** | **Typical Range** |
+Total response latency is usually the combined result of three stages:
+
+| Stage | Typical Range |
 | :-- | :-- |
-| Speech-to-text (Deepgram) | 100–300 ms |
-| LLM inference | 200–1,000 ms (varies by model and prompt complexity) |
-| Text-to-speech | 100–400 ms (varies by provider) |
-| Total end-to-end | 500–1,500 ms for most configurations |
+| Speech-to-text | 100–300 ms |
+| LLM inference | 200–1,000 ms |
+| Text-to-speech | 100–400 ms |
+| Total end-to-end | 500–1,500 ms |
 
-\
+The exact number depends on the stack you are using, the complexity of the prompt, and the way the call settings are configured.
 
-### **Common Causes and Fixes**
+### Common causes and fixes
 
-**Heavy LLM model. **Larger, more capable models take longer to respond. If your use case does not require deep reasoning — appointment setting, scripted outreach, simple qualification — switching from a heavyweight model (e.g. GPT-5, Claude Sonnet) to a lighter one (Claude Haiku, GPT-4.1 Mini, Gemini Flash) can cut hundreds of milliseconds from each response without meaningful quality loss.
+### Heavy language model
 
-**Long or unstructured prompt. **The more text the LLM has to process, the longer inference takes. Review your prompt for redundancy, remove content that belongs in the knowledge base rather than the prompt, and keep instructions tight. Section 3 covers prompt optimisation in detail.
+Larger models usually take longer to respond.
 
-**Response eagerness set too low. **Response eagerness controls how quickly the agent jumps in after the contact finishes speaking. If this is set low (below 0.8), the agent deliberately waits before responding, which adds perceived latency even when actual inference is fast. For most outbound use cases, values between 0.90 and 0.98 produce the best results.
+If your use case is relatively structured — such as appointment booking, scripted outreach, or basic qualification — using a lighter model can reduce latency significantly without materially hurting performance.
 
-**Voice provider latency. **Different voice engines have different speed profiles. If latency is critical, test your agent with multiple TTS providers and compare the response times in the Call Detail Panel. The same agent can feel noticeably faster or slower depending solely on the voice engine.
+If latency is too high, one of the first things to test is switching from a heavier model to a lighter one.
 
-**OpenAI Realtime vs Custom Stack. **If you need the absolute lowest latency, OpenAI Realtime delivers 150–500 ms end-to-end because it uses a speech-to-speech model rather than the three-stage pipeline. The trade-off is reduced reliability on complex multi-step logic and function calling. For simple agents, it is the fastest option available.
+### Long or unstructured prompt
 
-| 💡 Tip: Check the latency metric in Call History for your most recent calls. If it is consistently above 1,500 ms, try switching to a lighter LLM first — that is the highest-impact change you can make. |
-| :-- |
+Prompt size and prompt quality both affect inference speed.
+
+If the model has to process too much unnecessary text, duplicate instructions, or poorly structured guidance, response time increases. Remove anything that does not need to be in the prompt, move factual reference material into the **Knowledge Base**, and keep the prompt as clean and focused as possible.
+
+### Response eagerness set too low
+
+Response eagerness affects perceived latency even when the stack itself is reasonably fast.
+
+If response eagerness is set too low, the agent intentionally waits before speaking, which can make the call feel slower than it actually is. For most outbound and structured conversational use cases, higher eagerness settings usually create a tighter and more natural interaction.
+
+### Voice provider speed
+
+Different voice providers have different latency characteristics.
+
+The same agent can feel noticeably faster or slower depending purely on which text-to-speech provider is being used. If latency is important for the use case, compare multiple voice providers and test the difference directly in real calls.
+
+### Stack choice
+
+If the goal is the lowest possible latency, stack selection matters more than anything else.
+
+Some configurations prioritise speed, while others prioritise flexibility, reliability, or function execution. Faster options may feel more natural in conversation, but they can be less suitable for workflows that rely on more complex logic or multi-step actions.
+
+### What to do first
+
+If latency is consistently high, work through the changes in this order:
+
+1. switch to a lighter model,
+2. simplify the prompt,
+3. increase response eagerness if appropriate,
+4. test a faster voice provider,
+5. compare the current stack against a lower-latency alternative.
+
+### Practical benchmark
+
+As a general rule:
+
+- **under 1,000 ms** usually feels natural,
+- **1,000–1,500 ms** is noticeable but often acceptable,
+- **above 1,500 ms** usually starts to feel slow in live conversation.
+
+If your recent calls are consistently above that range, the language model is usually the first place to optimise.

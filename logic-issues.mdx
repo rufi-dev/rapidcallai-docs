@@ -2,19 +2,96 @@
 title: "Logic Issues"
 ---
 
-Logic issues are when the agent connects and speaks, but does not follow the script correctly — it skips steps, gives wrong information, fails to trigger a function, or goes off-script entirely. These are almost always prompt problems, not platform problems.
+Logic issues happen when the agent connects and speaks, but does not follow the intended flow correctly.
 
-**Agent skips steps in the script. **If the agent jumps from Step 1 to Step 4, the main script section of the prompt is not structured tightly enough. Use explicit numbered steps with clear “wait for response” gates between them. The agent should not advance until the contact has responded. If steps blend together, add explicit instructions: “Do NOT proceed to Step 3 until the contact has confirmed their date of birth.”
+This can include:
 
-**Agent gives information it should not have. **If the agent is sharing details that are not in the prompt or knowledge base, it is hallucinating. Tighten the prompt constraints: “Only share information explicitly provided in this prompt or the knowledge base. If you do not have the answer, say so.” Adding a clear boundary instruction reduces hallucination significantly.
+- skipping steps,
+- giving incorrect information,
+- failing to trigger a function,
+- mishandling objections,
+- or drifting off-script.
 
-**Agent fails to call a function. **If the agent is supposed to book an appointment, transfer a call, or send an SMS but does not, check three things. First, is the function defined in the agent’s Functions tab? Second, does the prompt instruct the agent to call the function at the right moment? Third, is the function name in the prompt exactly matching the function name in the configuration? Mismatched names are the most common cause of function failures.
+In most cases, these are prompt issues rather than platform issues.
 
-**Agent does not handle an objection correctly. **If the agent falls apart when the contact pushes back, you either do not have a handler for that scenario or the handler is too vague. Review the transcript to see exactly what the contact said, then write a specific handler for that response pattern. Generic handlers (“if the contact objects, be understanding”) produce generic behaviour. Specific handlers (“if the contact says they are too busy, ask whether mornings or afternoons work better”) produce specific, useful behaviour.
+### Agent skips steps in the script
 
-**Agent uses the wrong dynamic variable. **If the agent reads blank values, says “undefined,” or uses the wrong name, the dynamic variables in the prompt do not match the variables being passed by the campaign or workflow. Check that every {{variable}} in the prompt has a matching field in the contact data. 
+If the agent jumps ahead in the conversation, the script structure is usually too loose.
 
-**Agent worked yesterday but broke today. **If nothing changed on your side, check two things: did you save without publishing (meaning the agent reverted to the last published version), or did you make a change and publish it without testing? Use the History tab to roll back to a previous version if needed.
+The main script should be written as a clear sequence of numbered steps, with explicit instructions to wait for the contact’s response before moving forward. If the boundaries between steps are vague, the agent is more likely to blend them together.
 
-| 🔧 Debugging workflow: Open the call in Call History, read the full transcript, and find the exact moment the agent went wrong. Compare that moment to the corresponding section of the prompt. The gap between what the prompt says and what the agent did is where the fix is. |
-| :-- |
+A stronger structure looks like this:
+
+- define each step clearly,
+- add a response gate after each one,
+- and state directly when the agent must not continue.
+
+For example:\
+**“Do not proceed to Step 3 until the contact has confirmed their date of birth.”**
+
+### Agent gives information it should not have
+
+If the agent shares information that is not in the prompt or knowledge base, it is hallucinating.
+
+This usually means the prompt does not set strong enough boundaries around what the agent is allowed to say. Add a clear instruction that the agent must only use information explicitly provided in the prompt, the knowledge base, or dynamic variables.
+
+For example:\
+**“Only share information explicitly provided in this prompt or the knowledge base. If you do not have the answer, say so.”**
+
+This reduces guesswork and makes the agent more reliable.
+
+### Agent fails to call a function
+
+If the agent is supposed to book an appointment, transfer a call, send an SMS, or trigger another action but does not do it, check three things:
+
+1. Is the function actually defined in the **Functions** tab?
+2. Does the prompt clearly tell the agent when to call it?
+3. Does the function name in the prompt exactly match the function name in the configuration?
+
+The third point is one of the most common causes of failure. If the prompt says one function name and the platform is configured with another, the agent will not trigger the action correctly.
+
+### Agent does not handle an objection correctly
+
+If the agent breaks down when the contact pushes back, one of two things is usually true:
+
+- there is no handler for that scenario,
+- or the handler is too vague.
+
+Read the transcript and look at the exact wording the contact used. Then write a handler for that specific response pattern.
+
+Generic instructions produce generic behaviour.
+
+For example:
+
+- **Weak:** “If the contact objects, be understanding.”
+- **Stronger:** “If the contact says they are too busy, ask whether mornings or afternoons work better.”
+
+The more specific the handler, the more useful the behaviour.
+
+### Agent uses the wrong dynamic variable
+
+If the agent reads a blank value, says “undefined,” or uses the wrong name or data point, the prompt variables do not match the variables being passed by the workflow.
+
+Check that every variable in the prompt, such as `{{customerName}}` or `{{appointmentTime}}`, has a matching field in the contact data being sent into the call.
+
+If the names do not match exactly, the agent will not receive the expected value.
+
+### Agent worked yesterday but broke today
+
+If the agent was working previously and is now behaving incorrectly, check two things first:
+
+- whether changes were saved but not published,
+- or whether a change was published without being tested properly.
+
+If needed, use the **History** tab to roll back to an earlier version that was working correctly.
+
+### Debugging workflow
+
+The fastest way to debug logic issues is:
+
+1. open the call in **Call History**,
+2. read the full transcript,
+3. find the exact moment the agent went wrong,
+4. compare that moment to the relevant part of the prompt.
+
+The difference between what the prompt told the agent to do and what the agent actually did is usually where the fix becomes obvious.
