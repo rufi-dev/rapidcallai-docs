@@ -1,0 +1,15 @@
+/* Add breathing room at the top of the page */
+#navbar {
+  padding-top: 8px;
+}
+
+header,
+nav.sticky,
+.top-0 {
+  top: 4px !important;
+}
+
+/* Extra spacing below the navbar */
+main {
+  padding-top: 4px;
+}
