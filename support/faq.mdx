@@ -1,0 +1,92 @@
+---
+title: "FAQ"
+description: "Frequently asked questions about RapidCall AI."
+---
+
+## General
+
+### What is RapidCall AI?
+
+RapidCall AI is a platform for deploying AI-powered phone agents. You create an agent with a prompt, voice, and tools, and it handles inbound and outbound calls automatically.
+
+### Do I need technical knowledge to use it?
+
+No. The dashboard is designed for non-technical users. You write a prompt in plain English, pick a voice, and publish. For advanced use cases (API integration, webhooks, custom workflows), some technical knowledge helps.
+
+### Which languages are supported?
+
+RapidCall supports 30+ languages through multilingual LLM and TTS models. The most common are English, Spanish, French, German, Portuguese, Arabic, Hindi, Chinese, Japanese, and Korean.
+
+## Pricing
+
+### How does billing work?
+
+RapidCall uses pay-as-you-go pricing. You are billed for:
+- **LLM tokens** — per-token based on the model used
+- **TTS minutes** — per second of agent speech (not full call duration)
+- **Phone numbers** — $3/month per purchased number
+- **Telephony minutes** — per minute for Twilio PSTN calls
+
+There are no monthly fees, no minimum commitments, and no contracts.
+
+### When am I charged?
+
+Stripe automatically charges when your usage reaches $10 (threshold billing), or at the end of the billing period for remaining usage.
+
+### What payment methods are accepted?
+
+Credit and debit cards (Visa, Mastercard, American Express) through Stripe.
+
+### Can I see a cost breakdown per call?
+
+Yes. Go to Call History, click on any call, and the Cost Breakdown section shows exactly what was charged: tokens by type, TTS duration, rate applied, and total.
+
+## Voice & Models
+
+### Which LLM models are available?
+
+- OpenAI: GPT-4.1 Mini, GPT-4.1, GPT-4o, GPT-5, GPT-5 Mini, GPT-5.1, GPT-5.2
+- Anthropic: Claude 3.5 Sonnet, Claude 4.5 Haiku, Claude 4.5 Sonnet, Claude 4.6 Sonnet
+- Google: Gemini 2.0 Flash, Gemini 2.5 Flash, Gemini 2.5 Flash Lite
+
+### Which TTS providers are available?
+
+- **ElevenLabs** — Flash v2.5 (recommended), Turbo v2.5, Multilingual v2, v3
+- **Cartesia** — Sonic (fast, low latency)
+- **OpenAI** — TTS (good quality, moderate speed)
+
+### What is the difference between Flash and Multilingual voices?
+
+Flash/Turbo models are faster and cheaper (~$0.134/min). Multilingual v2/v3 are higher quality but slower and more expensive (~$0.27/min). For most use cases, Flash v2.5 is recommended.
+
+## Phone Numbers
+
+### Can I use my own phone number?
+
+Yes. You can connect your existing number via SIP trunk. Go to Phone Numbers > Connect Existing and enter your SIP termination URI and credentials.
+
+### How much does a phone number cost?
+
+$3/month per number purchased through RapidCall. Connected SIP numbers are free (you pay your own SIP provider).
+
+### Can I transfer calls to a human?
+
+Yes. Use the transfer_call function in your agent or workflow. The agent will transfer the call to the number you specify.
+
+## Security & Privacy
+
+### Is my data secure?
+
+Yes. All data is encrypted in transit (TLS) and at rest. Call recordings are stored in AWS S3 with encryption. API keys are encrypted in the database.
+
+### Where is data stored?
+
+Primary infrastructure is in AWS EU (Stockholm). Agent servers are in 3 regions: EU (Nuremberg), US (Ashburn), and AP (Singapore).
+
+### Can I delete call recordings?
+
+Yes. You can delete individual calls (including recordings and transcripts) from Call History. Deleted data is permanently removed.
+
+### Is RapidCall GDPR compliant?
+
+RapidCall stores data in the EU by default and supports data deletion requests. Contact support for specific GDPR inquiries.

@@ -1,0 +1,101 @@
+---
+title: "Troubleshooting"
+description: "Common issues and how to resolve them."
+---
+
+## Agent issues
+
+### Agent does not respond to calls
+
+1. Make sure the agent has been **published** (click Publish in the agent editor).
+2. Check that a **phone number is assigned** to the agent in Phone Numbers settings.
+3. Verify the agent has a **prompt** — agents without a prompt will not generate responses.
+4. Check Call History for the call — if it shows "connection_lost" or "failed", the issue is infrastructure, not the agent.
+
+### Agent gives wrong or off-topic answers
+
+1. Review your **system prompt** — make sure it is specific and includes clear instructions.
+2. If using a **workflow**, check that the transitions and conditions are correct.
+3. Try a different **LLM model** — some models handle certain tasks better than others.
+4. Add a **knowledge base** with relevant documents if the agent needs domain-specific information.
+
+### Agent speaks too slowly or too fast
+
+Adjust **Voice Speed** in the agent's Speech Settings. Default is 1.0 — lower for slower, higher for faster.
+
+### Agent interrupts the user too much
+
+Lower the **Interruption Sensitivity** in Speech Settings. A value of 0.3–0.5 works well for most use cases.
+
+### Agent takes too long to respond
+
+1. Check **Response Eagerness** in Speech Settings — higher values make the agent respond faster.
+2. Use a faster LLM model (GPT-4.1 Mini or Gemini 2.5 Flash are the fastest).
+3. Use a faster TTS voice model (Flash v2.5 is faster than Multilingual v2).
+
+## Call issues
+
+### No transcript available
+
+- The transcript is posted by the agent when the call ends. If the agent process crashes before posting, the transcript is lost.
+- For very short calls (under 5 seconds), transcripts may not be generated.
+- Check the recording — if audio exists but no transcript, it may be a temporary processing delay.
+
+### No recording available
+
+- Recordings are enabled by default for all call types.
+- Demo calls and web test calls are recorded.
+- If the call duration is 0 seconds, no recording is created.
+
+### Call shows $0 cost
+
+- Cost is computed when the agent posts metrics at call end. If the agent disconnects before posting, cost may be $0.
+- The billing sweeper runs every 60 seconds and fixes calls with missing costs.
+- If cost is still $0 after a few minutes, contact support with the call ID.
+
+## Phone number issues
+
+### Purchased number not receiving calls
+
+1. Check that the number is **assigned to an agent** in Phone Numbers settings.
+2. Verify the number is **active** in Twilio (not suspended or released).
+3. Make sure the agent assigned to the number is **published**.
+
+### SIP trunk not working
+
+1. Verify the **termination URI** and **credentials** are correct.
+2. Check that your SIP provider allows connections from RapidCall's SIP trunk IPs.
+3. Test with a simple call to confirm the trunk is routing correctly.
+
+## Billing issues
+
+### Invoice amount seems wrong
+
+1. Go to **Billing > Usage** tab to see a per-call cost breakdown.
+2. Check each call's cost detail — it shows tokens used, TTS minutes, and the rate applied.
+3. If a specific call is wrong, note the call ID and contact support.
+
+### Payment failed
+
+1. Go to **Billing > View billing** and check your payment method.
+2. Update your card if it is expired or declined.
+3. Stripe will automatically retry failed payments up to 8 times over 2 weeks.
+4. If you add a new payment method, all outstanding invoices will be charged automatically.
+
+## API issues
+
+### 401 Unauthorized
+
+- Your API key may be expired or incorrect.
+- Make sure you are passing the key in the `Authorization: Bearer <key>` header.
+- Check that the key has not been regenerated (old keys are invalidated).
+
+### 429 Too Many Requests
+
+- You are hitting the rate limit. Wait and retry with exponential backoff.
+- Default limits: 60 requests per minute for most endpoints.
+
+### 500 Internal Server Error
+
+- This is a server-side issue. Retry the request after a few seconds.
+- If the error persists, contact support with the request details and timestamp.

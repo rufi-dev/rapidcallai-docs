@@ -39,6 +39,10 @@
     {
       "name": "API Reference",
       "url": "api-reference"
+    },
+    {
+      "name": "Support",
+      "url": "support"
     }
   ],
   "navigation": {
@@ -156,6 +160,14 @@
         "tab": "SUPPORT",
         "pages": [
           "contact-support"
+        ]
+      },
+      {
+        "group": "Support",
+        "pages": [
+          "support/contact",
+          "support/troubleshooting",
+          "support/faq"
         ]
       }
     ]
