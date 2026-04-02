@@ -3,11 +3,11 @@
   "theme": "aspen",
   "name": "RapidCall AI",
   "appearance": {
-    "default": "light",
+    "default": "system",
     "background": {
       "decoration": "grid"
     },
-    "strict": true
+    "strict": false
   },
   "css": "/global.css",
   "colors": {
