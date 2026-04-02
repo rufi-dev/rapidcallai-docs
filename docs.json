@@ -283,7 +283,7 @@
   },
   "logo": {
     "light": "/images/logo-rapid.png",
-    "dark": "/images/logo-rapid.png"
+    "dark": "/images/2.svg"
   },
   "favicon": "/images/rapidcall.logo.small.png",
   "description": "A production-focused RapidCall.ai docs draft covering setup, deployment, campaigns, analytics, billing, compliance, security, and troubleshooting."
