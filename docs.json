@@ -35,16 +35,6 @@
     "name": "Get Started",
     "url": "https://dashboard.rapidcall.ai/register"
   },
-  "tabs": [
-    {
-      "name": "API Reference",
-      "url": "api-reference"
-    },
-    {
-      "name": "Support",
-      "url": "support"
-    }
-  ],
   "navigation": {
     "tabs": [
       {
@@ -159,13 +149,7 @@
       {
         "tab": "SUPPORT",
         "pages": [
-          "contact-support"
-        ]
-      },
-      {
-        "group": "Support",
-        "pages": [
-          "support/contact",
+          "contact-support",
           "support/troubleshooting",
           "support/faq"
         ]
