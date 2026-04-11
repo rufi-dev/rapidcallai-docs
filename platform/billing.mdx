@@ -1,16 +1,16 @@
 ---
 title: Billing
-description: "Usage-based billing with Lago and Stripe"
+description: "Usage-based billing with Stripe Meters"
 ---
 
 ## Overview
 
-RapidCall uses usage-based billing powered by **Lago** for metering and **Stripe** for payments.
+RapidCall uses usage-based billing powered by native **Stripe Meters** for metering, invoicing, and payment.
 
 ## How Billing Works
 
 1. **Usage events** are recorded for each call (duration, LLM tokens, TTS characters, STT minutes)
-2. **Lago** aggregates usage into billable units
+2. **Stripe Meters** aggregate usage into billable units
 3. **Invoices** are generated at the end of each billing period
 4. **Stripe** processes the payment
 

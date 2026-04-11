@@ -4,7 +4,7 @@ api: GET https://api.rapidcall.ai/api/billing/invoices
 description: "List all invoices for your workspace with status, amount, and payment details."
 ---
 
-Returns a list of invoices for your workspace. Invoices are generated monthly by Lago and synced to Stripe for payment collection.
+Returns a list of invoices for your workspace. Invoices are generated monthly by Stripe from metered usage.
 
 <RequestExample>
 ```bash cURL
@@ -19,7 +19,6 @@ curl -X GET https://api.rapidcall.ai/api/billing/invoices \
   "invoices": [
     {
       "id": "inv_2a3b4c5d",
-      "lagoId": "lago_inv_9x8y7z",
       "number": "RC-2026-0042",
       "status": "paid",
       "totalAmount": 287.54,
@@ -32,7 +31,6 @@ curl -X GET https://api.rapidcall.ai/api/billing/invoices \
     },
     {
       "id": "inv_6e7f8g9h",
-      "lagoId": "lago_inv_5w4v3u",
       "number": "RC-2026-0031",
       "status": "paid",
       "totalAmount": 198.22,
@@ -45,7 +43,6 @@ curl -X GET https://api.rapidcall.ai/api/billing/invoices \
     },
     {
       "id": "inv_0i1j2k3l",
-      "lagoId": "lago_inv_2t1s0r",
       "number": "RC-2026-0015",
       "status": "draft",
       "totalAmount": 142.87,
